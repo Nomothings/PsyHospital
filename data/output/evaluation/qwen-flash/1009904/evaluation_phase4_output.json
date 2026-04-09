@@ -1,0 +1,19 @@
+{
+  "phase": 4,
+  "case_id": "1009904",
+  "model_name": "qwen-flash",
+  "timestamp": "2026-04-09T20:20:08.271748",
+  "metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "jaccard": 1.0
+  },
+  "predicted_categories": [
+    "Schizophrenia or other primary psychotic disorders"
+  ],
+  "true_categories": [
+    "Schizophrenia or other primary psychotic disorders"
+  ],
+  "status": "completed"
+}

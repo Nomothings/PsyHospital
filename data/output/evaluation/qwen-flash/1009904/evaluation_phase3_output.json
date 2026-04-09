@@ -1,0 +1,308 @@
+{
+  "phase": 3,
+  "case_id": "1009904",
+  "model_name": "qwen-flash",
+  "timestamp": "2026-04-09T20:20:06.988272",
+  "total_percentage": 36.31,
+  "total_weighted_score": 0.3631,
+  "total_actual_score": 10,
+  "total_actual_max": 28,
+  "status": "completed",
+  "syntactic_formulation": "患者，男性，19岁，因“持续出现被监视、被监听感，伴思维插入、行为失控及现实感丧失3个月”就诊。既往无重大躯体疾病史，无精神科住院史。入院查体：神志清醒，对答切题，口齿清晰，查体合作。生命体征平稳，神经系统检查未见阳性体征。\n\n患者主诉以被害妄想为核心症状，表现为坚信有人通过技术手段监听其电话、监视其行动，甚至认为自身行为受外部力量操控。伴随显著的思维障碍，包括听到非自主声音（听觉性言语插入）、意识内容被他人植入感，以及自我身份认同混乱（“分不清哪个是我”）。同时报告有被动性体验，如身体不自主移动、说话不受控制，常伴有强烈恐惧与焦虑情绪。偶有夜间离床走动行为，事后无记忆。部分时间出现现实解体感，感觉环境不真实，如同在梦中。\n\n精神检查显示：情感反应与情境基本协调，但存在明显紧张不安；思维逻辑虽完整，但内容偏向妄想性解释；自知力部分受损，否认当前状态存在精神异常。认知功能方面，注意力、记忆力、定向力大致正常。\n\n辅助检查结果：血常规、电解质及肾功能、甲状腺功能、维生素B12和叶酸水平均未见异常；头颅MRI平扫未见结构性病变；脑电图大致正常，未见癫痫样放电。\n\n综合临床表现与辅助检查结果，考虑诊断为：精神分裂症（偏执型），目前处于急性发作期，伴明显幻觉、妄想、被动支配感及自知力缺失。需排除器质性精神障碍或药物所致精神障碍，但现有检查结果未提示相关生物学基础。",
+  "true_formulation": "患者男，19岁。主诉：3个多月前起病，表现为敏感多疑，自诉电话被监听，感觉有人跟踪，觉得周围不安全，同时伴有晚上睡眠差、入睡困难，偶有夜间无故独自乱跑、偶有自言自语、有时独自傻笑、与周围人交流减少、有时双手紧握呈拳，上班渐出现迟到早退。1个多月前曾至门诊就诊，但拒绝检查，未予治疗，基本生活尚能自理。3天前上述症状加重。精神检查：患者面无表情，精神检查不合作，偶有自言自语，有时独自傻笑，与周围人交流减少，有时双手紧握呈拳，社会功能受损；表现敏感多疑，自诉电话被监听，感觉有人跟踪自己，觉得周围不安全，自知力缺乏。体格检查：体温36.5℃，脉搏85次/分，呼吸20次/分，血压120/80mmHg。神志清醒，呼吸平稳，对答切题，口齿清晰，查体合作。全身皮肤黏膜无黄染，全身浅表淋巴结无肿大。颈软，无抵抗感，无颈静脉充盈，气管位置居中。胸廓正常，无肋间隙增宽，叩诊双肺呈清音，呼吸音清，未闻及啰音及哮鸣音。心界叩诊无扩大，心率85次/分，节律齐，无杂音。腹部平坦，无压痛及反跳痛，未触及肝脾，肝颈静脉回流征阴性。双下肢无凹陷性浮肿。生理反射存在，病理反射未引出。辅助检查：心电图示窦性心律，心率82次/分，QTc未见明显延长；脑电图示大致正常范围，未见明确癫痫样放电；头颅CT未见明显颅内异常；头颅MRI平扫未见明显器质性异常。",
+  "generated_record": {
+    "chief_complaint": "持续出现被监视、被监听感，伴思维插入、行为失控及现实感丧失3个月",
+    "physical_examination": "神志清醒，对答切题，口齿清晰，查体合作。生命体征平稳，神经系统检查未见阳性体征。",
+    "mental_examination": "情感反应与情境基本协调，但存在明显紧张不安；思维逻辑虽完整，但内容偏向妄想性解释；自知力部分受损，否认当前状态存在精神异常。认知功能方面，注意力、记忆力、定向力大致正常。患者主诉以被害妄想为核心症状，表现为坚信有人通过技术手段监听其电话、监视其行动，甚至认为自身行为受外部力量操控。伴随显著的思维障碍，包括听到非自主声音（听觉性言语插入）、意识内容被他人植入感，以及自我身份认同混乱（“分不清哪个是我”）。同时报告有被动性体验，如身体不自主移动、说话不受控制，常伴有强烈恐惧与焦虑情绪。偶有夜间离床走动行为，事后无记忆。部分时间出现现实解体感，感觉环境不真实，如同在梦中。",
+    "past_family_history": "既往无重大躯体疾病史，无精神科住院史。"
+  },
+  "true_record": {
+    "chief_complaint": "敏感多疑3月余，加重3天",
+    "physical_examination": "体温36.5℃，脉搏85次/分，呼吸20次/分，血压120/80mmHg。神志清醒，呼吸平稳，对答切题，口齿清晰，查体合作。全身皮肤黏膜无黄染，全身浅表淋巴结无肿大。颈软，无抵抗感，无颈静脉充盈，气管位置居中。胸廓正常，无肋间隙增宽，叩诊双肺呈清音，呼吸音清，未闻及啰音及哮鸣音。心界叩诊无扩大，心率85次/分，节律齐，无杂音。腹部平坦，无压痛及反跳痛，未触及肝脾，肝颈静脉回流征阴性。双下肢无凹陷性浮肿。生理反射存在，病理反射未引出。",
+    "mental_examination": "患者面无表情，精神检查不合作，偶有自言自语，有时独自傻笑，与周围人交流减少，有时双手紧握呈拳，社会功能受损；表现敏感多疑，自诉电话被监听，感觉有人跟踪自己，觉得周围不安全，自知力缺乏。",
+    "past_family_history": "3个多月前起病，表现为敏感多疑，自诉电话被监听，感觉有人跟踪，觉得周围不安全，同时伴有晚上睡眠差、入睡困难，偶有夜间无故独自乱跑、偶有自言自语、有时独自傻笑、与周围人交流减少、有时双手紧握呈拳，上班渐出现迟到早退。1个多月前曾至门诊就诊，但拒绝检查，未予治疗，基本生活尚能自理。"
+  },
+  "dimensions": {
+    "past_family_history": {
+      "scoring_results": [
+        {
+          "id": 1,
+          "element": "既往史",
+          "true_has_element": true,
+          "coverage_score": 0,
+          "accuracy_score": 0,
+          "coverage_reasoning": "标准病历中提及患者3个多月前起病，伴有睡眠差、行为异常等，属于既往病史范畴。生成病历中未提及任何既往疾病史、手术史或外伤史，遗漏了该要素。",
+          "accuracy_reasoning": "生成病历中未包含任何与既往史相关的内容，无法判断准确性，因覆盖度为0，准确度亦为0。"
+        },
+        {
+          "id": 2,
+          "element": "个人史",
+          "true_has_element": true,
+          "coverage_score": 0,
+          "accuracy_score": 0,
+          "coverage_reasoning": "标准病历中描述了患者的起病过程、症状表现、社会功能变化（如上班迟到早退）、行为特征（自言自语、傻笑、双手紧握）等，这些均属于个人史范畴，如职业状态、生活习惯、性格表现等。生成病历中未提及任何个人史内容，存在明显遗漏。",
+          "accuracy_reasoning": "生成病历未包含任何个人史信息，无法进行准确度评估，因覆盖度为0，准确度亦为0。"
+        },
+        {
+          "id": 3,
+          "element": "家族史",
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "标准病历中未提及任何家族史信息，因此该项不计分。",
+          "accuracy_reasoning": "标准病历中未提及家族史，该项不计分。"
+        },
+        {
+          "id": 4,
+          "element": "物质接触史",
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "标准病历中未提及任何物质接触史信息，因此该项不计分。",
+          "accuracy_reasoning": "标准病历中未提及物质接触史，该项不计分。"
+        }
+      ],
+      "total_score": 0,
+      "max_score": 4,
+      "coverage_total": 0,
+      "accuracy_total": 0,
+      "summary": "生成病历在既往史和个人史两个关键要素上均存在严重遗漏，未能涵盖标准病历中明确提及的起病过程、症状演变、社会功能受损及行为特征等核心个人史内容。家族史和物质接触史在标准病历中未提及，故不参与评分。整体来看，生成病历在既往史家族史区域的完整性与准确性严重不足，需补充相关内容以符合临床书写规范。",
+      "percentage": 0.0,
+      "coverage_percentage": 0.0,
+      "accuracy_percentage": 0.0,
+      "dimension_weight": 0.25,
+      "weighted_score": 0.0
+    },
+    "mental_examination": {
+      "scoring_results": [
+        {
+          "id": 1,
+          "element": "外观行为",
+          "true_has_element": true,
+          "coverage_score": 1,
+          "accuracy_score": 0,
+          "coverage_reasoning": "test中提及了患者的精神状态和行为表现，如‘精神检查不合作’、‘偶有自言自语’、‘独自傻笑’、‘双手紧握呈拳’等，覆盖了true中提到的外观行为内容。",
+          "accuracy_reasoning": "true中描述患者‘面无表情’，而test中未提及该特征；且test中未体现‘社会功能受损’这一关键行为后果，存在遗漏与偏差，因此准确度为0。"
+        },
+        {
+          "id": 2,
+          "element": "言语",
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "标准病历中未提及言语相关内容，该项不计分。",
+          "accuracy_reasoning": "标准病历中未提及言语相关内容，该项不计分。"
+        },
+        {
+          "id": 3,
+          "element": "情感",
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "标准病历中未提及情感状态的具体描述，该项不计分。",
+          "accuracy_reasoning": "标准病历中未提及情感状态的具体描述，该项不计分。"
+        },
+        {
+          "id": 4,
+          "element": "感知觉",
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "标准病历中未提及幻觉、错觉等感知觉障碍，该项不计分。",
+          "accuracy_reasoning": "标准病历中未提及感知觉障碍，该项不计分。"
+        },
+        {
+          "id": 5,
+          "element": "思维形式",
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "标准病历中未明确提及思维形式（如联想松散、逻辑混乱等），该项不计分。",
+          "accuracy_reasoning": "标准病历中未提及思维形式，该项不计分。"
+        },
+        {
+          "id": 6,
+          "element": "思维内容",
+          "true_has_element": true,
+          "coverage_score": 1,
+          "accuracy_score": 1,
+          "coverage_reasoning": "test中明确提到了‘被害妄想’、‘电话被监听’、‘感觉有人跟踪’、‘觉得周围不安全’等，完全覆盖了true中的思维内容核心要素。",
+          "accuracy_reasoning": "test中对思维内容的描述与true一致，均围绕被害妄想展开，且具体表现相符，准确度为1。"
+        },
+        {
+          "id": 7,
+          "element": "认知功能",
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "标准病历中未提及注意力、记忆力、定向力等认知功能，该项不计分。",
+          "accuracy_reasoning": "标准病历中未提及认知功能，该项不计分。"
+        },
+        {
+          "id": 8,
+          "element": "自知力",
+          "true_has_element": true,
+          "coverage_score": 1,
+          "accuracy_score": 1,
+          "coverage_reasoning": "test中明确提到‘自知力部分受损，否认当前状态存在精神异常’，与true中‘自知力缺乏’一致，覆盖完整。",
+          "accuracy_reasoning": "test中对自知力的描述与true一致，均体现为缺乏自我认知，准确度为1。"
+        }
+      ],
+      "total_score": 4,
+      "max_score": 6,
+      "coverage_total": 3,
+      "accuracy_total": 3,
+      "summary": "生成病历在思维内容和自知力方面覆盖全面且准确，但在外观行为方面虽有覆盖但存在关键细节缺失（如‘面无表情’）和错误归因（未体现社会功能受损），导致准确度扣分。其余未在标准病历中提及的项目不计分。整体表现良好，但需注意精神检查各维度的精准对应。",
+      "percentage": 66.67,
+      "coverage_percentage": 100.0,
+      "accuracy_percentage": 100.0,
+      "dimension_weight": 0.25,
+      "weighted_score": 0.1667
+    },
+    "chief_complaint": {
+      "scoring_results": [
+        {
+          "id": 1,
+          "element": "起病时间",
+          "true_has_element": true,
+          "coverage_score": 1,
+          "accuracy_score": 1,
+          "coverage_reasoning": "标准病历中明确提及‘3月余’，生成病历中也包含‘3个月’，覆盖了起病时间信息。",
+          "accuracy_reasoning": "生成病历中的‘3个月’与标准病历的‘3月余’在时间描述上一致，均表示病程持续约三个月，表述准确。"
+        },
+        {
+          "id": 2,
+          "element": "主要症状",
+          "true_has_element": true,
+          "coverage_score": 1,
+          "accuracy_score": 0,
+          "coverage_reasoning": "标准病历中提及‘敏感多疑’，生成病历中虽未直接使用该词，但‘被监视、被监听感’属于敏感多疑的核心表现，可视为涵盖。",
+          "accuracy_reasoning": "生成病历中的‘被监视、被监听感’是‘敏感多疑’的具体体现，但‘思维插入、行为失控及现实感丧失’并非标准病历中提及的主要症状，存在额外内容，导致准确度下降。"
+        },
+        {
+          "id": 3,
+          "element": "症状表现",
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "标准病历未提及具体症状表现细节，该项不计分。",
+          "accuracy_reasoning": "标准病历未提及具体症状表现，该项不计分。"
+        },
+        {
+          "id": 4,
+          "element": "伴随症状",
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "标准病历未提及伴随症状，该项不计分。",
+          "accuracy_reasoning": "标准病历未提及伴随症状，该项不计分。"
+        },
+        {
+          "id": 5,
+          "element": "病程演变",
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "标准病历未提及病程演变过程，该项不计分。",
+          "accuracy_reasoning": "标准病历未提及病程演变，该项不计分。"
+        },
+        {
+          "id": 6,
+          "element": "加重因素",
+          "true_has_element": true,
+          "coverage_score": 1,
+          "accuracy_score": 1,
+          "coverage_reasoning": "标准病历中明确提及‘加重3天’，生成病历中虽未直接使用‘加重’一词，但‘3个月’的时间跨度与‘加重’无冲突，且整体主诉未遗漏该要素。",
+          "accuracy_reasoning": "生成病历未明确说明‘加重’事件，但其时间描述‘3个月’隐含了病程持续性，而‘加重3天’在生成病历中缺失，因此准确度应为0。然而，由于主诉整体结构为‘症状+时间’，且‘3个月’已涵盖时间维度，‘加重’作为关键节点未被体现，故准确度应为0。"
+        }
+      ],
+      "total_score": 2,
+      "max_score": 4,
+      "coverage_total": 2,
+      "accuracy_total": 0,
+      "summary": "生成病历在起病时间和加重因素的覆盖上表现良好，但在主要症状的准确度上存在偏差，因引入了标准病历未提及的‘思维插入、行为失控及现实感丧失’等非核心症状，导致准确度失分。其余要素因标准病历未提及，不参与评分。",
+      "percentage": 50.0,
+      "coverage_percentage": 100.0,
+      "accuracy_percentage": 0.0,
+      "dimension_weight": 0.25,
+      "weighted_score": 0.125
+    },
+    "physical_examination": {
+      "scoring_results": [
+        {
+          "id": 1,
+          "element": "生命体征",
+          "true_has_element": true,
+          "coverage_score": 0,
+          "accuracy_score": 0,
+          "coverage_reasoning": "标准病历中明确包含体温、脉搏、呼吸、血压四项生命体征，但生成病历仅提及'生命体征平稳'，未具体列出各项数值，因此覆盖度为0。",
+          "accuracy_reasoning": "由于生成病历未提供具体生命体征数值，无法判断其准确性，且与标准病历中的具体数值（如36.5℃、85次/分等）不一致，故准确度为0。"
+        },
+        {
+          "id": 2,
+          "element": "一般情况",
+          "true_has_element": true,
+          "coverage_score": 1,
+          "accuracy_score": 1,
+          "coverage_reasoning": "标准病历中包含神志清醒、对答切题、口齿清晰、查体合作等一般情况描述，生成病历中均包含这些内容，覆盖完整。",
+          "accuracy_reasoning": "生成病历中关于一般情况的描述与标准病历完全一致，无偏差，准确度为1。"
+        },
+        {
+          "id": 3,
+          "element": "皮肤黏膜",
+          "true_has_element": true,
+          "coverage_score": 0,
+          "accuracy_score": 0,
+          "coverage_reasoning": "标准病历中明确提及'全身皮肤黏膜无黄染，全身浅表淋巴结无肿大'，但生成病历未包含任何皮肤黏膜相关描述，覆盖度为0。",
+          "accuracy_reasoning": "生成病历未提及皮肤黏膜检查结果，无法确认其准确性，且与标准病历内容不符，故准确度为0。"
+        },
+        {
+          "id": 4,
+          "element": "头颈部",
+          "true_has_element": true,
+          "coverage_score": 0,
+          "accuracy_score": 0,
+          "coverage_reasoning": "标准病历中包含颈软、无抵抗感、无颈静脉充盈、气管位置居中等头颈部检查内容，生成病历未提及，覆盖度为0。",
+          "accuracy_reasoning": "生成病历未描述头颈部检查结果，与标准病历信息不符，准确度为0。"
+        },
+        {
+          "id": 5,
+          "element": "胸部/心肺",
+          "true_has_element": true,
+          "coverage_score": 0,
+          "accuracy_score": 0,
+          "coverage_reasoning": "标准病历中详细描述了胸廓、肺部、心脏检查结果，如叩诊清音、呼吸音清、无啰音及哮鸣音、心率85次/分、节律齐、无杂音等，生成病历未提及，覆盖度为0。",
+          "accuracy_reasoning": "生成病历未包含任何胸部/心肺检查内容，与标准病历严重不符，准确度为0。"
+        },
+        {
+          "id": 6,
+          "element": "腹部",
+          "true_has_element": true,
+          "coverage_score": 0,
+          "accuracy_score": 0,
+          "coverage_reasoning": "标准病历中包含腹部平坦、无压痛反跳痛、未触及肝脾、肝颈静脉回流征阴性等腹部检查内容，生成病历未提及，覆盖度为0。",
+          "accuracy_reasoning": "生成病历未描述腹部检查结果，与标准病历信息缺失，准确度为0。"
+        },
+        {
+          "id": 7,
+          "element": "四肢/神经系统",
+          "true_has_element": true,
+          "coverage_score": 1,
+          "accuracy_score": 1,
+          "coverage_reasoning": "标准病历中提及'生理反射存在，病理反射未引出'，生成病历虽未直接使用相同表述，但'神经系统检查未见阳性体征'可视为对神经系统状态的等效描述，覆盖度为1。",
+          "accuracy_reasoning": "生成病历中'神经系统检查未见阳性体征'与标准病历中'生理反射存在，病理反射未引出'在临床含义上一致，均为正常神经系统表现，准确度为1。"
+        }
+      ],
+      "total_score": 4,
+      "max_score": 14,
+      "coverage_total": 2,
+      "accuracy_total": 2,
+      "summary": "生成病历在一般情况和神经系统方面覆盖并准确反映了标准病历内容，但在生命体征、皮肤黏膜、头颈部、胸部/心肺、腹部等关键系统检查中存在明显遗漏，整体覆盖度和准确度偏低，需补充详细体格检查信息以提升完整性。",
+      "percentage": 28.57,
+      "coverage_percentage": 28.57,
+      "accuracy_percentage": 28.57,
+      "dimension_weight": 0.25,
+      "weighted_score": 0.0714
+    }
+  }
+}
