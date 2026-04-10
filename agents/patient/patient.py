@@ -40,7 +40,8 @@ from agents.patient.prompts import PROMPTS
 def create_patient(
     basic_info: str,
     chief_complaint: List[str],
-    mental_status: List[str]
+    mental_status: List[str],
+    skill_file: str = None
 ) -> LLMService:
     """启动虚拟患者
     
@@ -51,6 +52,7 @@ def create_patient(
         basic_info: 基本信息字符串，如"患者男，19 岁"
         chief_complaint: 主诉列表，如["3 + 月前起病", "敏感多疑", ...]
         mental_status: 精神状态列表，如["面无表情", "精神检查不合作", ...]
+        skill_file: 可选，患者skill文件路径（.md文件）
         
     Returns:
         LLMService实例（role="patient"，已设置系统prompt和病例信息）
@@ -75,6 +77,20 @@ def create_patient(
     system_prompt = system_prompt.replace("<BASIC_INFO>", basic_info)
     system_prompt = system_prompt.replace("<CHIEF_COMPLAINT>", chief_complaint_json)
     system_prompt = system_prompt.replace("<MENTAL_STATUS>", mental_status_json)
+    
+    # 如果提供了skill文件，读取并注入
+    if skill_file:
+        skill_path = Path(skill_file)
+        if skill_path.exists():
+            with open(skill_path, 'r', encoding='utf-8') as f:
+                skill_content = f.read()
+            system_prompt = system_prompt.replace("<PATIENT_SKILL>", skill_content)
+            print(f"[患者Skill] 已加载: {skill_path.name}")
+        else:
+            print(f"[患者Skill] 警告: 文件不存在 {skill_file}")
+            system_prompt = system_prompt.replace("<PATIENT_SKILL>", "（未提供Skill文件）")
+    else:
+        system_prompt = system_prompt.replace("<PATIENT_SKILL>", "（未提供Skill文件）")
     
     # 实例化患者（使用patient角色的API配置）
     patient = LLMService(

@@ -59,6 +59,63 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 # 读取配置
 MAX_TURNS = int(os.getenv("MAX_TURNS", "50"))
 
+# 患者经验文档路径
+PATIENT_EXPERIENCE_DIR = Path(__file__).parent.parent.parent / "data" / "patient_1009904" / "experience"
+
+
+def handle_patient_search_command(patient_response: str) -> str:
+    """处理患者的SEARCH命令
+    
+    如果患者输出中包含 [SEARCH_{事件名}]，则读取对应的md文档内容，
+    并将其作为上下文信息返回给患者，帮助其回忆和回答。
+    
+    Args:
+        patient_response: 患者的原始响应（JSON字符串）
+        
+    Returns:
+        如果检测到SEARCH命令，返回格式化的系统提示；否则返回空字符串
+    """
+    try:
+        # 解析JSON
+        data = json.loads(patient_response)
+        utterance = data.get("utterance", "")
+        
+        # 检测SEARCH命令
+        search_pattern = r'\[SEARCH_(.+?)\]'
+        match = re.search(search_pattern, utterance)
+        
+        if match:
+            event_name = match.group(1).strip()
+            # 构建文件路径
+            file_path = PATIENT_EXPERIENCE_DIR / f"{event_name}.md"
+            
+            # 检查文件是否存在
+            if file_path.exists():
+                # 读取文件内容
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                
+                # 终端展示
+                print(f"\n  [已查询] {event_name}")
+                
+                # 返回格式化的系统提示
+                system_prompt = f"""系统提示，你所查询的结果如下：
+
+{content}
+
+此条为系统提示，你无须回复。"""
+                return system_prompt
+            else:
+                print(f"\n  [已查询] 警告: 未找到事件文档 {event_name}")
+                return f"系统提示，你所查询的结果如下：\n\n未找到事件文档：{event_name}\n\n此条为系统提示，你无须回复。"
+        
+        return ""
+    except json.JSONDecodeError:
+        return ""
+    except Exception as e:
+        print(f"\n  [已查询] 处理错误: {e}")
+        return ""
+
 
 def load_random_case(cases_file: Path = None) -> Dict[str, Any]:
     """从cases.jsonl随机加载一个病例
@@ -99,19 +156,26 @@ def parse_patient_response(response: str) -> Tuple[str, List[str], List[str]]:
         - chief_complaint_list: 使用的主诉条目列表
         - mental_status_list: 使用的精神状态条目列表
     """
+    # 先尝试提取JSON部分（处理SEARCH命令在JSON外的情况）
+    json_match = re.search(r'\{[\s\S]*\}', response)
+    if json_match:
+        json_str = json_match.group(0)
+    else:
+        json_str = response
+    
     # 尝试解析JSON
     data = None
     
     # 1. 首先尝试直接解析
     try:
-        data = json.loads(response)
+        data = json.loads(json_str)
     except json.JSONDecodeError:
         pass
     
     # 2. 如果失败且json_repair可用，尝试修复
     if data is None and HAS_JSON_REPAIR and repair_json:
         try:
-            repaired = repair_json(response)
+            repaired = repair_json(json_str)
             if repaired:
                 data = json.loads(repaired) if isinstance(repaired, str) else repaired
         except Exception:
@@ -119,7 +183,7 @@ def parse_patient_response(response: str) -> Tuple[str, List[str], List[str]]:
     
     # 3. 如果仍然失败，尝试用正则提取关键字段
     if data is None:
-        data = _extract_patient_fields(response)
+        data = _extract_patient_fields(json_str)
     
     # 提取数据
     if data:
@@ -301,10 +365,17 @@ def run_interview_phase1(case: Dict[str, Any] = None) -> Dict[str, Any]:
     print(f"  医生模型: {doctor_model}")
     
     # 初始化患者
+    # 查找skill文件
+    patient_skill_file = None
+    skill_path = Path(__file__).parent.parent.parent / "data" / f"patient_{case_id}" / "skill.md"
+    if skill_path.exists():
+        patient_skill_file = str(skill_path)
+    
     patient = create_patient(
         basic_info=basic_info,
         chief_complaint=chief_complaint,
-        mental_status=mental_status
+        mental_status=mental_status,
+        skill_file=patient_skill_file
     )
     print(f"  患者模型: {patient.config.model}")
     
@@ -348,13 +419,84 @@ def run_interview_phase1(case: Dict[str, Any] = None) -> Dict[str, Any]:
         update_phase_output(output_file, {}, status="completed")
     else:
         # 医患多轮对话
+        searched_events = set()  # 记录已查询的事件，避免重复查询
+        
         for turn in range(MAX_TURNS):
             current_turn = turn + 1
             print(f"\n--- 第 {current_turn}/{MAX_TURNS} 轮对话 ---")
             
-            # 患者回复
+            # 患者第一次回复（可能只包含SEARCH命令）
             patient_raw_response = patient.chat(doctor_response)
+            
+            # 处理SEARCH命令：先查询，查询后再让患者正式回答
+            # 先尝试提取JSON部分（处理SEARCH命令在JSON外的情况）
+            json_match = re.search(r'\{[\s\S]*\}', patient_raw_response)
+            if json_match:
+                json_str = json_match.group(0)
+            else:
+                json_str = patient_raw_response
+                        
+            # 从 utterance 中提取所有SEARCH命令
+            try:
+                data = json.loads(json_str)
+                utterance = data.get("utterance", "")
+                search_pattern = r'\[SEARCH_(.+?)\]'
+                all_searches = re.findall(search_pattern, utterance)
+                            
+                if all_searches:
+                    print(f"\n  [查询] 患者先进行内部查询: {', '.join(all_searches)}")
+                                
+                    # 处理第一个查询（如果多个，只处理第一个）
+                    event_name = all_searches[0].strip()
+                                
+                    # 检查是否已查询过
+                    if event_name in searched_events:
+                        # 已查询过，直接使用记忆
+                        print(f"  [记忆] {event_name} 已查询过，使用记忆回答")
+                        # 从 utterance 中移除SEARCH命令
+                        clean_utterance = re.sub(r'\[SEARCH_.+?\]', '', utterance).strip()
+                        data["utterance"] = clean_utterance
+                        patient_raw_response = json.dumps(data, ensure_ascii=False)
+                    else:
+                        # 首次查询：读取文档
+                        searched_events.add(event_name)
+                        search_content = handle_patient_search_command(json_str)
+                                    
+                        if search_content:
+                            print(f"  [查询] 已获取文档，患者基于查询结果正式回答...")
+                            # 将查询结果和医生问题合并，让患者正式回答
+                            combined_prompt = f"{search_content}\n\n现在，请根据以上信息，正式回答医生的问题：{doctor_response}"
+                            patient_raw_response = patient.chat(combined_prompt)
+                            
+                            # 从正式回答中移除SEARCH命令
+                            try:
+                                new_json_match = re.search(r'\{[\s\S]*\}', patient_raw_response)
+                                if new_json_match:
+                                    new_json_str = new_json_match.group(0)
+                                    new_data = json.loads(new_json_str)
+                                    new_utterance = new_data.get("utterance", "")
+                                    # 移除所有SEARCH命令
+                                    clean_utterance = re.sub(r'\[SEARCH_.+?\]', '', new_utterance).strip()
+                                    new_data["utterance"] = clean_utterance
+                                    patient_raw_response = json.dumps(new_data, ensure_ascii=False)
+                            except (json.JSONDecodeError, KeyError):
+                                pass  # 如果解析失败，使用原始响应
+                        else:
+                            print(f"  [警告] 未找到事件文档: {event_name}")
+            except (json.JSONDecodeError, KeyError) as e:
+                print(f"\n  [警告] SEARCH命令处理失败: {e}，使用原始响应")
+            
             patient_response, cc_used, ms_used = parse_patient_response(patient_raw_response)
+            
+            # 调试信息：显示原始响应（前200字符）
+            if not patient_response:
+                print(f"\n  [警告] 患者响应为空！")
+                print(f"  原始响应: {patient_raw_response[:500]}")
+            
+            # 检查是否包含SEARCH命令
+            if '[SEARCH_' in patient_raw_response:
+                print(f"  [调试] 原始响应包含SEARCH命令")
+            
             print(f"\n患者: {patient_response[:200]}...")
             
             # 实时保存患者回复

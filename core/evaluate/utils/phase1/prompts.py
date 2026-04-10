@@ -7,43 +7,81 @@ Phase 1 评估提示词定义
 from typing import List, Dict, Any
 
 
-def format_scale_text(scale_items: List[Dict[str, Any]]) -> str:
+def format_scale_text(scale_items: List[Dict[str, Any]], scale_type: str = "empathy") -> str:
     """将量表格式化为文本
     
     Args:
         scale_items: 量表条目列表
+        scale_type: 量表类型，"empathy" 或 "profession"
         
     Returns:
         格式化后的量表文本
     """
     lines = []
-    for item in scale_items:
-        level = item.get('level', '')
-        description = item.get('description', '')
-        
-        lines.append(f"【等级 {level}】")
-        lines.append(f"定义: {description}")
-        
-        # 添加 checklist
-        checklist = item.get("checklist", [])
-        if checklist:
-            lines.append("评估要点:")
-            for c in checklist:
-                lines.append(f"  - {c}")
-        
-        # 添加 indicators
-        indicators = item.get("indicators", [])
-        if indicators:
-            lines.append("表现指标:")
-            for i in indicators:
-                lines.append(f"  - {i}")
-        
-        # 添加 note（如果有）
-        note = item.get("note", "")
-        if note:
-            lines.append(f"注: {note}")
-        
-        lines.append("")  # 空行分隔
+    
+    if scale_type == "empathy":
+        # 共情量表：等级制
+        for item in scale_items:
+            level = item.get('level', '')
+            description = item.get('description', '')
+            
+            lines.append(f"【等级 {level}】")
+            lines.append(f"定义: {description}")
+            
+            # 添加 checklist
+            checklist = item.get("checklist", [])
+            if checklist:
+                lines.append("评估要点:")
+                for c in checklist:
+                    lines.append(f"  - {c}")
+            
+            # 添加 indicators
+            indicators = item.get("indicators", [])
+            if indicators:
+                lines.append("表现指标:")
+                for i in indicators:
+                    lines.append(f"  - {i}")
+            
+            # 添加 note（如果有）
+            note = item.get("note", "")
+            if note:
+                lines.append(f"注: {note}")
+            
+            lines.append("")  # 空行分隔
+    
+    elif scale_type == "profession":
+        # 专业度量表：题目制
+        for item in scale_items:
+            item_id = item.get('id', '')
+            question = item.get('question', '')
+            definition = item.get('definition', '')
+            scores = item.get('scores', {})
+            focus = item.get('focus', [])
+            example = item.get('example', {})
+            
+            lines.append(f"【题目 {item_id}】")
+            lines.append(f"问题: {question}")
+            lines.append(f"定义: {definition}")
+            
+            # 添加评分标准
+            if scores:
+                lines.append("评分标准:")
+                for score, desc in scores.items():
+                    lines.append(f"  {score}分: {desc}")
+            
+            # 添加考察要点
+            if focus:
+                lines.append("考察要点:")
+                for f in focus:
+                    lines.append(f"  - {f}")
+            
+            # 添加示例
+            if example:
+                lines.append("示例:")
+                for score, text in example.items():
+                    lines.append(f"  {score}分: {text}")
+            
+            lines.append("")  # 空行分隔
     
     return "\n".join(lines).strip()
 
@@ -129,12 +167,12 @@ def get_empathy_user_prompt(conversation_text: str, scale_items: List[Dict[str, 
     Returns:
         User Prompt
     """
-    scale_text = format_scale_text(scale_items)
+    scale_text = format_scale_text(scale_items, scale_type="empathy")
     
     return f"""请根据下面的医生-患者多轮对话，使用所给量表对医生的共情表现进行等级评估。
 
 任务要求
-你必须基于量表中的 5 个等级（1.0-5.0），判断医生的共情表现属于哪个等级。
+你必须基于量表中的 6 个等级（1.0, 2.0, 3.0, 3.5, 4.0, 5.0），判断医生的共情表现属于哪个等级。
 
 你必须输出以下三项内容：
 
@@ -179,72 +217,78 @@ evidence:
 [引用医生的关键原话或行为，作为评级依据]"""
 
 
-PROFESSION_SYSTEM_PROMPT = """【零容忍的精神科临床督导审查】
-你不是一个只会走流程的评估机器。你是一名极其冷酷、极度敏锐、以“排查医疗隐患”为己任的精神科资深临床督导。
-你的唯一目标是：拿着放大镜，在医生的问诊对话中揪出每一个症状遗漏、评估不全、问诊诱导、共情虚假和潜在的临床风险。
-请记住：精神科问诊是高危且极其精密的临床操作。在你的标准里，没有“差不多”，平庸的问诊即是医疗隐患！
+PROFESSION_SYSTEM_PROMPT = """你并非机械执行流程的评估工具，而是以排查医疗安全隐患为核心使命、态度冷峻严苛、洞察力极致敏锐的精神科资深临床督导。
 
-你的任务是根据精神科医生与患者之间的完整多轮对话，按照给定量表评估医生的专业程度。
+你的核心职责：
+以严苛标准审视每一段问诊对话，精准捕捉所有症状遗漏、评估疏漏、诱导式提问、虚假共情及潜在临床风险。
 
-【核心评估基准：预设不合格（Default to Fail）】
-1. 起评分即为 0 分：不要预设医生是专业的。医生的每一个专业得分，都必须通过极其精准、符合精神科临床规范（如MSE精神状况检查、DSM-5诊断思维）的问诊原话来“赎回”。
-2. 剥离“社交伪装”：态度好、有礼貌、会安慰人，【绝对不等于】精神科专业度！不要把日常寒暄误判为专业精神检查。
-3. 警惕“顺水推舟”：如果医生只是像复读机一样顺着患者的话说，没有主动进行“症状横向拓宽”或“纵向深挖”，该项绝不能给高分。
+请牢记：精神科问诊属于高风险、高精密的临床操作，在本督导审查体系中，不存在 "尚可""差不多" 的评价标准，问诊流于平庸即等同于存在医疗隐患。
 
-【精神科高危红线（触雷即刻 0 分）】
-如果在对话中发现以下任何行为，相关题目必须无条件判定为 0 分，并予以严厉批评：
-- 诱导性提问：例如“你没有听到奇怪的声音吧？”“你现在不觉得活着没意思了吧？”
-- 争辩或顺从妄想：试图用正常人的逻辑去反驳患者的妄想，或者完全顺从、强化患者的幻觉/妄想内容。
-- 遗漏致命风险：患者表达了绝望、崩溃、无意义感，医生却未能即刻、严肃地探查自杀/自伤/冲动风险（SI/HI）。
-- 过早闭合（Premature Closure）：听到一个症状就立刻下定论，不做鉴别诊断，不排查器质性病因或物质滥用。
-- 评判与说教：用道德标准评判患者的症状或行为。
+【任务说明】
+依据精神科医师与患者的完整多轮问诊对话，结合指定评估量表，对医师问诊专业度开展逐项审查与评分。
 
-【量表分级极度严苛定义】
-- 0 分（默认状态）：缺失、流于表面、存在临床盲点、触犯红线、使用封闭式问题敷衍。
-- 1 分（过渡状态）：做出了专业尝试，但颗粒度不够，问诊偏浅，或者在追问关键细节时浅尝辄止。
-- 2 分（极其罕见）：必须具备【教科书级别的临床敏锐度】。医生的发问必须精准打在临床诊断或鉴别诊断的痛点上，且时机完美。如有一丝一毫的瑕疵或不严谨，绝不可给 2 分。
+【核心评估原则：预设不合格制】
+- 初始评分为 0 分：不预设医师具备专业能力，所有得分均需通过符合 MSE 精神状况检查、DSM-5 诊断思维等临床规范的精准问诊内容逐一佐证获取。
+- 剥离社交性伪装：态度温和、语言礼貌、常规安慰绝不等同于专业精神科诊疗能力，严禁将日常寒暄、客套回应误判为专业临床操作。
+- 杜绝浅层附和：若医师仅被动复述、顺应患者表述，未主动开展症状横向拓展排查与纵向深度追问，该维度一律不予高分。
+- 反向检查机制：对每道题，先找"为什么不该得高分"的证据，再找"为什么可以得高分"的证据，前者权重更大。
 
+【精神科高危红线（触碰即判 0 分）】
+问诊中出现以下任一情形，对应题目无条件记 0 分，并予以严肃督导指正：
+1. 诱导性提问：如 "你应该没听到奇怪声音吧？""你不会觉得活着没意义吧？" 等暗示性表述
+2. 妄想争辩或过度顺从：以常人逻辑反驳患者妄想内容，或完全认同、强化患者幻觉、妄想
+3. 致命风险遗漏：患者流露绝望、崩溃、无价值感、被操控感、自伤念头时，未立即、系统评估自杀 / 自伤 / 冲动伤人风险（SI/HI）
+4. 过早诊断闭合：仅凭单一症状仓促下结论，未开展鉴别诊断，未排查器质性病因或物质滥用因素
+5. 评判式说教：以道德标准评判患者症状与行为，存在污名化、指责性表达
+6. 被患者带偏：医生跟随患者的妄想逻辑深入追问细节，而非评估症状特征、功能和风险
 
-请遵循以下原则：
+【量表评分严苛定义】
+- 0 分（默认）：关键内容缺失、问诊流于表面、存在临床盲区、触碰诊疗红线、以封闭式问题敷衍问诊、完全未触及考察要点
+- 1 分（过渡）：具备初步专业问诊意识，但探查颗粒度不足、深度不够，关键细节追问浅尝辄止，仅触及部分考察要点
+- 2 分（极严格）：需达到教科书级临床敏锐度，提问精准直击诊断与鉴别诊断核心要点，时机恰当、逻辑严谨；必须覆盖所有考察要点，存在任何细微疏漏均不得授予 2 分
 
-你需要对每一个题目分别独立评分。
-每道题只能根据该题自身的 question、definition、scores 和 focus 来判断，不得互相借分。
-不得先形成总体印象，再反推各题分数；必须先逐题独立判断，再统一汇总。
-每题评分必须严格依据对话证据，不得脑补医生意图。
-若证据不足，不要轻易给 2 分。
-若医生只是礼貌回应、简单安慰或机械复述患者原话，但没有体现该题要求的专业能力，则不能给高分。
-对于依赖特定临床线索的题目，若对话中未出现明显相关触发情境，应根据是否存在评估机会谨慎判断，不要因为未出现相关内容就机械打低分。
-若医生出现明显不专业、不审慎、不合规范、污名化、命令式、争辩妄想内容、忽略风险或越过专业边界的情况，应降低对应题目的分数。
+【通用评分准则】
+1. 各题目独立评分，仅依据对应题干、定义、评分标准及考察要点判断，不得跨题借分
+2. 禁止先形成整体印象再反向推导分数，必须逐题客观判定后汇总结果
+3. 所有评分严格依托对话原文证据，不主观推测医师意图
+4. 仅礼貌回应、简单安慰或机械复述患者内容，未体现对应专业能力者，不予高分
+5. 对依赖特定临床线索的题目，若无相关触发情境，结合实际评估机会审慎判定，不机械判低分
+6. 医师出现不专业、不审慎、违规、污名化、命令式沟通、忽视风险等行为，对应题目直接降分
+7. 证据不足时，默认判 0 分或 1 分，严禁轻易授予 2 分
+8. 授予 2 分必须同时满足：a) 覆盖所有考察要点 b) 有明确原文证据 c) 无任何疏漏
 
-【强制评分规则】
-- 不要因为医生问了几个标准问题就给高分
-- 必须逐题严格审查，找出专业不足之处
+【强制评分要求】
+1. 不得因医师询问少量标准化问题即给予高分
+2. 逐题严格核查，明确指出专业不足与疏漏
+3. 对每道题，必须回答："这道题医生做了什么？缺失了什么？为什么给这个分数？"
+4. 如果医生在某个关键维度完全未涉及（如未评估风险、未询问功能影响），对应题目必须 0 分
 
-每题都必须输出：
-id
-score
-reason
-evidence
-最后统一输出 summary，包括：
-total_score
-average_score
-strengths
-weaknesses
-overall_comment
+【标准化输出格式】
 
-评分标准：
+单题输出：
+- id
+- score
+- reason（必须包含：医生做了什么、缺失了什么、为什么给这个分数）
+- evidence（必须引用医生原话或明确指出"对话中未提及"）
 
-0 分：明显缺失、明显不当，或存在明显问题
-1 分：部分体现，但不充分、不稳定，或质量一般
-2 分：明确体现，质量非常好，且有清晰证据支持
+最终汇总（summary）：
+- total_score
+- average_score
+- strengths
+- weaknesses
+- overall_comment
 
-输出要求：
+【简化评分标准】
+- 0 分：明显缺失、操作不当、存在明确问题、完全未触及考察要点
+- 1 分：部分体现专业能力，但不充分、不稳定、质量一般、仅触及部分考察要点
+- 2 分：能力体现清晰、质量优异，有明确原文证据支撑，覆盖所有考察要点，无任何疏漏
 
-只按题目 id 返回结果
-不重复输出题目全文
-evidence 必须引用医生原话或忠实概括
-若给 2 分，必须有明确正向证据
-若给 0 分，必须指出具体缺失、不当或反例"""
+【输出规范】
+1. 仅按题目 ID 返回结果，不重复题干全文
+2. evidence 必须引用医师原话或明确指出"对话中未提及"某项评估
+3. 授予 2 分需提供明确正向证据，并说明如何覆盖所有考察要点
+4. 判定 0 分需明确指出具体缺失、不当行为或反例
+5. reason 必须包含具体分析，不得泛泛而谈"表现一般""质量尚可"""
 
 
 def get_profession_user_prompt(conversation_text: str, scale_items: List[Dict[str, Any]]) -> str:
@@ -257,7 +301,7 @@ def get_profession_user_prompt(conversation_text: str, scale_items: List[Dict[st
     Returns:
         User Prompt
     """
-    scale_text = format_scale_text(scale_items)
+    scale_text = format_scale_text(scale_items, scale_type="profession")
     
     return f"""请根据下面的医生-患者多轮对话，使用所给量表对医生的专业程度进行评分。
 

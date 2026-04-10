@@ -78,7 +78,12 @@ def parse_scores_from_response(raw_response: str) -> List[int]:
     Returns:
         分数列表
     """
-    scores = [int(s) for s in re.findall(r"(?mi)^\s*score\s*[:：]\s*([012])\s*$", raw_response)]
+    # 支持多种格式：
+    # 1. score: 2
+    # 2. **score:** 2
+    # 3. score:2
+    # 4. score ：2
+    scores = [int(s) for s in re.findall(r"(?mi)\*?\*?score\*?\*?\s*[:：]\s*([012])\s*$", raw_response)]
     return scores
 
 

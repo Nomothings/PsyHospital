@@ -287,7 +287,8 @@ def evaluate_phase1(
                     "total_score": profession_eval_result["total_score"],
                     "average_score": profession_eval_result["average_score"],
                     "question_count": profession_eval_result["question_count"],
-                    "parsed_scores": profession_eval_result["parsed_scores"]
+                    "parsed_scores": profession_eval_result["parsed_scores"],
+                    "raw_response": profession_eval_result.get("raw_response", "")  # 保存原始响应
                 }
             
             print("  LLM 评估完成")
