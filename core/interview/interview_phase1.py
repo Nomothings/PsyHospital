@@ -201,6 +201,10 @@ def parse_patient_response(response: str) -> Tuple[str, List[str], List[str]]:
         chief_complaint_used = grounding.get("chief_complaint", []) if isinstance(grounding, dict) else []
         mental_status_used = grounding.get("mental_status", []) if isinstance(grounding, dict) else []
         
+        # 修复BUG #6：去除首尾空格，避免匹配失败
+        chief_complaint_used = [item.strip() for item in chief_complaint_used if isinstance(item, str)]
+        mental_status_used = [item.strip() for item in mental_status_used if isinstance(item, str)]
+        
         return patient_response, chief_complaint_used, mental_status_used
     
     # 4. 最终兜底：直接返回原文
@@ -495,7 +499,12 @@ def run_interview_phase1(case: Dict[str, Any] = None) -> Dict[str, Any]:
             
             # 检查是否包含SEARCH命令
             if '[SEARCH_' in patient_raw_response:
-                print(f"  [调试] 原始响应包含SEARCH命令")
+                # 提取并显示所有SEARCH命令
+                debug_searches = re.findall(r'\[SEARCH_(.+?)\]', patient_raw_response)
+                if debug_searches:
+                    print(f"  [警告] 原始响应仍包含SEARCH命令: {', '.join(debug_searches)}")
+                else:
+                    print(f"  [警告] 原始响应包含SEARCH命令")
             
             print(f"\n患者: {patient_response[:200]}...")
             

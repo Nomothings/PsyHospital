@@ -2,14 +2,13 @@
   "phase": 2,
   "case_id": "1009904",
   "model_name": "qwen-flash",
-  "timestamp": "2026-04-10T20:49:37.011507",
+  "timestamp": "2026-04-10T22:31:46.649965",
   "status": "completed",
   "examinations": [
     "血常规",
     "电解质及肝肾功能",
     "甲状腺功能检查",
-    "梅毒血清学检测",
-    "HIV抗体检测",
+    "维生素B12及叶酸水平",
     "头颅MRI",
     "脑电图"
   ],
@@ -17,12 +16,11 @@
     "血常规": "NONE",
     "电解质及肝肾功能": "NONE",
     "甲状腺功能检查": "NONE",
-    "梅毒血清学检测": "NONE",
-    "HIV抗体检测": "NONE",
+    "维生素B12及叶酸水平": "NONE",
     "头颅MRI": "平扫未见明显器质性异常",
     "脑电图": "大致正常范围，未见明确癫痫样放电"
   },
   "evaluation_metrics": {},
-  "raw_response": "[BEGIN_EXAMINATIONS]\n[\"血常规\", \"电解质及肝肾功能\", \"甲状腺功能检查\", \"梅毒血清学检测\", \"HIV抗体检测\", \"头颅MRI\", \"脑电图\"]\n[END_EXAMINATIONS]",
-  "last_update": "2026-04-10T20:49:40.585896"
+  "raw_response": "[BEGIN_EXAMINATIONS]\n[\"血常规\", \"电解质及肝肾功能\", \"甲状腺功能检查\", \"维生素B12及叶酸水平\", \"头颅MRI\", \"脑电图\"]\n[END_EXAMINATIONS]",
+  "last_update": "2026-04-10T22:31:49.682527"
 }

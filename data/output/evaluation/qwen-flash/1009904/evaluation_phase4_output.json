@@ -2,7 +2,7 @@
   "phase": 4,
   "case_id": "1009904",
   "model_name": "qwen-flash",
-  "timestamp": "2026-04-10T20:50:02.487116",
+  "timestamp": "2026-04-10T22:32:12.643537",
   "metrics": {
     "precision": 1.0,
     "recall": 1.0,

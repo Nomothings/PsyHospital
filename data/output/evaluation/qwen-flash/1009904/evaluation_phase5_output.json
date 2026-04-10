@@ -2,7 +2,7 @@
   "phase": 5,
   "case_id": "1009904",
   "model_name": "qwen-flash",
-  "timestamp": "2026-04-10T20:50:03.769160",
+  "timestamp": "2026-04-10T22:32:14.079027",
   "metrics": {
     "precision": 0.4,
     "recall": 1.0,
@@ -13,8 +13,8 @@
     "6A20 Schizophrenia",
     "6A24 Delusional disorder",
     "6A21 Schizoaffective disorder",
-    "6A23 Acute and transient psychotic disorder",
-    "6B20 Obsessive-compulsive disorder"
+    "6B00 Generalised anxiety disorder",
+    "6B43 Adjustment disorder"
   ],
   "true_disorders": [
     "6A20 Schizophrenia",

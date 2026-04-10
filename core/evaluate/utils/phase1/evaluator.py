@@ -19,6 +19,89 @@ from core.evaluate.utils.phase1.prompts import (
 )
 
 
+def verify_evidence_authenticity(evidence: str, conversation_text: str, threshold: float = 0.8) -> Dict[str, Any]:
+    """验证证据中引用的医生原话是否真实存在于对话中
+    
+    Args:
+        evidence: 评估器输出的evidence字段
+        conversation_text: 完整对话文本
+        threshold: 相似度阈值（0-1）
+        
+    Returns:
+        验证结果：{"is_valid": bool, "confidence": float, "warning": str}
+    """
+    # 提取[第X轮] 医生："..."或[第X轮] 医生：...格式的引用
+    pattern = r'\[第(\d+)轮\]\s*医生[：:]\s*[“"]?(.+?)[”"]?(?=\n\n|\n|$)'
+    matches = re.findall(pattern, evidence)
+    
+    if not matches:
+        # 没有轮次编号格式的引用，检查是否包含"对话中未提及"
+        if "对话中未提及" in evidence:
+            return {"is_valid": True, "confidence": 1.0, "warning": ""}
+        else:
+            return {"is_valid": False, "confidence": 0.0, "warning": "evidence未按要求格式输出，缺少轮次编号"}
+    
+    warnings = []
+    all_valid = True
+    min_confidence = 1.0
+    
+    for turn_num, quoted_text in matches:
+        # 在对话中搜索该轮次
+        turn_pattern = rf'\[第{turn_num}轮\]\s*医生[：:]\s*[“"]?(.+?)[”"]?(?=\n\n|\[第|\Z)'
+        turn_match = re.search(turn_pattern, conversation_text, re.DOTALL)
+        
+        if not turn_match:
+            all_valid = False
+            warnings.append(f"[第{turn_num}轮] 在对话中未找到")
+            min_confidence = min(min_confidence, 0.0)
+            continue
+        
+        actual_text = turn_match.group(1).strip()
+        
+        # 计算相似度（简单字符串匹配）
+        quoted_clean = quoted_text.strip()
+        actual_clean = actual_text.strip()
+        
+        # 使用最长公共子串计算相似度
+        def similarity(s1, s2):
+            """计算两个字符串的相似度（基于最长公共子串）"""
+            if not s1 or not s2:
+                return 0.0
+            
+            # 如果完全匹配
+            if s1 == s2:
+                return 1.0
+            
+            # 如果引用是对话的子串
+            if s1 in s2 or s2 in s1:
+                return 0.9
+            
+            # 计算编辑距离相似度
+            len1, len2 = len(s1), len(s2)
+            if len1 == 0 or len2 == 0:
+                return 0.0
+            
+            # 简单字符匹配率
+            common = sum(1 for c in s1 if c in s2)
+            return common / max(len1, len2)
+        
+        sim = similarity(quoted_clean, actual_clean)
+        min_confidence = min(min_confidence, sim)
+        
+        if sim < threshold:
+            all_valid = False
+            warnings.append(
+                f"[第{turn_num}轮] 引用相似度{sim:.2f}低于阈值{threshold}，"
+                f"引用：'{quoted_clean[:30]}...'，实际：'{actual_clean[:30]}...'"
+            )
+    
+    return {
+        "is_valid": all_valid,
+        "confidence": min_confidence,
+        "warning": "; ".join(warnings) if warnings else ""
+    }
+
+
 def parse_empathy_level_from_response(response: str) -> Dict[str, Any]:
     """从响应中解析共情等级评估结果
     
@@ -180,6 +263,9 @@ def evaluate_profession(conversation_text: str) -> Dict[str, Any]:
     total_score = sum(parsed_scores) if parsed_scores else 0
     average_score = total_score / len(parsed_scores) if parsed_scores else 0.0
     
+    # 后处理：验证证据真实性
+    evidence_verification = verify_evidence_authenticity(raw_response, conversation_text)
+    
     return {
         "scale_path": "core.evaluate.utils.phase1.scales.PROFESSION_SCALE",
         "question_count": len(PROFESSION_SCALE),
@@ -188,7 +274,8 @@ def evaluate_profession(conversation_text: str) -> Dict[str, Any]:
         "raw_response": raw_response,
         "parsed_scores": parsed_scores,
         "total_score": total_score,
-        "average_score": round(average_score, 4)
+        "average_score": round(average_score, 4),
+        "evidence_verification": evidence_verification  # 证据验证结果
     }
 
 

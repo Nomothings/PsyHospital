@@ -76,6 +76,12 @@ def calculate_coverage_stats(
     Returns:
         覆盖率统计字典
     """
+    # 修复BUG #6：去除首尾空格，确保匹配准确
+    chief_complaint_all = [item.strip() if isinstance(item, str) else item for item in chief_complaint_all]
+    mental_status_all = [item.strip() if isinstance(item, str) else item for item in mental_status_all]
+    chief_complaint_used = [item.strip() if isinstance(item, str) else item for item in chief_complaint_used]
+    mental_status_used = [item.strip() if isinstance(item, str) else item for item in mental_status_used]
+    
     cc_coverage = (len(chief_complaint_used) / len(chief_complaint_all) * 100) if chief_complaint_all else 0.0
     ms_coverage = (len(mental_status_used) / len(mental_status_all) * 100) if mental_status_all else 0.0
     
@@ -124,16 +130,16 @@ def format_conversation_text(conversation: List[Dict[str, Any]]) -> str:
         格式化后的对话文本
     """
     lines = []
-    for turn in conversation:
+    for idx, turn in enumerate(conversation, 1):
         role = turn.get('role', 'unknown')
         content = turn.get('content', '')
         
         if role == 'doctor':
-            lines.append(f"医生：{content}")
+            lines.append(f"[第{idx}轮] 医生：{content}")
         elif role == 'patient':
-            lines.append(f"患者：{content}")
+            lines.append(f"[第{idx}轮] 患者：{content}")
         else:
-            lines.append(f"[{role}]：{content}")
+            lines.append(f"[第{idx}轮] [{role}]：{content}")
     
     return "\n\n".join(lines)
 
@@ -288,7 +294,8 @@ def evaluate_phase1(
                     "average_score": profession_eval_result["average_score"],
                     "question_count": profession_eval_result["question_count"],
                     "parsed_scores": profession_eval_result["parsed_scores"],
-                    "raw_response": profession_eval_result.get("raw_response", "")  # 保存原始响应
+                    "raw_response": profession_eval_result.get("raw_response", ""),
+                    "evidence_verification": profession_eval_result.get("evidence_verification", {})
                 }
             
             print("  LLM 评估完成")

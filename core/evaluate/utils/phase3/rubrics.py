@@ -17,7 +17,7 @@ RUBRICS = {}
 RUBRICS["chief_complaint"] = {
     "rubric_name": "主诉评分标准",
     "weight": 0.25,
-    "scoring_notes": "以true为基准进行对比评分。若true中未提及某要素，则该项不参与评分，满分相应减少。",
+    "scoring_notes": "以true为基准进行对比评分。若true中未提及某要素，则该项不参与评分，满分相应减少。准确度评分应基于临床语义等价原则，而非字面匹配。",
     "scoring_items": [
         {
             "id": 1,
@@ -29,8 +29,8 @@ RUBRICS["chief_complaint"] = {
                 "skip": "true中未提及该要素，该项不计分"
             },
             "accuracy_definition": {
-                "1": "与true中的起病时间一致，表述准确",
-                "0": "与true不一致或存在明显错误",
+                "1": "与true临床语义一致（允许同义表述，如'3个月'与'3个多月'视为一致）",
+                "0": "与true临床语义不符或存在明显错误（如时间相差悬殊）",
                 "skip": "true中未提及该要素，该项不计分"
             }
         },
@@ -44,8 +44,8 @@ RUBRICS["chief_complaint"] = {
                 "skip": "true中未提及该要素，该项不计分"
             },
             "accuracy_definition": {
-                "1": "症状描述与true一致，无错误",
-                "0": "症状描述与true不一致或存在错误",
+                "1": "症状描述与true临床语义一致（允许临床等价描述，如'妄想性信念'与'敏感多疑'视为同义）",
+                "0": "症状描述与true临床语义不符或存在错误",
                 "skip": "true中未提及该要素，该项不计分"
             }
         },
@@ -59,8 +59,8 @@ RUBRICS["chief_complaint"] = {
                 "skip": "true中未提及该要素，该项不计分"
             },
             "accuracy_definition": {
-                "1": "症状表现描述与true一致",
-                "0": "症状表现描述与true不一致或错误",
+                "1": "症状表现描述与true临床语义一致（允许不同描述角度，如'显著焦虑'与'社会功能受损'可视为相关）",
+                "0": "症状表现描述与true临床语义不符或错误",
                 "skip": "true中未提及该要素，该项不计分"
             }
         },
@@ -74,8 +74,8 @@ RUBRICS["chief_complaint"] = {
                 "skip": "true中未提及该要素，该项不计分"
             },
             "accuracy_definition": {
-                "1": "伴随症状描述与true一致",
-                "0": "伴随症状描述与true不一致或错误",
+                "1": "伴随症状描述与true临床语义一致",
+                "0": "伴随症状描述与true临床语义不符或错误",
                 "skip": "true中未提及该要素，该项不计分"
             }
         },
@@ -89,8 +89,8 @@ RUBRICS["chief_complaint"] = {
                 "skip": "true中未提及该要素，该项不计分"
             },
             "accuracy_definition": {
-                "1": "病程演变描述与true一致",
-                "0": "病程演变描述与true不一致或错误",
+                "1": "病程演变描述与true临床语义一致",
+                "0": "病程演变描述与true临床语义不符或错误",
                 "skip": "true中未提及该要素，该项不计分"
             }
         },
@@ -104,8 +104,8 @@ RUBRICS["chief_complaint"] = {
                 "skip": "true中未提及该要素，该项不计分"
             },
             "accuracy_definition": {
-                "1": "加重因素描述与true一致",
-                "0": "加重因素描述与true不一致或错误",
+                "1": "加重因素描述与true临床语义一致",
+                "0": "加重因素描述与true临床语义不符或错误",
                 "skip": "true中未提及该要素，该项不计分"
             }
         }
@@ -115,7 +115,7 @@ RUBRICS["chief_complaint"] = {
 RUBRICS["physical_examination"] = {
     "rubric_name": "体格检查评分标准",
     "weight": 0.25,
-    "scoring_notes": "以true为基准进行对比评分。若true中未提及某要素，则该项不参与评分，满分相应减少。",
+    "scoring_notes": "以true为基准进行对比评分。若true中未提及某要素，则该项不参与评分，满分相应减少。体格检查为客观数据，准确度需严格匹配。",
     "scoring_items": [
         {
             "id": 1,
@@ -142,8 +142,8 @@ RUBRICS["physical_examination"] = {
                 "skip": "true中未提及一般情况，该项不计分"
             },
             "accuracy_definition": {
-                "1": "一般情况描述与true一致",
-                "0": "一般情况描述与true不一致或错误",
+                "1": "一般情况描述与true临床语义一致",
+                "0": "一般情况描述与true临床语义不符或错误",
                 "skip": "true中未提及一般情况，该项不计分"
             }
         },
@@ -157,8 +157,8 @@ RUBRICS["physical_examination"] = {
                 "skip": "true中未提及皮肤黏膜，该项不计分"
             },
             "accuracy_definition": {
-                "1": "皮肤黏膜描述与true一致",
-                "0": "皮肤黏膜描述与true不一致或错误",
+                "1": "皮肤黏膜描述与true临床语义一致",
+                "0": "皮肤黏膜描述与true临床语义不符或错误",
                 "skip": "true中未提及皮肤黏膜，该项不计分"
             }
         },
@@ -172,8 +172,8 @@ RUBRICS["physical_examination"] = {
                 "skip": "true中未提及头颈部，该项不计分"
             },
             "accuracy_definition": {
-                "1": "头颈部描述与true一致",
-                "0": "头颈部描述与true不一致或错误",
+                "1": "头颈部描述与true临床语义一致",
+                "0": "头颈部描述与true临床语义不符或错误",
                 "skip": "true中未提及头颈部，该项不计分"
             }
         },
@@ -187,8 +187,8 @@ RUBRICS["physical_examination"] = {
                 "skip": "true中未提及胸部心肺，该项不计分"
             },
             "accuracy_definition": {
-                "1": "胸部心肺描述与true一致",
-                "0": "胸部心肺描述与true不一致或错误",
+                "1": "胸部心肺描述与true临床语义一致",
+                "0": "胸部心肺描述与true临床语义不符或错误",
                 "skip": "true中未提及胸部心肺，该项不计分"
             }
         },
@@ -202,8 +202,8 @@ RUBRICS["physical_examination"] = {
                 "skip": "true中未提及腹部，该项不计分"
             },
             "accuracy_definition": {
-                "1": "腹部描述与true一致",
-                "0": "腹部描述与true不一致或错误",
+                "1": "腹部描述与true临床语义一致",
+                "0": "腹部描述与true临床语义不符或错误",
                 "skip": "true中未提及腹部，该项不计分"
             }
         },
@@ -217,8 +217,8 @@ RUBRICS["physical_examination"] = {
                 "skip": "true中未提及四肢神经系统，该项不计分"
             },
             "accuracy_definition": {
-                "1": "四肢神经系统描述与true一致",
-                "0": "四肢神经系统描述与true不一致或错误",
+                "1": "四肢神经系统描述与true临床语义一致",
+                "0": "四肢神经系统描述与true临床语义不符或错误",
                 "skip": "true中未提及四肢神经系统，该项不计分"
             }
         }
@@ -228,7 +228,7 @@ RUBRICS["physical_examination"] = {
 RUBRICS["mental_examination"] = {
     "rubric_name": "精神检查评分标准",
     "weight": 0.25,
-    "scoring_notes": "以true为基准进行对比评分。若true中未提及某要素，则该项不参与评分，满分相应减少。",
+    "scoring_notes": "以true为基准进行对比评分。若true中未提及某要素，则该项不参与评分，满分相应减少。精神检查为临床描述，应基于临床语义等价原则。",
     "scoring_items": [
         {
             "id": 1,
@@ -240,8 +240,8 @@ RUBRICS["mental_examination"] = {
                 "skip": "true中未提及外观行为，该项不计分"
             },
             "accuracy_definition": {
-                "1": "外观行为描述与true一致",
-                "0": "外观行为描述与true不一致或错误",
+                "1": "外观行为描述与true临床语义一致",
+                "0": "外观行为描述与true临床语义不符或错误",
                 "skip": "true中未提及外观行为，该项不计分"
             }
         },
@@ -255,8 +255,8 @@ RUBRICS["mental_examination"] = {
                 "skip": "true中未提及言语，该项不计分"
             },
             "accuracy_definition": {
-                "1": "言语描述与true一致",
-                "0": "言语描述与true不一致或错误",
+                "1": "言语描述与true临床语义一致",
+                "0": "言语描述与true临床语义不符或错误",
                 "skip": "true中未提及言语，该项不计分"
             }
         },
@@ -270,8 +270,8 @@ RUBRICS["mental_examination"] = {
                 "skip": "true中未提及情感，该项不计分"
             },
             "accuracy_definition": {
-                "1": "情感描述与true一致",
-                "0": "情感描述与true不一致或错误",
+                "1": "情感描述与true临床语义一致",
+                "0": "情感描述与true临床语义不符或错误",
                 "skip": "true中未提及情感，该项不计分"
             }
         },
@@ -285,8 +285,8 @@ RUBRICS["mental_examination"] = {
                 "skip": "true中未提及感知觉，该项不计分"
             },
             "accuracy_definition": {
-                "1": "感知觉描述与true一致",
-                "0": "感知觉描述与true不一致或错误",
+                "1": "感知觉描述与true临床语义一致",
+                "0": "感知觉描述与true临床语义不符或错误",
                 "skip": "true中未提及感知觉，该项不计分"
             }
         },
@@ -300,8 +300,8 @@ RUBRICS["mental_examination"] = {
                 "skip": "true中未提及思维形式，该项不计分"
             },
             "accuracy_definition": {
-                "1": "思维形式描述与true一致",
-                "0": "思维形式描述与true不一致或错误",
+                "1": "思维形式描述与true临床语义一致",
+                "0": "思维形式描述与true临床语义不符或错误",
                 "skip": "true中未提及思维形式，该项不计分"
             }
         },
@@ -315,8 +315,8 @@ RUBRICS["mental_examination"] = {
                 "skip": "true中未提及思维内容，该项不计分"
             },
             "accuracy_definition": {
-                "1": "思维内容描述与true一致",
-                "0": "思维内容描述与true不一致或错误",
+                "1": "思维内容描述与true临床语义一致（允许临床等价描述，如'妄想性信念'与'敏感多疑'视为同义）",
+                "0": "思维内容描述与true临床语义不符或错误",
                 "skip": "true中未提及思维内容，该项不计分"
             }
         },
@@ -330,8 +330,8 @@ RUBRICS["mental_examination"] = {
                 "skip": "true中未提及认知功能，该项不计分"
             },
             "accuracy_definition": {
-                "1": "认知功能描述与true一致",
-                "0": "认知功能描述与true不一致或错误",
+                "1": "认知功能描述与true临床语义一致",
+                "0": "认知功能描述与true临床语义不符或错误",
                 "skip": "true中未提及认知功能，该项不计分"
             }
         },
@@ -345,8 +345,8 @@ RUBRICS["mental_examination"] = {
                 "skip": "true中未提及自知力，该项不计分"
             },
             "accuracy_definition": {
-                "1": "自知力描述与true一致",
-                "0": "自知力描述与true不一致或错误",
+                "1": "自知力描述与true临床语义一致",
+                "0": "自知力描述与true临床语义不符或错误",
                 "skip": "true中未提及自知力，该项不计分"
             }
         }
@@ -356,7 +356,7 @@ RUBRICS["mental_examination"] = {
 RUBRICS["past_family_history"] = {
     "rubric_name": "既往史家族史评分标准",
     "weight": 0.25,
-    "scoring_notes": "以true为基准进行对比评分。若true中未提及某要素，则该项不参与评分，满分相应减少。",
+    "scoring_notes": "以true为基准进行对比评分。若true中未提及某要素，则该项不参与评分，满分相应减少。病史描述应基于临床语义等价原则。",
     "scoring_items": [
         {
             "id": 1,
@@ -368,8 +368,8 @@ RUBRICS["past_family_history"] = {
                 "skip": "true中未提及既往史，该项不计分"
             },
             "accuracy_definition": {
-                "1": "既往史描述与true一致",
-                "0": "既往史描述与true不一致或错误",
+                "1": "既往史描述与true临床语义一致",
+                "0": "既往史描述与true临床语义不符或错误",
                 "skip": "true中未提及既往史，该项不计分"
             }
         },
@@ -383,8 +383,8 @@ RUBRICS["past_family_history"] = {
                 "skip": "true中未提及个人史，该项不计分"
             },
             "accuracy_definition": {
-                "1": "个人史描述与true一致",
-                "0": "个人史描述与true不一致或错误",
+                "1": "个人史描述与true临床语义一致",
+                "0": "个人史描述与true临床语义不符或错误",
                 "skip": "true中未提及个人史，该项不计分"
             }
         },
@@ -398,8 +398,8 @@ RUBRICS["past_family_history"] = {
                 "skip": "true中未提及家族史，该项不计分"
             },
             "accuracy_definition": {
-                "1": "家族史描述与true一致",
-                "0": "家族史描述与true不一致或错误",
+                "1": "家族史描述与true临床语义一致",
+                "0": "家族史描述与true临床语义不符或错误",
                 "skip": "true中未提及家族史，该项不计分"
             }
         },
@@ -413,8 +413,8 @@ RUBRICS["past_family_history"] = {
                 "skip": "true中未提及物质接触史，该项不计分"
             },
             "accuracy_definition": {
-                "1": "物质接触史描述与true一致",
-                "0": "物质接触史描述与true不一致或错误",
+                "1": "物质接触史描述与true临床语义一致",
+                "0": "物质接触史描述与true临床语义不符或错误",
                 "skip": "true中未提及物质接触史，该项不计分"
             }
         }

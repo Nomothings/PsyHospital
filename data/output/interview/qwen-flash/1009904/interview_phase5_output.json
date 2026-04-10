@@ -2,15 +2,15 @@
   "phase": 5,
   "case_id": "1009904",
   "model_name": "qwen-flash",
-  "timestamp": "2026-04-10T20:50:02.489116",
+  "timestamp": "2026-04-10T22:32:12.646045",
   "status": "completed",
   "diagnostic_hypotheses": [
     "6A20 Schizophrenia",
     "6A24 Delusional disorder",
     "6A21 Schizoaffective disorder",
-    "6A23 Acute and transient psychotic disorder",
-    "6B20 Obsessive-compulsive disorder"
+    "6B00 Generalised anxiety disorder",
+    "6B43 Adjustment disorder"
   ],
-  "raw_response": "[BEGIN_DIAGNOSTIC_HYPOTHESES]\n[\"6A20 Schizophrenia\", \"6A24 Delusional disorder\", \"6A21 Schizoaffective disorder\", \"6A23 Acute and transient psychotic disorder\", \"6B20 Obsessive-compulsive disorder\"]\n[END_DIAGNOSTIC_HYPOTHESES]",
-  "last_update": "2026-04-10T20:50:03.766925"
+  "raw_response": "[BEGIN_DIAGNOSTIC_HYPOTHESES]\n[\"6A20 Schizophrenia\", \"6A24 Delusional disorder\", \"6A21 Schizoaffective disorder\", \"6B00 Generalised anxiety disorder\", \"6B43 Adjustment disorder\"]\n[END_DIAGNOSTIC_HYPOTHESES]",
+  "last_update": "2026-04-10T22:32:14.077027"
 }

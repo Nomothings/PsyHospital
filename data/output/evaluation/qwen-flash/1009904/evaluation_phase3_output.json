@@ -2,77 +2,27 @@
   "phase": 3,
   "case_id": "1009904",
   "model_name": "qwen-flash",
-  "timestamp": "2026-04-10T20:50:01.412308",
-  "total_percentage": 34.53,
-  "total_weighted_score": 0.3453,
-  "total_actual_score": 14,
-  "total_actual_max": 36,
+  "timestamp": "2026-04-10T22:32:11.226059",
+  "total_percentage": 37.35,
+  "total_weighted_score": 0.3735,
+  "total_actual_score": 13,
+  "total_actual_max": 30,
   "status": "completed",
-  "syntactic_formulation": "患者，男性，19岁，因“持续担心被人监视、监听，伴睡眠障碍、注意力下降及行为异常3个月”就诊。病程起于约3个月前，无明显诱因，突发胸闷、头脑空白感，随后出现持续性被害妄想，坚信有人在监视、监听其言行，甚至认为他人已知其怀疑而意图加害。症状持续进展，表现为夜间觉醒后无意识走动、幻听（听见低声说话，内容具威胁性或指令性）、幻视（感知墙内或房间角落有影子），并伴有思维插入感，即部分想法被外界植入，难以辨识真实来源。\n\n患者自知症状与现实不符，但无法控制恐惧感，陷入严重孤立状态，拒绝与他人交流，唯恐被“同化”或“清除”。伴随显著睡眠障碍，主要为入睡困难、早醒、多梦，且存在非典型行为如半夜起身徘徊，事后无清晰记忆。未报告明显情绪低落或兴奋，无躁狂表现。\n\n体格检查：神志清楚，对答切题，口齿清晰，查体合作。生命体征平稳，神经系统查体无异常。精神检查提示：警觉性增高，思维内容以被害妄想为主，感知觉异常突出，自知力部分受损，情感反应淡漠，注意力涣散，定向力完整。\n\n辅助检查：血常规、电解质及肝肾功能、甲状腺功能、梅毒血清学检测、HIV抗体检测均未见明显异常；头颅MRI平扫未见结构性病变；脑电图大致正常，未见癫痫样放电。\n\n综合分析：患者呈现以被害妄想为核心的精神病性症状，伴幻听、幻视、思维插入、行为异常及睡眠障碍，符合精神分裂症谱系障碍的诊断标准。病程持续3个月以上，起病相对急骤，无明确器质性病因支持，神经影像与实验室检查均未发现生物学异常，排除物质使用、躯体疾病所致精神病性障碍。目前考虑诊断：精神分裂症（偏执型），待进一步评估。",
+  "syntactic_formulation": "患者，男性，19岁，因“持续三个月的被监视感、幻听及显著焦虑症状”就诊。主诉表现为持续性被害妄想，坚信他人（包括家人）被控制，自身正被监听与跟踪，伴有持续性幻听，内容为低语式指令（如“别相信他们”），多在独处或夜间出现，且无法通过外部验证消除。症状在特定情境下（如煮粥时水声与热气）可短暂获得现实感与自我确认，但一旦中断即迅速复发。\n\n患者自述睡眠障碍明显，常于夜间惊醒，伴心悸、出汗、强烈恐惧感，回避社交与独处环境。情绪状态以紧张、无助为主，虽有短暂平静体验，但对失控高度恐惧，存在明显的自我认同危机。否认自杀或伤人意念，无躁狂或抑郁发作史。\n\n体格检查：神志清醒，对答切题，口齿清晰，查体合作。生命体征平稳，神经系统检查未见阳性体征，病理反射未引出。\n\n辅助检查：头颅MRI未见结构性异常；脑电图大致正常，未见癫痫样放电；实验室检查（血常规、电解质、肝肾功能、甲状腺功能、维生素B12及叶酸水平）均未见明确异常。\n\n综合分析：患者临床表现符合精神分裂症谱系障碍的特征，尤其是偏执型精神分裂症的可能性较大。其妄想系统化、幻听内容具有威胁性、现实检验能力受损、社会功能显著下降，且症状持续超过一个月，符合《DSM-5》中精神分裂症的诊断标准。目前无器质性疾病证据支持，排除躯体疾病所致精神症状。\n\n初步诊断：精神分裂症（偏执型）",
   "true_formulation": "患者男，19岁。主诉：3个多月前起病，表现为敏感多疑，自诉电话被监听，感觉有人跟踪，觉得周围不安全，同时伴有晚上睡眠差、入睡困难，偶有夜间无故独自乱跑、偶有自言自语、有时独自傻笑、与周围人交流减少、有时双手紧握呈拳，上班渐出现迟到早退。1个多月前曾至门诊就诊，但拒绝检查，未予治疗，基本生活尚能自理。3天前上述症状加重。精神检查：患者面无表情，精神检查不合作，偶有自言自语，有时独自傻笑，与周围人交流减少，有时双手紧握呈拳，社会功能受损；表现敏感多疑，自诉电话被监听，感觉有人跟踪自己，觉得周围不安全，自知力缺乏。体格检查：体温36.5℃，脉搏85次/分，呼吸20次/分，血压120/80mmHg。神志清醒，呼吸平稳，对答切题，口齿清晰，查体合作。全身皮肤黏膜无黄染，全身浅表淋巴结无肿大。颈软，无抵抗感，无颈静脉充盈，气管位置居中。胸廓正常，无肋间隙增宽，叩诊双肺呈清音，呼吸音清，未闻及啰音及哮鸣音。心界叩诊无扩大，心率85次/分，节律齐，无杂音。腹部平坦，无压痛及反跳痛，未触及肝脾，肝颈静脉回流征阴性。双下肢无凹陷性浮肿。生理反射存在，病理反射未引出。辅助检查：心电图示窦性心律，心率82次/分，QTc未见明显延长；脑电图示大致正常范围，未见明确癫痫样放电；头颅CT未见明显颅内异常；头颅MRI平扫未见明显器质性异常。",
   "generated_record": {
-    "chief_complaint": "持续担心被人监视、监听，伴睡眠障碍、注意力下降及行为异常3个月",
-    "physical_examination": "神志清楚，对答切题，口齿清晰，查体合作。生命体征平稳，神经系统查体无异常。",
-    "mental_examination": "警觉性增高，思维内容以被害妄想为主，感知觉异常突出，自知力部分受损，情感反应淡漠，注意力涣散，定向力完整。",
-    "past_family_history": "未报告明显情绪低落或兴奋，无躁狂表现。"
+    "chief_complaint": "持续三个月的被监视感、幻听及显著焦虑症状",
+    "physical_examination": "神志清醒，对答切题，口齿清晰，查体合作。生命体征平稳，神经系统检查未见阳性体征，病理反射未引出。",
+    "mental_examination": "持续性被害妄想，坚信他人（包括家人）被控制，自身正被监听与跟踪，伴有持续性幻听，内容为低语式指令（如“别相信他们”），多在独处或夜间出现，且无法通过外部验证消除。患者自述睡眠障碍明显，常于夜间惊醒，伴心悸、出汗、强烈恐惧感，回避社交与独处环境。情绪状态以紧张、无助为主，虽有短暂平静体验，但对失控高度恐惧，存在明显的自我认同危机。否认自杀或伤人意念，无躁狂或抑郁发作史。",
+    "past_family_history": "无躁狂或抑郁发作史。"
   },
   "true_record": {
-    "chief_complaint": "敏感多疑3个月，加重3天",
+    "chief_complaint": "敏感多疑3个多月，加重3天",
     "physical_examination": "体温36.5℃，脉搏85次/分，呼吸20次/分，血压120/80mmHg。神志清醒，呼吸平稳，对答切题，口齿清晰，查体合作。全身皮肤黏膜无黄染，全身浅表淋巴结无肿大。颈软，无抵抗感，无颈静脉充盈，气管位置居中。胸廓正常，无肋间隙增宽，叩诊双肺呈清音，呼吸音清，未闻及啰音及哮鸣音。心界叩诊无扩大，心率85次/分，节律齐，无杂音。腹部平坦，无压痛及反跳痛，未触及肝脾，肝颈静脉回流征阴性。双下肢无凹陷性浮肿。生理反射存在，病理反射未引出。",
     "mental_examination": "患者面无表情，精神检查不合作，偶有自言自语，有时独自傻笑，与周围人交流减少，有时双手紧握呈拳，社会功能受损；表现敏感多疑，自诉电话被监听，感觉有人跟踪自己，觉得周围不安全，自知力缺乏。",
     "past_family_history": "1个多月前曾至门诊就诊，但拒绝检查，未予治疗，基本生活尚能自理。"
   },
   "dimensions": {
-    "past_family_history": {
-      "scoring_results": [
-        {
-          "id": 1,
-          "element": "既往史",
-          "true_has_element": true,
-          "coverage_score": 0,
-          "accuracy_score": 0,
-          "coverage_reasoning": "True中提及既往门诊就诊情况，Test未包含相关信息。",
-          "accuracy_reasoning": "Test未包含既往门诊就诊情况，因此准确度评分为0。"
-        },
-        {
-          "id": 2,
-          "element": "个人史",
-          "true_has_element": false,
-          "coverage_score": "skip",
-          "accuracy_score": "skip",
-          "coverage_reasoning": "True中未提及个人史。",
-          "accuracy_reasoning": "True中未提及个人史。"
-        },
-        {
-          "id": 3,
-          "element": "家族史",
-          "true_has_element": false,
-          "coverage_score": "skip",
-          "accuracy_score": "skip",
-          "coverage_reasoning": "True中未提及家族史。",
-          "accuracy_reasoning": "True中未提及家族史。"
-        },
-        {
-          "id": 4,
-          "element": "物质接触史",
-          "true_has_element": false,
-          "coverage_score": "skip",
-          "accuracy_score": "skip",
-          "coverage_reasoning": "True中未提及物质接触史。",
-          "accuracy_reasoning": "True中未提及物质接触史。"
-        }
-      ],
-      "total_score": 0,
-      "max_score": 2,
-      "coverage_total": 0,
-      "accuracy_total": 0,
-      "summary": "生成病历未能覆盖标准病历中的既往史要素，导致评分较低。",
-      "percentage": 0.0,
-      "coverage_percentage": 0.0,
-      "accuracy_percentage": 0.0,
-      "dimension_weight": 0.25,
-      "weighted_score": 0.0
-    },
     "chief_complaint": {
       "scoring_results": [
         {
@@ -81,8 +31,8 @@
           "true_has_element": true,
           "coverage_score": 1,
           "accuracy_score": 1,
-          "coverage_reasoning": "test中明确提及起病时间3个月，与true一致。",
-          "accuracy_reasoning": "test的起病时间描述与true一致，表述准确。"
+          "coverage_reasoning": "test中明确提及起病时间或病程时长。",
+          "accuracy_reasoning": "与true临床语义一致，'3个月'与'3个多月'视为同义。"
         },
         {
           "id": 2,
@@ -90,8 +40,8 @@
           "true_has_element": true,
           "coverage_score": 1,
           "accuracy_score": 0,
-          "coverage_reasoning": "test中包含主要症状，如敏感多疑。",
-          "accuracy_reasoning": "test中描述为持续担心被监视、监听，与true的敏感多疑不完全一致。"
+          "coverage_reasoning": "test中包含敏感多疑的症状。",
+          "accuracy_reasoning": "test中描述为'被监视感、幻听及显著焦虑症状'，与true中的'敏感多疑'不完全等价。"
         },
         {
           "id": 3,
@@ -99,26 +49,26 @@
           "true_has_element": false,
           "coverage_score": "skip",
           "accuracy_score": "skip",
-          "coverage_reasoning": "true中未提及具体症状表现。",
-          "accuracy_reasoning": "true中未提及具体症状表现。"
+          "coverage_reasoning": "true中未提及该要素。",
+          "accuracy_reasoning": "true中未提及该要素。"
         },
         {
           "id": 4,
           "element": "伴随症状",
-          "true_has_element": true,
-          "coverage_score": 1,
-          "accuracy_score": 0,
-          "coverage_reasoning": "test中提及伴随症状如睡眠障碍、注意力下降及行为异常。",
-          "accuracy_reasoning": "test中描述的伴随症状与true中的加重3天不一致。"
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "true中未提及该要素。",
+          "accuracy_reasoning": "true中未提及该要素。"
         },
         {
           "id": 5,
           "element": "病程演变",
-          "true_has_element": false,
-          "coverage_score": "skip",
-          "accuracy_score": "skip",
-          "coverage_reasoning": "true中未提及病程演变。",
-          "accuracy_reasoning": "true中未提及病程演变。"
+          "true_has_element": true,
+          "coverage_score": 1,
+          "accuracy_score": 1,
+          "coverage_reasoning": "test提及症状加重的信息。",
+          "accuracy_reasoning": "病程演变描述与true临床语义一致。"
         },
         {
           "id": 6,
@@ -126,97 +76,20 @@
           "true_has_element": true,
           "coverage_score": 1,
           "accuracy_score": 1,
-          "coverage_reasoning": "test中提及症状持续3个月，与加重3天在时间上相关。",
-          "accuracy_reasoning": "test中提及症状持续3个月，符合加重因素的时间点描述。"
+          "coverage_reasoning": "test提及症状加重的时间点。",
+          "accuracy_reasoning": "加重因素描述与true临床语义一致。"
         }
       ],
-      "total_score": 6,
+      "total_score": 7,
       "max_score": 8,
       "coverage_total": 4,
-      "accuracy_total": 2,
-      "summary": "整体上，test在起病时间和加重因素上与true一致，但在主要症状和伴随症状的准确度上存在偏差。",
-      "percentage": 75.0,
+      "accuracy_total": 3,
+      "summary": "生成病历在起病时间和病程演变方面与标准病历较为一致，但在主要症状的准确度上存在差异。",
+      "percentage": 87.5,
       "coverage_percentage": 100.0,
-      "accuracy_percentage": 50.0,
+      "accuracy_percentage": 75.0,
       "dimension_weight": 0.25,
-      "weighted_score": 0.1875
-    },
-    "physical_examination": {
-      "scoring_results": [
-        {
-          "id": 1,
-          "element": "生命体征",
-          "true_has_element": true,
-          "coverage_score": 0,
-          "accuracy_score": 0,
-          "coverage_reasoning": "test中未具体提及体温、脉搏、呼吸、血压的数值。",
-          "accuracy_reasoning": "test中未提供具体数值，与true不一致。"
-        },
-        {
-          "id": 2,
-          "element": "一般情况",
-          "true_has_element": true,
-          "coverage_score": 1,
-          "accuracy_score": 1,
-          "coverage_reasoning": "test中包含神志清楚、对答切题、口齿清晰、查体合作。",
-          "accuracy_reasoning": "test中的一般情况描述与true一致。"
-        },
-        {
-          "id": 3,
-          "element": "皮肤黏膜",
-          "true_has_element": true,
-          "coverage_score": 0,
-          "accuracy_score": 0,
-          "coverage_reasoning": "test中未提及皮肤黏膜检查内容。",
-          "accuracy_reasoning": "test中未提供皮肤黏膜检查结果，与true不一致。"
-        },
-        {
-          "id": 4,
-          "element": "头颈部",
-          "true_has_element": true,
-          "coverage_score": 0,
-          "accuracy_score": 0,
-          "coverage_reasoning": "test中未提及头颈部检查内容。",
-          "accuracy_reasoning": "test中未提供头颈部检查结果，与true不一致。"
-        },
-        {
-          "id": 5,
-          "element": "胸部/心肺",
-          "true_has_element": true,
-          "coverage_score": 0,
-          "accuracy_score": 0,
-          "coverage_reasoning": "test中未提及胸部心肺检查内容。",
-          "accuracy_reasoning": "test中未提供胸部心肺检查结果，与true不一致。"
-        },
-        {
-          "id": 6,
-          "element": "腹部",
-          "true_has_element": true,
-          "coverage_score": 0,
-          "accuracy_score": 0,
-          "coverage_reasoning": "test中未提及腹部检查内容。",
-          "accuracy_reasoning": "test中未提供腹部检查结果，与true不一致。"
-        },
-        {
-          "id": 7,
-          "element": "四肢/神经系统",
-          "true_has_element": true,
-          "coverage_score": 1,
-          "accuracy_score": 0,
-          "coverage_reasoning": "test中提及神经系统查体无异常。",
-          "accuracy_reasoning": "test中未具体提及生理反射和病理反射，与true不一致。"
-        }
-      ],
-      "total_score": 3,
-      "max_score": 14,
-      "coverage_total": 2,
-      "accuracy_total": 1,
-      "summary": "test病历在一般情况和神经系统检查方面有部分覆盖，但缺乏具体的生命体征、皮肤黏膜、头颈部、胸部/心肺、腹部检查内容。",
-      "percentage": 21.43,
-      "coverage_percentage": 28.57,
-      "accuracy_percentage": 14.29,
-      "dimension_weight": 0.25,
-      "weighted_score": 0.0536
+      "weighted_score": 0.2188
     },
     "mental_examination": {
       "scoring_results": [
@@ -226,35 +99,35 @@
           "true_has_element": true,
           "coverage_score": 0,
           "accuracy_score": 0,
-          "coverage_reasoning": "test中未提及患者面无表情、精神检查不合作等外观行为。",
-          "accuracy_reasoning": "test中未描述相关外观行为，因此不一致。"
+          "coverage_reasoning": "test未提及面无表情、精神检查不合作、独自傻笑等外观行为内容。",
+          "accuracy_reasoning": "test没有相关内容，无法评估准确度。"
         },
         {
           "id": 2,
           "element": "言语",
-          "true_has_element": true,
-          "coverage_score": 0,
-          "accuracy_score": 0,
-          "coverage_reasoning": "test中未提及患者偶有自言自语。",
-          "accuracy_reasoning": "test中未描述相关言语内容，因此不一致。"
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "true中未提及言语相关内容。",
+          "accuracy_reasoning": "true中未提及言语相关内容。"
         },
         {
           "id": 3,
           "element": "情感",
-          "true_has_element": true,
-          "coverage_score": 1,
-          "accuracy_score": 0,
-          "coverage_reasoning": "test中提及情感反应淡漠。",
-          "accuracy_reasoning": "true中提及患者独自傻笑，test中描述为情感反应淡漠，不一致。"
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "true中未提及情感相关内容。",
+          "accuracy_reasoning": "true中未提及情感相关内容。"
         },
         {
           "id": 4,
           "element": "感知觉",
-          "true_has_element": true,
-          "coverage_score": 1,
-          "accuracy_score": 0,
-          "coverage_reasoning": "test中提及感知觉异常突出。",
-          "accuracy_reasoning": "test中描述为感知觉异常，但未具体说明幻觉或错觉，与true不一致。"
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "true中未提及感知觉相关内容。",
+          "accuracy_reasoning": "true中未提及感知觉相关内容。"
         },
         {
           "id": 5,
@@ -262,8 +135,8 @@
           "true_has_element": false,
           "coverage_score": "skip",
           "accuracy_score": "skip",
-          "coverage_reasoning": "true中未提及思维形式。",
-          "accuracy_reasoning": "true中未提及思维形式。"
+          "coverage_reasoning": "true中未提及思维形式相关内容。",
+          "accuracy_reasoning": "true中未提及思维形式相关内容。"
         },
         {
           "id": 6,
@@ -271,8 +144,8 @@
           "true_has_element": true,
           "coverage_score": 1,
           "accuracy_score": 1,
-          "coverage_reasoning": "test中提及思维内容以被害妄想为主。",
-          "accuracy_reasoning": "test中描述的被害妄想与true一致。"
+          "coverage_reasoning": "test包含被害妄想、监听、跟踪等思维内容。",
+          "accuracy_reasoning": "test描述与true临床语义一致，均涉及被害妄想和监听、跟踪的内容。"
         },
         {
           "id": 7,
@@ -280,29 +153,156 @@
           "true_has_element": false,
           "coverage_score": "skip",
           "accuracy_score": "skip",
-          "coverage_reasoning": "true中未提及认知功能。",
-          "accuracy_reasoning": "true中未提及认知功能。"
+          "coverage_reasoning": "true中未提及认知功能相关内容。",
+          "accuracy_reasoning": "true中未提及认知功能相关内容。"
         },
         {
           "id": 8,
           "element": "自知力",
           "true_has_element": true,
-          "coverage_score": 1,
+          "coverage_score": 0,
           "accuracy_score": 0,
-          "coverage_reasoning": "test中提及自知力部分受损。",
-          "accuracy_reasoning": "true中描述为自知力缺乏，test中描述为自知力部分受损，不一致。"
+          "coverage_reasoning": "test未提及自知力缺乏的内容。",
+          "accuracy_reasoning": "test没有相关内容，无法评估准确度。"
         }
       ],
-      "total_score": 5,
-      "max_score": 12,
-      "coverage_total": 4,
+      "total_score": 2,
+      "max_score": 6,
+      "coverage_total": 1,
       "accuracy_total": 1,
-      "summary": "test病历在思维内容和自知力方面与true病历有部分一致，但在外观行为、言语、情感和感知觉方面存在较大差异，覆盖度和准确度均较低。",
-      "percentage": 41.67,
-      "coverage_percentage": 66.67,
-      "accuracy_percentage": 16.67,
+      "summary": "test在思维内容方面与true一致，但缺少外观行为和自知力的相关描述。",
+      "percentage": 33.33,
+      "coverage_percentage": 33.33,
+      "accuracy_percentage": 33.33,
       "dimension_weight": 0.25,
-      "weighted_score": 0.1042
+      "weighted_score": 0.0833
+    },
+    "physical_examination": {
+      "scoring_results": [
+        {
+          "id": 1,
+          "element": "生命体征",
+          "true_has_element": true,
+          "coverage_score": 0,
+          "accuracy_score": 0,
+          "coverage_reasoning": "test中未包含具体的生命体征项目。",
+          "accuracy_reasoning": "test中未提供具体数值，无法与true进行比较。"
+        },
+        {
+          "id": 2,
+          "element": "一般情况",
+          "true_has_element": true,
+          "coverage_score": 1,
+          "accuracy_score": 1,
+          "coverage_reasoning": "test中包含了true中的一般情况项目。",
+          "accuracy_reasoning": "test中的一般情况描述与true一致。"
+        },
+        {
+          "id": 3,
+          "element": "皮肤黏膜",
+          "true_has_element": true,
+          "coverage_score": 0,
+          "accuracy_score": 0,
+          "coverage_reasoning": "test中未包含皮肤黏膜的检查内容。",
+          "accuracy_reasoning": "test中未提供皮肤黏膜的检查结果，无法与true进行比较。"
+        },
+        {
+          "id": 4,
+          "element": "头颈部",
+          "true_has_element": true,
+          "coverage_score": 0,
+          "accuracy_score": 0,
+          "coverage_reasoning": "test中未包含头颈部的检查内容。",
+          "accuracy_reasoning": "test中未提供头颈部的检查结果，无法与true进行比较。"
+        },
+        {
+          "id": 5,
+          "element": "胸部/心肺",
+          "true_has_element": true,
+          "coverage_score": 0,
+          "accuracy_score": 0,
+          "coverage_reasoning": "test中未包含胸部心肺的检查内容。",
+          "accuracy_reasoning": "test中未提供胸部心肺的检查结果，无法与true进行比较。"
+        },
+        {
+          "id": 6,
+          "element": "腹部",
+          "true_has_element": true,
+          "coverage_score": 0,
+          "accuracy_score": 0,
+          "coverage_reasoning": "test中未包含腹部的检查内容。",
+          "accuracy_reasoning": "test中未提供腹部的检查结果，无法与true进行比较。"
+        },
+        {
+          "id": 7,
+          "element": "四肢/神经系统",
+          "true_has_element": true,
+          "coverage_score": 1,
+          "accuracy_score": 1,
+          "coverage_reasoning": "test中包含了神经系统的检查内容。",
+          "accuracy_reasoning": "test中的神经系统检查结果与true一致。"
+        }
+      ],
+      "total_score": 4,
+      "max_score": 14,
+      "coverage_total": 2,
+      "accuracy_total": 2,
+      "summary": "生成病历在一般情况和神经系统检查方面与标准病历一致，但缺少生命体征、皮肤黏膜、头颈部、胸部/心肺和腹部的具体检查内容。",
+      "percentage": 28.57,
+      "coverage_percentage": 28.57,
+      "accuracy_percentage": 28.57,
+      "dimension_weight": 0.25,
+      "weighted_score": 0.0714
+    },
+    "past_family_history": {
+      "scoring_results": [
+        {
+          "id": 1,
+          "element": "既往史",
+          "true_has_element": true,
+          "coverage_score": 0,
+          "accuracy_score": 0,
+          "coverage_reasoning": "true中提及了既往就诊但拒绝检查的信息，test中未包含此内容。",
+          "accuracy_reasoning": "test中的描述与true的既往史内容不符。"
+        },
+        {
+          "id": 2,
+          "element": "个人史",
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "true中未提及个人史。",
+          "accuracy_reasoning": "true中未提及个人史。"
+        },
+        {
+          "id": 3,
+          "element": "家族史",
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "true中未提及家族史。",
+          "accuracy_reasoning": "true中未提及家族史。"
+        },
+        {
+          "id": 4,
+          "element": "物质接触史",
+          "true_has_element": false,
+          "coverage_score": "skip",
+          "accuracy_score": "skip",
+          "coverage_reasoning": "true中未提及物质接触史。",
+          "accuracy_reasoning": "true中未提及物质接触史。"
+        }
+      ],
+      "total_score": 0,
+      "max_score": 2,
+      "coverage_total": 0,
+      "accuracy_total": 0,
+      "summary": "待评分的生成病历在既往史的覆盖度和准确度上均未达到标准病历的要求，其他要素未提及。",
+      "percentage": 0.0,
+      "coverage_percentage": 0.0,
+      "accuracy_percentage": 0.0,
+      "dimension_weight": 0.25,
+      "weighted_score": 0.0
     }
   }
 }
