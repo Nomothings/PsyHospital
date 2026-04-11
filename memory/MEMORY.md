@@ -1,0 +1,5 @@
+- [项目概述](project_overview.md) — 精神科多阶段AI问诊评估系统，6个阶段+评估
+- [病例1009904数据审查](case_1009904_review.md) — 8项数据异常和评估口径问题
+- [数据格式规范](data_format_spec.md) — cases.jsonl和ground_truth.jsonl字段定义
+- [关键Bug清单](critical_bugs.md) — Phase2 TP口径、Phase3幻觉等关键问题
+- [评估指标口径](eval_metrics.md) — 各阶段评估指标计算口径和已知偏差

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp \"C:/Users/David/Desktop/MentalHospital-main/bg/phase2.png\" \"C:/Users/David/Desktop/MentalHospital-main/web/static/bg/\")",
+      "Bash(cp \"C:/Users/David/Desktop/MentalHospital-main/bg/phase3.png\" \"C:/Users/David/Desktop/MentalHospital-main/web/static/bg/\")"
+    ]
+  }
+}
