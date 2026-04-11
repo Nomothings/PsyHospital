@@ -41,11 +41,11 @@ const Interview = {
                     <div class="interview-header__left">
                         <h3 class="interview-header__title">病史采集</h3>
                         <span class="interview-header__subtitle">第一阶段访谈</span>
-                    </div>
-                    <div class="interview-header__right">
                         <div class="interview-header__turns">
                             第 {{ turnCount }} 轮
                         </div>
+                    </div>
+                    <div class="interview-header__right">
                         <div class="interview-header__status">
                             <span class="interview-header__status-dot"
                                   :class="{ 'typing': isTyping }"></span>
@@ -73,9 +73,8 @@ const Interview = {
                         </div>
                         <div class="chat-bubble__content">
                             <div class="chat-bubble__text">
-                                您正在与患者进行病史采集训练。请以医生身份进行问诊，注意问诊的全面性和沟通技巧。
+                                您正在与患者进行临床访谈，注意问诊的全面性和沟通技巧。
                             </div>
-                            <div class="chat-bubble__time">训练提示</div>
                         </div>
                     </div>
 
@@ -263,15 +262,20 @@ const Interview = {
         },
 
         endConversation() {
-            // 保存对话消息到 sessionStorage 供 Phase 2 使用
             const caseId = this.$route.query.id;
             if (caseId) {
                 sessionStorage.setItem('phase2_caseId', caseId);
                 sessionStorage.setItem('phase2_messages', JSON.stringify(this.messages));
+
+                API.saveCaseRecord(caseId, {
+                    caseInfo: {
+                        basicInfomation: this.patientBasicInfo,
+                        physicalExamination: this.patientPhysicalExam,
+                    },
+                    conversation: this.messages,
+                }).catch(err => console.error('[Interview] 保存记录失败:', err));
             }
-            // 结束会话
             if (this.sessionId) API.endChat(this.sessionId);
-            // 跳转到 Phase 2
             this.$router.push({ path: '/phase2', query: { id: caseId } });
         },
 

@@ -206,13 +206,20 @@ const LoginPage = {
 
     methods: {
         handleLogin() {
-            this.loading = true;
-            // 无需校验，直接进入问诊
-            setTimeout(() => {
-                this.loading = false;
-                this.$router.push('/patients');
-                this.$message.success('欢迎回来');
-            }, 800);
+            this.$refs.loginFormRef.validate((valid) => {
+                if (!valid) return;
+
+                this.loading = true;
+                setTimeout(() => {
+                    this.loading = false;
+                    if (this.loginForm.username === 'cquzhongjiang' && this.loginForm.password === 'cqu0526') {
+                        this.$router.push('/patients');
+                        this.$message.success('欢迎回来');
+                    } else {
+                        this.$message.error('用户名或密码错误');
+                    }
+                }, 800);
+            });
         },
 
         handleRegister() {

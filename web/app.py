@@ -191,6 +191,50 @@ case_writings = []
 # In-memory: Phase 3 诊断记录
 diagnoses = []
 
+# In-memory: 问诊过程记录 case_id -> { caseInfo, conversation, exams, caseText, diagnosis }
+case_records = {}
+
+
+@app.route("/api/record/save", methods=["POST"])
+def api_record_save():
+    """保存问诊过程记录
+
+    接收前端传来的完整问诊数据，包括：
+    - caseInfo: 患者基本信息
+    - conversation: 医患对话记录
+    - exams: 检查记录
+    - caseText: 病历书写
+    - diagnosis: 诊断结果
+    """
+    data = request.get_json() or {}
+    case_id = data.get("case_id")
+    if not case_id:
+        return jsonify({"error": "case_id required"}), 400
+
+    # 如果该病例已有记录，则合并更新
+    existing = case_records.get(case_id, {})
+
+    record = {
+        "caseInfo": data.get("caseInfo", existing.get("caseInfo")),
+        "conversation": data.get("conversation", existing.get("conversation", [])),
+        "exams": data.get("exams", existing.get("exams", [])),
+        "caseText": data.get("caseText", existing.get("caseText", "")),
+        "diagnosis": data.get("diagnosis", existing.get("diagnosis")),
+    }
+
+    case_records[case_id] = record
+
+    return jsonify({"status": "ok", "case_id": case_id})
+
+
+@app.route("/api/record/<case_id>")
+def api_record_get(case_id):
+    """获取指定病例的问诊过程记录"""
+    record = case_records.get(case_id)
+    if not record:
+        return jsonify({"error": "Record not found"}), 404
+    return jsonify(record)
+
 
 @app.route("/api/chat/start", methods=["POST"])
 def api_chat_start():

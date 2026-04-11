@@ -170,6 +170,16 @@ const Phase2Check = {
 
         goToPhase3() {
             sessionStorage.setItem('phase2_checkedResults', JSON.stringify(this.checkedResults));
+
+            const examRecords = Object.entries(this.checkedResults).map(([name, result]) => ({
+                name,
+                result,
+            }));
+
+            API.saveCaseRecord(this.caseId, {
+                exams: examRecords,
+            }).catch(err => console.error('[Phase2Check] 保存记录失败:', err));
+
             this.$router.push({ path: '/phase3', query: { id: this.caseId } });
         },
     },

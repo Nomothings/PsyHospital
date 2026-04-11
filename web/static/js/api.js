@@ -171,4 +171,33 @@ const API = {
         }
         return await response.json();
     },
+
+    // --- 问诊过程记录 ---
+
+    // 保存问诊记录
+    async saveCaseRecord(caseId, record) {
+        const response = await fetch(this.BASE_URL + "/api/record/save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                case_id: caseId,
+                ...record,
+            }),
+        });
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.error || `HTTP ${response.status}`);
+        }
+        return await response.json();
+    },
+
+    // 获取问诊记录
+    async getCaseRecord(caseId) {
+        const response = await fetch(this.BASE_URL + `/api/record/${caseId}`);
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.error || `HTTP ${response.status}`);
+        }
+        return await response.json();
+    },
 };

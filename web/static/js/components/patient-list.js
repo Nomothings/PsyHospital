@@ -18,7 +18,6 @@ const PatientList = {
                         <el-icon :size="20" color="#fff"><FirstAidKit /></el-icon>
                     </div>
                     <h2 class="patient-list-header__title">MentalHospital</h2>
-                    <span class="patient-list-header__tag">医学生访谈训练</span>
                 </div>
                 <div class="patient-list-header__right">
                     <el-button text @click="handleLogout" class="patient-list-header__logout">
@@ -34,12 +33,8 @@ const PatientList = {
                 <div class="patient-list-hero">
                     <div class="patient-list-hero__badge">
                         <span class="pulse-dot"></span>
-                        <span>模拟训练模式</span>
                     </div>
                     <h1 class="patient-list-hero__title">选择患者</h1>
-                    <p class="patient-list-hero__subtitle">
-                        选择一个模拟患者，开始病史采集训练
-                    </p>
                     <div class="hero-divider"></div>
                 </div>
 
@@ -53,12 +48,8 @@ const PatientList = {
                         size="large"
                         class="patient-list-search__input"
                     />
-                    <span class="patient-list-search__count" v-if="!searchText">
-                        共 {{ patients.length }} 位患者
-                    </span>
-                    <span class="patient-list-search__count" v-else>
-                        找到 {{ filteredPatients.length }} 位患者
-                    </span>
+                   
+                   
                 </div>
 
                 <!-- 患者卡片列表 -->
@@ -70,7 +61,7 @@ const PatientList = {
                             <div class="patient-card__name">患者 {{ patient.id }}</div>
                             <div class="patient-card__basic">{{ patient.basicInfomation || '暂无信息' }}</div>
                         </div>
-                        <div class="patient-card__right">
+                        <div class="patient-card__actions">
                             <el-button
                                 type="primary"
                                 round
@@ -80,6 +71,16 @@ const PatientList = {
                             >
                                 <el-icon :size="16"><ChatDotRound /></el-icon>
                                 开始问诊
+                            </el-button>
+                            <el-button
+                                type="primary"
+                                round
+                                size="default"
+                                @click.stop="viewRecord(patient)"
+                                class="patient-card__record-btn"
+                            >
+                                <el-icon :size="16"><Document /></el-icon>
+                                查看记录
                             </el-button>
                         </div>
                     </div>
@@ -105,6 +106,7 @@ const PatientList = {
         ChatDotRound() { return ElementPlusIconsVue.ChatDotRound; },
         FirstAidKit() { return ElementPlusIconsVue.FirstAidKit; },
         SwitchButton() { return ElementPlusIconsVue.SwitchButton; },
+        Document() { return ElementPlusIconsVue.Document; },
 
         filteredPatients() {
             if (!this.searchText) return this.patients;
@@ -135,6 +137,13 @@ const PatientList = {
         selectPatient(patient) {
             this.$router.push({
                 path: '/phase1',
+                query: { id: patient.id },
+            });
+        },
+
+        viewRecord(patient) {
+            this.$router.push({
+                path: '/record',
                 query: { id: patient.id },
             });
         },
