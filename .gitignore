@@ -1,6 +1,10 @@
 # Environment variables
 .env
 
+# Runtime data (generated during execution)
+data/output/
+web/data/
+
 # Python
 __pycache__/
 *.py[cod]

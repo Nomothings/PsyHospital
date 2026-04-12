@@ -108,11 +108,6 @@ def create_patient(
     return patient
 
 
-# 便捷函数别名
-init_patient = create_patient
-start_patient = create_patient
-
-
 if __name__ == "__main__":
     # 测试启动虚拟患者
     print("=" * 50)

@@ -1,0 +1,175 @@
+/* ============================================================
+   虚拟患者组件
+   ============================================================ */
+
+.virtual-patient {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ---- 头像区域 ---- */
+.virtual-patient__avatar-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.virtual-patient__face {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(94, 214, 200, 0.25);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.5s, box-shadow 0.5s;
+    overflow: hidden;
+}
+
+.virtual-patient__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* 情绪标签 */
+.virtual-patient__emotion-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.virtual-patient__emotion-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #5ed6c8;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* 情绪颜色 */
+.virtual-patient__emotion-tag .emotion-nervous { background: #E6A23C; }
+.virtual-patient__emotion-tag .emotion-suspicious { background: #9C27B0; }
+.virtual-patient__emotion-tag .emotion-sad { background: #5B86E5; }
+.virtual-patient__emotion-tag .emotion-angry { background: #F56C6C; }
+.virtual-patient__emotion-tag .emotion-defensive { background: #FF9800; }
+.virtual-patient__emotion-tag .emotion-confused { background: #795548; }
+.virtual-patient__emotion-tag .emotion-relaxed { background: #67C23A; }
+.virtual-patient__emotion-tag .emotion-hesitant { background: #B0BEC5; }
+.virtual-patient__emotion-tag .emotion-distressed { background: #E91E63; }
+
+/* ---- 患者信息 ---- */
+.virtual-patient__info {
+    padding: 14px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.virtual-patient__name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.virtual-patient__basic {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.virtual-patient__divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    margin-bottom: 10px;
+}
+
+.virtual-patient__complaint-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+
+.virtual-patient__complaint-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.virtual-patient__complaint-item {
+    font-size: 11px;
+    color: rgba(94, 214, 200, 0.8);
+    background: rgba(94, 214, 200, 0.1);
+    border: 1px solid rgba(94, 214, 200, 0.2);
+    padding: 2px 8px;
+    border-radius: 8px;
+}
+
+.virtual-patient__complaint-more {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.virtual-patient__physical-exam-text {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 120px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.virtual-patient__physical-exam-text::-webkit-scrollbar {
+    width: 3px;
+}
+
+.virtual-patient__physical-exam-text::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.virtual-patient__physical-exam-text::-webkit-scrollbar-thumb {
+    background: rgba(94, 214, 200, 0.3);
+    border-radius: 2px;
+}
+
+/* ---- 最近患者发言 ---- */
+.virtual-patient__last-message {
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.virtual-patient__last-message-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #5ed6c8;
+    margin-bottom: 4px;
+}
+
+.virtual-patient__last-message-text {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+}

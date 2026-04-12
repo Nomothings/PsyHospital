@@ -99,13 +99,50 @@ const CaseRecord = {
                     </div>
 
                     <!-- Phase 3: 病历书写 -->
-                    <div class="case-record-section" v-if="caseText">
+                    <div class="case-record-section" v-if="caseForm">
                         <div class="case-record-section__header">
                             <el-icon :size="20" color="#5ed6c8"><EditPen /></el-icon>
                             <h4 class="case-record-section__title">第三阶段：病历书写</h4>
                         </div>
                         <div class="case-record-section__body">
-                            <div class="case-record-case-text">{{ caseText }}</div>
+                            <div class="case-record-case-form">
+                                <div class="case-record-cf-row" v-if="caseForm.name">
+                                    <span class="case-record-cf-label">姓名</span>
+                                    <span class="case-record-cf-value">{{ caseForm.name }}</span>
+                                </div>
+                                <div class="case-record-cf-row" v-if="caseForm.age">
+                                    <span class="case-record-cf-label">年龄</span>
+                                    <span class="case-record-cf-value">{{ caseForm.age }}</span>
+                                </div>
+                                <div class="case-record-cf-row" v-if="caseForm.gender">
+                                    <span class="case-record-cf-label">性别</span>
+                                    <span class="case-record-cf-value">{{ caseForm.gender }}</span>
+                                </div>
+                                <div class="case-record-cf-row" v-if="caseForm.chiefComplaint">
+                                    <span class="case-record-cf-label">主诉</span>
+                                    <span class="case-record-cf-value">{{ caseForm.chiefComplaint }}</span>
+                                </div>
+                                <div class="case-record-cf-row" v-if="caseForm.familyHistory">
+                                    <span class="case-record-cf-label">家族史</span>
+                                    <span class="case-record-cf-value">{{ caseForm.familyHistory }}</span>
+                                </div>
+                                <div class="case-record-cf-row" v-if="caseForm.pastHistory">
+                                    <span class="case-record-cf-label">既往史</span>
+                                    <span class="case-record-cf-value">{{ caseForm.pastHistory }}</span>
+                                </div>
+                                <div class="case-record-cf-row" v-if="caseForm.physicalExam">
+                                    <span class="case-record-cf-label">体格检查</span>
+                                    <span class="case-record-cf-value">{{ caseForm.physicalExam }}</span>
+                                </div>
+                                <div class="case-record-cf-row" v-if="caseForm.mentalExam">
+                                    <span class="case-record-cf-label">精神检查</span>
+                                    <span class="case-record-cf-value">{{ caseForm.mentalExam }}</span>
+                                </div>
+                                <div class="case-record-cf-row" v-if="caseForm.auxiliaryExam">
+                                    <span class="case-record-cf-label">辅助检查</span>
+                                    <span class="case-record-cf-value">{{ caseForm.auxiliaryExam }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -151,6 +188,7 @@ const CaseRecord = {
             conversationMessages: [],
             examRecords: [],
             caseText: '',
+            caseForm: null,
             diagnosis: null,
         };
     },
@@ -185,6 +223,7 @@ const CaseRecord = {
                     this.conversationMessages = record.conversation || [];
                     this.examRecords = record.exams || [];
                     this.caseText = record.caseText || '';
+                    this.caseForm = record.caseForm || null;
                     this.diagnosis = record.diagnosis || null;
                 }
             } catch (err) {

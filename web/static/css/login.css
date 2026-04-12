@@ -1,0 +1,273 @@
+/* ============================================================
+   登录页面 — 毛玻璃特效
+   ============================================================ */
+
+.login-page {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a2a3a;
+}
+
+.login-page__bg {
+    position: absolute;
+    inset: 0;
+    background: url('/static/bg/bg1.png') center / cover no-repeat;
+    filter: blur(2px) brightness(0.7);
+    transform: scale(1.05);
+    z-index: 0;
+}
+
+.login-page__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(26, 42, 58, 0.6) 0%,
+        rgba(26, 42, 58, 0.3) 50%,
+        rgba(26, 42, 58, 0.7) 100%
+    );
+    z-index: 1;
+}
+
+/* 装饰粒子 — 毛玻璃光球 */
+.login-page__orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    z-index: 1;
+    pointer-events: none;
+    animation: orbFloat 8s ease-in-out infinite;
+}
+
+.login-page__orb:nth-child(2) {
+    background: radial-gradient(circle, #5ed6c8, transparent);
+    animation-delay: -2s;
+}
+
+.login-page__orb:nth-child(3) {
+    background: radial-gradient(circle, #7ee8d8, transparent);
+    animation-delay: -4s;
+}
+
+.login-page__orb:nth-child(4) {
+    background: radial-gradient(circle, #3ec4b0, transparent);
+    animation-delay: -6s;
+}
+
+/* --- 毛玻璃卡片 --- */
+.login-card {
+    position: relative;
+    z-index: 10;
+    width: 440px;
+    max-width: 92vw;
+    padding: 44px 40px;
+
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(30px) saturate(200%);
+    -webkit-backdrop-filter: blur(30px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 28px;
+    box-shadow:
+        0 12px 48px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    animation: cardFadeIn 0.8s ease-out;
+}
+
+/* 头部 */
+.login-card__header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.login-card__logo {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.login-card__logo .el-icon {
+    filter: drop-shadow(0 0 12px rgba(94, 214, 200, 0.4));
+    animation: logoPulse 3s ease-in-out infinite;
+}
+
+.login-card__title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 8px;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    letter-spacing: 1px;
+}
+
+.login-card__subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Tab 切换 */
+.login-card__tabs {
+    display: flex;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 5px;
+    margin-bottom: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.login-card__tab {
+    flex: 1;
+    text-align: center;
+    padding: 11px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.55);
+    border-radius: 11px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.login-card__tab:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.login-card__tab.active {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    font-weight: 600;
+}
+
+/* 表单 */
+.login-card__form {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.login-card__form .el-form-item {
+    margin-bottom: 16px;
+}
+
+/* 毛玻璃输入框覆盖 */
+.login-input .el-input__wrapper {
+    background: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15) inset !important;
+    border-radius: 12px !important;
+    padding: 2px 14px !important;
+    transition: all 0.3s;
+}
+
+.login-input .el-input__wrapper:hover {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3) inset !important;
+}
+
+.login-input .el-input__wrapper.is-focus {
+    box-shadow: 0 0 0 1px rgba(94, 214, 200, 0.6) inset !important;
+}
+
+.login-input .el-input__inner {
+    color: #fff !important;
+    font-size: 14px;
+}
+
+.login-input .el-input__inner::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.login-input .el-input__prefix {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.login-input .el-input__password {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* 记住我 + 忘记密码 */
+.login-card__actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.login-card__actions .el-checkbox__label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+}
+
+.login-card__actions .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #5ed6c8;
+    border-color: #5ed6c8;
+}
+
+/* 提交按钮 */
+.login-card__submit {
+    width: 100%;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    height: 46px;
+    background: linear-gradient(135deg, #5ed6c8, #3ec4b0);
+    border: none;
+    box-shadow: 0 4px 16px rgba(94, 214, 200, 0.35);
+    transition: all 0.3s;
+}
+
+.login-card__submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(94, 214, 200, 0.5);
+}
+
+.login-card__submit:active {
+    transform: translateY(0);
+}
+
+/* 底部 */
+.login-card__footer {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-card__footer-text {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.login-card__footer .el-link {
+    color: #5ed6c8 !important;
+    font-weight: 500;
+}
+
+/* 覆盖 Element Plus checkbox 样式 */
+.login-card .el-checkbox__inner {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* --- 响应式 --- */
+@media (max-width: 768px) {
+    .login-page__bg {
+        filter: blur(8px) brightness(0.8);
+    }
+
+    .login-card {
+        padding: 32px 24px;
+        border-radius: 20px;
+    }
+
+    .login-card__title {
+        font-size: 18px;
+    }
+}

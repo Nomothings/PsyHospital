@@ -182,11 +182,6 @@ def chat_and_evaluate_instrument(
     return result
 
 
-# 便捷函数别名
-init_instrument = create_instrument
-start_instrument = create_instrument
-
-
 if __name__ == "__main__":
     print("=" * 50)
     print("测试启动虚拟检查仪器 + 指标计算")

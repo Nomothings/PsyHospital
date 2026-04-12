@@ -34,7 +34,7 @@ const Phase3Diagnosis = {
                         size="small"
                         round
                         @click="goToDiagnosis"
-                        :disabled="!caseText.trim()"
+                        :disabled="!isCaseFormValid"
                         class="phase3-header__next-btn"
                     >
                         完成病历书写，进入诊断
@@ -110,14 +110,55 @@ const Phase3Diagnosis = {
                                     请根据左侧信息书写完整病历
                                 </p>
                             </div>
-                            <el-input
-                                v-model="caseText"
-                                type="textarea"
-                                :rows="24"
-                                placeholder="请根据访谈与检查结果书写病例（包括主诉、现病史、精神症状、功能受损情况等）"
-                                resize="none"
-                                class="phase3-case-textarea"
-                            />
+
+                            <!-- 患者信息填写区 -->
+                            <div class="case-info-readonly" v-if="caseInfo">
+                                <div class="case-info-readonly__grid">
+                                    <div class="case-info-row">
+                                        <span class="case-info-row__label">姓名</span>
+                                        <input v-model="caseForm.name" class="case-info-row__input" placeholder="请输入" />
+                                    </div>
+                                    <div class="case-info-row">
+                                        <span class="case-info-row__label">年龄</span>
+                                        <input v-model="caseForm.age" class="case-info-row__input" placeholder="请输入" />
+                                    </div>
+                                    <div class="case-info-row">
+                                        <span class="case-info-row__label">性别</span>
+                                        <input v-model="caseForm.gender" class="case-info-row__input" placeholder="请输入" />
+                                    </div>
+                                </div>
+                                <div class="case-info-divider"></div>
+                                <div class="case-info-section">
+                                    <span class="case-info-section__label">主诉</span>
+                                    <textarea v-model="caseForm.chiefComplaint" class="case-info-section__input" rows="2" placeholder="请输入主诉"></textarea>
+                                </div>
+                                <div class="case-info-divider"></div>
+                                <div class="case-info-section">
+                                    <span class="case-info-section__label">家族史</span>
+                                    <textarea v-model="caseForm.familyHistory" class="case-info-section__input" rows="2" placeholder="请输入家族史"></textarea>
+                                </div>
+                                <div class="case-info-divider"></div>
+                                <div class="case-info-section">
+                                    <span class="case-info-section__label">既往史</span>
+                                    <textarea v-model="caseForm.pastHistory" class="case-info-section__input" rows="2" placeholder="请输入既往史"></textarea>
+                                </div>
+                                <div class="case-info-divider"></div>
+                                <div class="case-info-section">
+                                    <span class="case-info-section__label">体格检查</span>
+                                    <textarea v-model="caseForm.physicalExam" class="case-info-section__input" rows="4" placeholder="请输入体格检查"></textarea>
+                                </div>
+                                <div class="case-info-divider"></div>
+                                <div class="case-info-section">
+                                    <span class="case-info-section__label">精神检查</span>
+                                    <textarea v-model="caseForm.mentalExam" class="case-info-section__input" rows="3" placeholder="请输入精神检查"></textarea>
+                                </div>
+                                <div class="case-info-divider"></div>
+                                <div class="case-info-section">
+                                    <span class="case-info-section__label">辅助检查</span>
+                                    <textarea v-model="caseForm.auxiliaryExam" class="case-info-section__input" rows="3" placeholder="请输入辅助检查"></textarea>
+                                </div>
+                            </div>
+                            
                         </div>
                     </main>
                 </template>
@@ -215,6 +256,17 @@ const Phase3Diagnosis = {
             caseInfo: null,
             phase1Messages: [],
             phase2Results: {},
+            caseForm: {
+                name: '',
+                age: '',
+                gender: '',
+                chiefComplaint: '',
+                familyHistory: '',
+                pastHistory: '',
+                physicalExam: '',
+                mentalExam: '',
+                auxiliaryExam: '',
+            },
             form: {
                 category: '',
                 disease: '',
@@ -413,12 +465,16 @@ const Phase3Diagnosis = {
     },
 
     methods: {
+        isCaseFormValid() {
+            return this.caseForm.name && this.caseForm.chiefComplaint && this.caseForm.physicalExam && this.caseForm.mentalExam;
+        },
+
         goToDiagnosis() {
-            if (!this.caseText.trim()) {
-                this.$message.warning('请先书写病历');
+            if (!this.isCaseFormValid()) {
+                this.$message.warning('请至少填写姓名、主诉、体格检查和精神检查');
                 return;
             }
-            sessionStorage.setItem('phase3_caseText', this.caseText.trim());
+            sessionStorage.setItem('phase3_caseForm', JSON.stringify(this.caseForm));
             this.subStep = 'diagnosis';
             this.$message.success('病历已保存，请填写诊断信息');
         },
@@ -429,7 +485,7 @@ const Phase3Diagnosis = {
 
                 this.submitting = true;
                 try {
-                    await API.submitCaseWriting(this.caseId, this.caseText.trim());
+                    await API.submitCaseWriting(this.caseId, JSON.stringify(this.caseForm));
 
                     const result = await API.submitDiagnosis(this.caseId, {
                         category: this.form.category,
@@ -438,7 +494,7 @@ const Phase3Diagnosis = {
                     });
 
                     await API.saveCaseRecord(this.caseId, {
-                        caseText: this.caseText.trim(),
+                        caseForm: this.caseForm,
                         diagnosis: {
                             category: this.form.category,
                             disease: this.form.disease,
@@ -451,7 +507,7 @@ const Phase3Diagnosis = {
 
                     sessionStorage.setItem('phase3_result', JSON.stringify({
                         caseId: this.caseId,
-                        caseText: this.caseText.trim(),
+                        caseForm: this.caseForm,
                         category: this.form.category,
                         disease: this.form.disease,
                         reason: this.form.reason,
@@ -509,9 +565,13 @@ const Phase3Diagnosis = {
                 }
             }
 
-            const savedCaseText = sessionStorage.getItem('phase3_caseText');
-            if (savedCaseText) {
-                this.caseText = savedCaseText;
+            const savedCaseForm = sessionStorage.getItem('phase3_caseForm');
+            if (savedCaseForm) {
+                try {
+                    this.caseForm = JSON.parse(savedCaseForm);
+                } catch (e) {
+                    console.error('[Phase3Diagnosis] 解析 caseForm 失败:', e);
+                }
             }
         },
     },

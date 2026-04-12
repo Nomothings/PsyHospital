@@ -127,6 +127,15 @@ class LLMService:
         # 添加用户消息到历史
         self._history.append({"role": "user", "content": message})
         
+        # 限制对话历史长度，避免 token 超限
+        # 保留 system 消息 + 最近 20 轮对话（40 条消息）
+        MAX_HISTORY_MESSAGES = 42  # 1 system + 40 conversation
+        if len(self._history) > MAX_HISTORY_MESSAGES:
+            # 保留 system 消息和最近的消息
+            system_msgs = [m for m in self._history if m["role"] == "system"]
+            recent_msgs = self._history[-MAX_HISTORY_MESSAGES + len(system_msgs):]
+            self._history = system_msgs + recent_msgs
+        
         # 调用API
         response = self._call_api(self._history)
         
@@ -222,7 +231,14 @@ class LLMService:
         
         # 添加用户消息
         self._history.append({"role": "user", "content": content})
-        
+
+        # 限制对话历史长度（与 chat 方法保持一致）
+        MAX_HISTORY_MESSAGES = 42
+        if len(self._history) > MAX_HISTORY_MESSAGES:
+            system_msgs = [m for m in self._history if m["role"] == "system"]
+            recent_msgs = self._history[-MAX_HISTORY_MESSAGES + len(system_msgs):]
+            self._history = system_msgs + recent_msgs
+
         # 调用API
         response = self._call_api(self._history)
         

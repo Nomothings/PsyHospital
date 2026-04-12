@@ -29,7 +29,7 @@ import sys
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any
 
 # 添加项目根目录到路径
 sys.path.insert(0, str(Path(__file__).parent.parent))

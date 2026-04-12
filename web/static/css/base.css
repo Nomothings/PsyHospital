@@ -1,0 +1,279 @@
+/* ============================================================
+   基础样式 + 统一设计变量
+   ============================================================ */
+
+/* --- CSS 自定义属性（主题色统一管理） --- */
+:root {
+    --color-primary: #5ed6c8;
+    --color-primary-dark: #3ec4b0;
+    --color-primary-deep: #2a5a5a;
+    --color-bg: #f5f7fa;
+    --color-text: #303133;
+    --color-text-secondary: #909399;
+    --color-text-placeholder: #c0c4cc;
+    --color-success: #67C23A;
+    --color-warning: #E6A23C;
+    --color-danger: #F56C6C;
+    --color-white: #fff;
+    --color-border: #ebeef5;
+    --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --radius: 8px;
+    --gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+}
+
+/* --- 基础 --- */
+[v-cloak] {
+    display: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
+    background-color: #f5f7fa;
+    color: #303133;
+}
+
+#app {
+    min-height: 100vh;
+}
+
+/* --- 头部导航 --- */
+.app-header {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid #5ed6c8;
+}
+
+.app-header__title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #5ed6c8;
+    cursor: pointer;
+    margin-right: 40px;
+}
+
+.app-header__nav {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+}
+
+.app-header__nav-item {
+    color: #606266;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.app-header__nav-item:hover {
+    background: #ecf5ff;
+    color: #5ed6c8;
+}
+
+.app-header__nav-item.active {
+    background: #ecf5ff;
+    color: #5ed6c8;
+    font-weight: 500;
+}
+
+/* --- 主内容区域 --- */
+.app-main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+/* --- 统计卡片 --- */
+.stat-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.stat-card__value {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.stat-card__label {
+    font-size: 13px;
+    color: #909399;
+}
+
+/* --- 模型卡片 --- */
+.model-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.model-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.model-card.selected {
+    border-color: #5ed6c8;
+}
+
+.model-card__name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+/* --- 阶段指示器 --- */
+.phase-indicator {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 16px 0;
+}
+
+.phase-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    background: #c0c4cc;
+}
+
+.phase-dot.completed {
+    background: #67C23A;
+}
+
+.phase-dot.running {
+    background: #E6A23C;
+}
+
+.phase-dot.pending {
+    background: #c0c4cc;
+}
+
+.phase-line {
+    flex: 1;
+    height: 2px;
+    background: #ebeef5;
+}
+
+.phase-line.completed {
+    background: #67C23A;
+}
+
+/* --- 对话时间线 --- */
+.conversation-item {
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.conversation-item.doctor {
+    background: #e8f8f4;
+    border-left: 4px solid #5ed6c8;
+}
+
+.conversation-item.patient {
+    background: #f0f9eb;
+    border-left: 4px solid #67C23A;
+}
+
+.conversation-item.system {
+    background: #fef0f0;
+    border-left: 4px solid #F56C6C;
+}
+
+.conversation-item__role {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.conversation-item__content {
+    font-size: 14px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.conversation-item__time {
+    font-size: 11px;
+    color: #909399;
+    margin-top: 4px;
+}
+
+/* --- 诊断标签 --- */
+.diagnosis-tag {
+    margin: 4px;
+}
+
+.diagnosis-tag.correct {
+    background: #f0f9eb;
+    border-color: #67C23A;
+    color: #67C23A;
+}
+
+.diagnosis-tag.wrong {
+    background: #fef0f0;
+    border-color: #F56C6C;
+    color: #F56C6C;
+}
+
+/* --- 评估指标卡片 --- */
+.metric-card {
+    text-align: center;
+    padding: 16px;
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+.metric-card__value {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.metric-card__label {
+    font-size: 12px;
+    color: #909399;
+    margin-top: 4px;
+}
+
+/* --- 内容占位区 --- */
+.placeholder {
+    padding: 40px;
+    text-align: center;
+    color: #c0c4cc;
+    border: 2px dashed #ebeef5;
+    border-radius: 8px;
+}
+
+.placeholder__icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.placeholder__text {
+    font-size: 14px;
+}

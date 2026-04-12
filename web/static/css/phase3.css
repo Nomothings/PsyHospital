@@ -1,0 +1,832 @@
+/* ============================================================
+   Phase 3 — 诊断表单页面
+   ============================================================ */
+
+.phase3-page {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.phase3-page__bg {
+    position: absolute;
+    inset: 0;
+    background: url('/static/bg/phase3.png') center / cover no-repeat;
+    z-index: 0;
+}
+
+.phase3-page__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.2) 0%,
+        rgba(0, 0, 0, 0.05) 40%,
+        rgba(0, 0, 0, 0.35) 100%
+    );
+    z-index: 1;
+}
+
+/* ---- 顶部栏 ---- */
+.phase3-header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.phase3-header__left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.phase3-header__back-btn {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: none !important;
+    color: #2a5a5a !important;
+}
+
+.phase3-header__back-btn:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.phase3-header__title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #2a5a5a;
+    margin: 0;
+}
+
+.phase3-header__subtitle {
+    font-size: 12px;
+    color: rgba(42, 90, 90, 0.55);
+}
+
+.phase3-header__right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.phase3-header__patient {
+    font-size: 13px;
+    color: #2a5a5a;
+    background: rgba(94, 214, 200, 0.15);
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.phase3-header__next-btn {
+    background: linear-gradient(135deg, #5ed6c8, #3ec4b0) !important;
+    border: none !important;
+    color: #fff !important;
+    font-weight: 600;
+}
+
+/* ---- 主内容区 ---- */
+.phase3-content {
+    position: relative;
+    z-index: 5;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    overflow-y: auto;
+}
+
+/* 分栏布局 */
+.phase3-content--split {
+    align-items: stretch;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px 24px;
+}
+
+/* ---- 左侧面板 ---- */
+.phase3-left-panel {
+    width: 380px;
+    min-width: 320px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-right: 4px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
+.phase3-left-panel::-webkit-scrollbar {
+    width: 4px;
+}
+
+.phase3-left-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.phase3-left-panel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+}
+
+/* 面板区块 */
+.phase3-panel-section {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    padding: 14px 16px;
+}
+
+.phase3-panel-section__title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.phase3-panel-section__hint {
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.phase3-panel-section__content {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+}
+
+.phase3-panel-section__scroll {
+    max-height: 140px;
+    overflow-y: auto;
+}
+
+.phase3-panel-section__scroll::-webkit-scrollbar {
+    width: 3px;
+}
+
+.phase3-panel-section__scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.phase3-panel-section__scroll::-webkit-scrollbar-thumb {
+    background: rgba(94, 214, 200, 0.3);
+    border-radius: 2px;
+}
+
+/* 信息行 */
+.phase3-info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.phase3-info-row:last-child {
+    margin-bottom: 0;
+}
+
+.phase3-info-row__label {
+    flex-shrink: 0;
+    width: 60px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+}
+
+.phase3-info-row__value {
+    flex: 1;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 12px;
+}
+
+/* 体格检查文本 */
+.phase3-physical-exam-text {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* 辅助检查结果行 */
+.phase3-exam-result-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 11px;
+}
+
+.phase3-exam-result-row:last-child {
+    border-bottom: none;
+}
+
+.phase3-exam-result-row__name {
+    flex-shrink: 0;
+    width: 70px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.phase3-exam-result-row__value {
+    flex: 1;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.5;
+}
+
+.phase3-exam-result-row--none .phase3-exam-result-row__value {
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+}
+
+/* 对话记录 */
+.phase3-panel-section--chat {
+    display: flex;
+    flex-direction: column;
+    min-height: 260px;
+    max-height: 400px;
+}
+
+.phase3-panel-section--chat .phase3-panel-section__scroll {
+    flex: 1;
+    min-height: 200px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.phase3-chat-scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.phase3-chat-msg {
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.phase3-chat-msg.doctor {
+    background: rgba(94, 214, 200, 0.12);
+    border-left: 3px solid #5ed6c8;
+}
+
+.phase3-chat-msg.patient {
+    background: rgba(103, 194, 58, 0.1);
+    border-left: 3px solid #67C23A;
+}
+
+.phase3-chat-msg__role {
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 2px;
+}
+
+.phase3-chat-msg.doctor .phase3-chat-msg__role {
+    color: #5ed6c8;
+}
+
+.phase3-chat-msg.patient .phase3-chat-msg__role {
+    color: #67C23A;
+}
+
+.phase3-chat-msg__content {
+    display: block;
+    color: rgba(255, 255, 255, 0.75);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* ---- 右侧面板 ---- */
+.phase3-right-panel {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 120px);
+}
+
+.phase3-case-writing-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    padding: 24px 28px;
+    animation: cardFadeIn 0.4s ease-out;
+    overflow-y: auto;
+}
+
+.phase3-case-writing-card::-webkit-scrollbar {
+    width: 5px;
+}
+
+.phase3-case-writing-card::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.phase3-case-writing-card::-webkit-scrollbar-thumb {
+    background: rgba(94, 214, 200, 0.3);
+    border-radius: 3px;
+}
+
+.phase3-case-writing-card__header {
+    margin-bottom: 16px;
+}
+
+.phase3-case-writing-card__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2a5a5a;
+    margin: 0 0 4px;
+}
+
+.phase3-case-writing-card__subtitle {
+    font-size: 12px;
+    color: rgba(42, 90, 90, 0.5);
+    margin: 0;
+}
+
+.phase3-case-textarea {
+    flex: 1;
+}
+
+.phase3-case-textarea .el-textarea__inner {
+    min-height: 200px !important;
+    background: rgba(255, 255, 255, 0.7) !important;
+    box-shadow: 0 0 0 1px rgba(94, 214, 200, 0.2) inset !important;
+    border-radius: 12px !important;
+    padding: 16px 18px !important;
+    color: #2a5a5a;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.phase3-case-textarea .el-textarea__inner::placeholder {
+    color: rgba(42, 90, 90, 0.35);
+}
+
+.phase3-case-textarea .el-textarea__inner:focus {
+    box-shadow: 0 0 0 1px rgba(94, 214, 200, 0.6) inset !important;
+}
+
+/* ---- 病历书写只读信息区 ---- */
+.case-info-readonly {
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(94, 214, 200, 0.15);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+    flex-shrink: 0;
+}
+
+.case-info-readonly__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px 16px;
+}
+
+.case-info-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.case-info-row__label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #3ec4b0;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    min-width: 36px;
+}
+
+.case-info-row__input {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 500;
+    color: #2a5a5a;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(94, 214, 200, 0.2);
+    border-radius: 6px;
+    padding: 4px 10px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.case-info-row__input::placeholder {
+    color: rgba(42, 90, 90, 0.3);
+}
+
+.case-info-row__input:focus {
+    border-color: rgba(94, 214, 200, 0.6);
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.case-info-divider {
+    height: 1px;
+    background: rgba(94, 214, 200, 0.2);
+    margin: 8px 0;
+}
+
+.case-info-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.case-info-section__label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #3ec4b0;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    min-width: 54px;
+    padding-top: 1px;
+}
+
+.case-info-section__input {
+    flex: 1;
+    font-size: 12px;
+    color: #2a5a5a;
+    line-height: 1.6;
+    word-break: break-word;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(94, 214, 200, 0.2);
+    border-radius: 6px;
+    padding: 6px 10px;
+    outline: none;
+    resize: vertical;
+    font-family: inherit;
+    transition: all 0.3s;
+}
+
+.case-info-section__input::placeholder {
+    color: rgba(42, 90, 90, 0.3);
+}
+
+.case-info-section__input:focus {
+    border-color: rgba(94, 214, 200, 0.6);
+    background: rgba(255, 255, 255, 0.7);
+}
+
+/* ---- 表单卡片 ---- */
+.phase3-form-card {
+    width: 560px;
+    max-width: 92vw;
+    padding: 36px 32px;
+
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    animation: cardFadeIn 0.4s ease-out;
+}
+
+.phase3-form-card__header {
+    text-align: center;
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.phase3-form-card__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2a5a5a;
+    margin: 0 0 8px;
+}
+
+.phase3-form-card__subtitle {
+    font-size: 13px;
+    color: rgba(42, 90, 90, 0.55);
+    margin: 0;
+}
+
+/* 表单样式覆盖 */
+.phase3-form .el-form-item__label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2a5a5a;
+    padding-bottom: 6px;
+}
+
+.phase3-form .el-input__wrapper {
+    background: rgba(255, 255, 255, 0.6) !important;
+    box-shadow: 0 0 0 1px rgba(94, 214, 200, 0.2) inset !important;
+    border-radius: 12px !important;
+    padding: 2px 14px !important;
+    transition: all 0.3s;
+}
+
+.phase3-form .el-input__wrapper:hover {
+    box-shadow: 0 0 0 1px rgba(94, 214, 200, 0.4) inset !important;
+}
+
+.phase3-form .el-input__wrapper.is-focus {
+    box-shadow: 0 0 0 1px rgba(94, 214, 200, 0.6) inset !important;
+}
+
+.phase3-form .el-input__inner {
+    color: #2a5a5a;
+    font-size: 14px;
+}
+
+.phase3-form .el-input__inner::placeholder {
+    color: rgba(42, 90, 90, 0.35);
+}
+
+.phase3-form .el-textarea__inner {
+    background: rgba(255, 255, 255, 0.6) !important;
+    box-shadow: 0 0 0 1px rgba(94, 214, 200, 0.2) inset !important;
+    border-radius: 12px !important;
+    padding: 12px 14px !important;
+    color: #2a5a5a;
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.phase3-form .el-textarea__inner::placeholder {
+    color: rgba(42, 90, 90, 0.35);
+}
+
+.phase3-form .el-textarea__inner:focus {
+    box-shadow: 0 0 0 1px rgba(94, 214, 200, 0.6) inset !important;
+}
+
+/* 下拉选择器 */
+.phase3-form__select .el-input__wrapper {
+    cursor: pointer;
+}
+
+/* 按钮组 */
+.phase3-form__actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.phase3-form__submit-btn {
+    min-width: 160px;
+    background: linear-gradient(135deg, #5ed6c8, #3ec4b0) !important;
+    border: none !important;
+    font-weight: 600;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 16px rgba(94, 214, 200, 0.35) !important;
+}
+
+.phase3-form__submit-btn:hover {
+    box-shadow: 0 6px 24px rgba(94, 214, 200, 0.5) !important;
+}
+
+/* ---- 病历书写信息区块 ---- */
+.phase3-info-section {
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.phase3-info-section__title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2a5a5a;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(42, 90, 90, 0.1);
+}
+
+.phase3-info-section__hint {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(42, 90, 90, 0.45);
+}
+
+.phase3-info-section__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.phase3-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 13px;
+}
+
+.phase3-info-item__label {
+    flex-shrink: 0;
+    width: 70px;
+    font-weight: 600;
+    color: rgba(42, 90, 90, 0.7);
+}
+
+.phase3-info-item__value {
+    flex: 1;
+    color: #2a5a5a;
+    line-height: 1.6;
+}
+
+.phase3-info-item__tag {
+    margin: 2px 4px 2px 0 !important;
+}
+
+/* 可滚动消息区域 */
+.phase3-info-section__scroll {
+    max-height: 180px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.phase3-info-section__scroll::-webkit-scrollbar {
+    width: 4px;
+}
+
+.phase3-info-section__scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.phase3-info-section__scroll::-webkit-scrollbar-thumb {
+    background: rgba(94, 214, 200, 0.3);
+    border-radius: 2px;
+}
+
+.phase3-msg-item {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.phase3-msg-item.doctor {
+    background: rgba(94, 214, 200, 0.12);
+    border-left: 3px solid #5ed6c8;
+}
+
+.phase3-msg-item.patient {
+    background: rgba(103, 194, 58, 0.1);
+    border-left: 3px solid #67C23A;
+}
+
+.phase3-msg-item__role {
+    font-weight: 600;
+    margin-bottom: 2px;
+    display: inline-block;
+}
+
+.phase3-msg-item.doctor .phase3-msg-item__role {
+    color: #3ec4b0;
+}
+
+.phase3-msg-item.patient .phase3-msg-item__role {
+    color: #67C23A;
+}
+
+.phase3-msg-item__content {
+    color: #2a5a5a;
+    display: block;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* 检查结果网格 */
+.phase3-check-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 8px;
+}
+
+.phase3-check-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.phase3-check-item--positive {
+    background: rgba(103, 194, 58, 0.1);
+    border: 1px solid rgba(103, 194, 58, 0.25);
+}
+
+.phase3-check-item--negative {
+    background: rgba(144, 147, 153, 0.08);
+    border: 1px solid rgba(144, 147, 153, 0.2);
+}
+
+.phase3-check-item__name {
+    color: #2a5a5a;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 8px;
+}
+
+/* 病历书写文本区域 */
+.phase3-case-writing-area {
+    margin-top: 16px;
+}
+
+.phase3-case-writing-area .el-textarea__inner {
+    background: rgba(255, 255, 255, 0.7) !important;
+    box-shadow: 0 0 0 1px rgba(94, 214, 200, 0.2) inset !important;
+    border-radius: 12px !important;
+    padding: 14px 16px !important;
+    color: #2a5a5a;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.phase3-case-writing-area .el-textarea__inner::placeholder {
+    color: rgba(42, 90, 90, 0.35);
+}
+
+.phase3-case-writing-area .el-textarea__inner:focus {
+    box-shadow: 0 0 0 1px rgba(94, 214, 200, 0.6) inset !important;
+}
+
+/* 宽版表单卡片（病历书写用） */
+.phase3-form-card--wide {
+    width: 800px;
+    max-width: 95vw;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.phase3-form-card--wide::-webkit-scrollbar {
+    width: 6px;
+}
+
+.phase3-form-card--wide::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.phase3-form-card--wide::-webkit-scrollbar-thumb {
+    background: rgba(94, 214, 200, 0.3);
+    border-radius: 3px;
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 768px) {
+    .phase3-header {
+        padding: 10px 16px;
+    }
+
+    .phase3-content {
+        padding: 20px 16px;
+    }
+
+    .phase3-form-card {
+        padding: 28px 20px;
+        border-radius: 16px;
+    }
+
+    .phase3-form-card__title {
+        font-size: 18px;
+    }
+
+    .phase3-form-card--wide {
+        width: 100%;
+        max-width: 100vw;
+        padding: 20px 16px;
+    }
+
+    .phase3-check-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -55,11 +55,6 @@ def create_doctor() -> LLMService:
     return doctor
 
 
-# 便捷函数别名
-init_doctor = create_doctor
-start_doctor = create_doctor
-
-
 if __name__ == "__main__":
     # 测试启动虚拟医生
     print("=" * 50)
