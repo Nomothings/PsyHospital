@@ -34,7 +34,7 @@ const Phase3Diagnosis = {
                         size="small"
                         round
                         @click="goToDiagnosis"
-                        :disabled="!isCaseFormValid"
+                        :disabled="!caseText.trim()"
                         class="phase3-header__next-btn"
                     >
                         完成病历书写，进入诊断
@@ -158,7 +158,15 @@ const Phase3Diagnosis = {
                                     <textarea v-model="caseForm.auxiliaryExam" class="case-info-section__input" rows="3" placeholder="请输入辅助检查"></textarea>
                                 </div>
                             </div>
-                            
+
+                            <el-input
+                                v-model="caseText"
+                                type="textarea"
+                                :rows="16"
+                                placeholder="请根据访谈与检查结果书写病例（包括主诉、现病史、精神症状、功能受损情况等）"
+                                resize="none"
+                                class="phase3-case-textarea"
+                            />
                         </div>
                     </main>
                 </template>
@@ -465,16 +473,12 @@ const Phase3Diagnosis = {
     },
 
     methods: {
-        isCaseFormValid() {
-            return this.caseForm.name && this.caseForm.chiefComplaint && this.caseForm.physicalExam && this.caseForm.mentalExam;
-        },
-
         goToDiagnosis() {
-            if (!this.isCaseFormValid()) {
-                this.$message.warning('请至少填写姓名、主诉、体格检查和精神检查');
+            if (!this.caseText.trim()) {
+                this.$message.warning('请先书写病历');
                 return;
             }
-            sessionStorage.setItem('phase3_caseForm', JSON.stringify(this.caseForm));
+            sessionStorage.setItem('phase3_caseText', this.caseText.trim());
             this.subStep = 'diagnosis';
             this.$message.success('病历已保存，请填写诊断信息');
         },
@@ -485,7 +489,7 @@ const Phase3Diagnosis = {
 
                 this.submitting = true;
                 try {
-                    await API.submitCaseWriting(this.caseId, JSON.stringify(this.caseForm));
+                    await API.submitCaseWriting(this.caseId, this.caseText.trim());
 
                     const result = await API.submitDiagnosis(this.caseId, {
                         category: this.form.category,
@@ -494,7 +498,7 @@ const Phase3Diagnosis = {
                     });
 
                     await API.saveCaseRecord(this.caseId, {
-                        caseForm: this.caseForm,
+                        caseText: this.caseText.trim(),
                         diagnosis: {
                             category: this.form.category,
                             disease: this.form.disease,
@@ -507,7 +511,7 @@ const Phase3Diagnosis = {
 
                     sessionStorage.setItem('phase3_result', JSON.stringify({
                         caseId: this.caseId,
-                        caseForm: this.caseForm,
+                        caseText: this.caseText.trim(),
                         category: this.form.category,
                         disease: this.form.disease,
                         reason: this.form.reason,
@@ -565,13 +569,9 @@ const Phase3Diagnosis = {
                 }
             }
 
-            const savedCaseForm = sessionStorage.getItem('phase3_caseForm');
-            if (savedCaseForm) {
-                try {
-                    this.caseForm = JSON.parse(savedCaseForm);
-                } catch (e) {
-                    console.error('[Phase3Diagnosis] 解析 caseForm 失败:', e);
-                }
+            const savedCaseText = sessionStorage.getItem('phase3_caseText');
+            if (savedCaseText) {
+                this.caseText = savedCaseText;
             }
         },
     },
