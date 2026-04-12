@@ -117,30 +117,39 @@ def handle_patient_search_command(patient_response: str) -> str:
         return ""
 
 
-def load_random_case(cases_file: Path = None) -> Dict[str, Any]:
-    """从cases.jsonl随机加载一个病例
-    
+def load_random_case(mode: str = "common", cases_dir: Path = None) -> Dict[str, Any]:
+    """从病例库随机加载一个病例
+
+    Args:
+        mode: "common" 常规模式, "rare" 罕见病模式
+        cases_dir: 病例根目录（默认自动检测）
+
     Returns:
         病例字典，包含所有字段
     """
-    if cases_file is None:
-        cases_file = Path(__file__).parent.parent.parent / "data" / "cases.jsonl"
-    
+    if cases_dir is None:
+        cases_dir = Path(__file__).parent.parent.parent / "data" / "cases"
+
+    subdir = cases_dir / mode
+    if not subdir.exists():
+        raise ValueError(f"病例目录不存在: {subdir}")
+
     cases = []
-    with open(cases_file, "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                case = json.loads(line)
-                cases.append(case)
-            except json.JSONDecodeError:
-                continue
-    
+    for cases_file in subdir.glob("*.jsonl"):
+        with open(cases_file, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    case = json.loads(line)
+                    cases.append(case)
+                except json.JSONDecodeError:
+                    continue
+
     if not cases:
-        raise ValueError("未找到任何病例数据")
-    
+        raise ValueError(f"未找到任何病例数据 (mode={mode})")
+
     return random.choice(cases)
 
 

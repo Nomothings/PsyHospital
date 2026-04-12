@@ -1,8 +1,9 @@
 /**
  * PatientList 组件
- * 医学生训练系统 — 患者选择页面
+ * 医学生训练系统 — 模式选择页面
  *
- * 展示所有可训练的模拟患者（病例），点击后进入该患者的访谈页面。
+ * 双模式入口：常规模式 vs 罕见病模式
+ * 选择后随机抽取对应库中的患者，直接进入问诊
  */
 const PatientList = {
     template: `
@@ -31,129 +32,141 @@ const PatientList = {
             <div class="patient-list-content">
                 <!-- 标题区 -->
                 <div class="patient-list-hero">
-                    <div class="patient-list-hero__badge">
-                        <span class="pulse-dot"></span>
-                    </div>
-                    <h1 class="patient-list-hero__title">选择患者</h1>
-                    <div class="hero-divider"></div>
+                    <h1 class="patient-list-hero__title">选择问诊模式</h1>
+                    <p class="patient-list-hero__subtitle">Choose Your Training Mode</p>
                 </div>
 
-                <!-- 搜索 -->
-                <div class="patient-list-search">
-                    <el-input
-                        v-model="searchText"
-                        placeholder="搜索患者信息…"
-                        clearable
-                        :prefix-icon="Search"
-                        size="large"
-                        class="patient-list-search__input"
-                    />
-                   
-                   
-                </div>
-
-                <!-- 患者卡片列表 -->
-                <div class="patient-list-grid" v-loading="loading">
-                    <div v-for="(patient, index) in filteredPatients" :key="patient.id"
-                         class="patient-card"
-                         :style="{ animationDelay: (index * 0.06) + 's' }">
-                        <div class="patient-card__info">
-                            <div class="patient-card__name">患者 {{ patient.id }}</div>
-                            <div class="patient-card__basic">{{ patient.basicInfomation || '暂无信息' }}</div>
+                <!-- 模式选择卡片 -->
+                <div class="mode-cards" v-loading="loading">
+                    <!-- 常规模式 -->
+                    <div class="mode-card mode-card--common" @click="selectMode('common')">
+                        <div class="mode-card__icon">
+                            <el-icon :size="40"><User /></el-icon>
                         </div>
-                        <div class="patient-card__actions">
-                            <el-button
-                                type="primary"
-                                round
-                                size="default"
-                                @click.stop="selectPatient(patient)"
-                                class="patient-card__action-btn"
-                            >
-                                <el-icon :size="16"><ChatDotRound /></el-icon>
-                                开始问诊
-                            </el-button>
-                            <el-button
-                                type="primary"
-                                round
-                                size="default"
-                                @click.stop="viewRecord(patient)"
-                                class="patient-card__record-btn"
-                            >
-                                <el-icon :size="16"><Document /></el-icon>
-                                查看记录
-                            </el-button>
+                        <h3 class="mode-card__title">常规模式</h3>
+                        <p class="mode-card__subtitle">常见精神科病例</p>
+                        <div class="mode-card__desc">
+                            涵盖抑郁症、焦虑症、精神分裂症等精神科高频病例，
+                            适合夯实基础问诊技能。
+                        </div>
+                        <div class="mode-card__meta">
+                            <span class="mode-card__count">
+                                <el-icon :size="14"><Files /></el-icon>
+                                {{ commonCount }} 例
+                            </span>
+                        </div>
+                        <el-button
+                            type="primary"
+                            round
+                            size="large"
+                            class="mode-card__btn"
+                        >
+                            <el-icon :size="18"><ChatDotRound /></el-icon>
+                            开始问诊
+                        </el-button>
+                        <div class="mode-card__history-link" @click.stop="viewHistory('common')">
+                            <el-icon :size="14"><Document /></el-icon>
+                            查看历史记录
                         </div>
                     </div>
-                </div>
 
-                <el-empty v-if="!loading && filteredPatients.length === 0"
-                          description="暂无匹配的患者" />
+                    <!-- 罕见病模式 -->
+                    <div class="mode-card mode-card--rare" @click="selectMode('rare')">
+                        <div class="mode-card__icon">
+                            <el-icon :size="40"><WarningFilled /></el-icon>
+                        </div>
+                        <h3 class="mode-card__title">罕见病模式</h3>
+                        <p class="mode-card__subtitle">复杂 / 低概率 / 训练难度高</p>
+                        <div class="mode-card__desc">
+                            收录罕见及复杂精神科病例，挑战性高，
+                            适合进阶训练与鉴别诊断能力培养。
+                        </div>
+                        <div class="mode-card__meta">
+                            <span class="mode-card__count">
+                                <el-icon :size="14"><Files /></el-icon>
+                                {{ rareCount }} 例
+                            </span>
+                        </div>
+                        <el-button
+                            type="warning"
+                            round
+                            size="large"
+                            class="mode-card__btn mode-card__btn--rare"
+                        >
+                            <el-icon :size="18"><ChatDotRound /></el-icon>
+                            开始问诊
+                        </el-button>
+                        <div class="mode-card__history-link" @click.stop="viewHistory('rare')">
+                            <el-icon :size="14"><Document /></el-icon>
+                            查看历史记录
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     `,
 
     data() {
         return {
-            searchText: '',
-            patients: [],
             loading: true,
+            commonCount: 0,
+            rareCount: 0,
         };
     },
 
     computed: {
-        Search() { return ElementPlusIconsVue.Search; },
         User() { return ElementPlusIconsVue.User; },
-        ChatDotRound() { return ElementPlusIconsVue.ChatDotRound; },
         FirstAidKit() { return ElementPlusIconsVue.FirstAidKit; },
         SwitchButton() { return ElementPlusIconsVue.SwitchButton; },
+        ChatDotRound() { return ElementPlusIconsVue.ChatDotRound; },
+        WarningFilled() { return ElementPlusIconsVue.WarningFilled; },
+        Files() { return ElementPlusIconsVue.Files; },
         Document() { return ElementPlusIconsVue.Document; },
-
-        filteredPatients() {
-            if (!this.searchText) return this.patients;
-            const q = this.searchText.toLowerCase();
-            return this.patients.filter(p => {
-                const id = (p.id || '').toLowerCase();
-                const info = (p.basicInfomation || '').toLowerCase();
-                const complaints = (p.chiefComplaint || []).join(' ').toLowerCase();
-                return id.includes(q) || info.includes(q) || complaints.includes(q);
-            });
-        },
     },
 
     methods: {
-        async loadData() {
-            this.loading = true;
+        async selectMode(mode) {
             try {
-                const res = await API.getCases();
-                this.patients = res.cases || [];
+                this.loading = true;
+                const res = await API.getRandomCase(mode);
+                const caseId = res.case.id;
+                this.$router.push({
+                    path: '/phase1',
+                    query: { id: caseId },
+                });
             } catch (e) {
-                this.$message.error('加载患者列表失败');
+                this.$message.error('随机抽取患者失败，请重试');
                 console.error(e);
             } finally {
                 this.loading = false;
             }
         },
 
-        selectPatient(patient) {
-            this.$router.push({
-                path: '/phase1',
-                query: { id: patient.id },
-            });
-        },
-
-        viewRecord(patient) {
-            this.$router.push({
-                path: '/record',
-                query: { id: patient.id },
-            });
+        async loadCounts() {
+            try {
+                const res = await API.getCaseCounts();
+                const counts = res.counts || {};
+                this.commonCount = counts.common || 0;
+                this.rareCount = counts.rare || 0;
+            } catch (e) {
+                console.error('加载病例数量失败:', e);
+            }
         },
 
         handleLogout() {
             this.$router.push('/login');
         },
+
+        viewHistory(mode) {
+            this.$router.push({
+                path: '/history',
+                query: { mode },
+            });
+        },
     },
 
     mounted() {
-        this.loadData();
+        this.loadCounts();
+        this.loading = false;
     },
 };

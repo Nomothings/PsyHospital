@@ -207,93 +207,65 @@ def api_ground_truth(case_id):
 
 
 # ============================================================
-# 历史记录持久化 API
+# 历史记录 API — 读取真实问诊记录 (records/)
 # ============================================================
-
-@app.route("/api/history/save", methods=["POST"])
-def api_history_save():
-    """保存问诊历史快照
-
-    每次问诊结束后调用，将完整的会话数据持久化到文件。
-    请求体: { session_id, case_id, messages, phase_results }
-    """
-    data = request.get_json() or {}
-    session_id = data.get("session_id")
-    case_id = data.get("case_id")
-    if not session_id or not case_id:
-        return jsonify({"error": "session_id and case_id required"}), 400
-
-    if not re.match(r'^[a-zA-Z0-9_\-\.]+$', case_id):
-        return jsonify({"error": "Invalid case_id"}), 400
-    if not re.match(r'^[a-zA-Z0-9]+$', session_id):
-        return jsonify({"error": "Invalid session_id"}), 400
-
-    history_file = HISTORY_DIR / f"{case_id}_{session_id}.json"
-    history_data = {
-        "session_id": session_id,
-        "case_id": case_id,
-        "messages": data.get("messages", []),
-        "phase_results": data.get("phase_results", {}),
-        "saved_at": datetime.now(timezone.utc).isoformat(),
-    }
-
-    try:
-        with open(history_file, "w", encoding="utf-8") as f:
-            json.dump(history_data, f, ensure_ascii=False, indent=2)
-        logger.info(f"问诊历史已保存: {history_file.name}")
-        return jsonify({"status": "ok", "file": history_file.name})
-    except Exception as e:
-        logger.error(f"保存问诊历史失败: {e}")
-        return jsonify({"error": str(e)}), 500
-
 
 @app.route("/api/history/list")
 def api_history_list():
-    """列出所有保存的问诊历史"""
+    """列出所有问诊历史记录（从 records 目录读取真实数据）"""
     histories = []
-    for f in sorted(HISTORY_DIR.glob("*.json")):
+    for f in sorted(RECORDS_DIR.glob("*.json")):
         try:
             with open(f, "r", encoding="utf-8") as fp:
                 data = json.load(fp)
+            conversation = data.get("conversation", [])
+            turns = len(conversation) // 2 if conversation else 0
+            # 提取患者基本信息
+            case_info = data.get("caseInfo", {})
+            basic_info = case_info.get("basicInfomation", "")
+            has_diagnosis = bool(data.get("diagnosis"))
             histories.append({
-                "file": f.name,
-                "session_id": data.get("session_id"),
-                "case_id": data.get("case_id"),
-                "saved_at": data.get("saved_at"),
-                "turns": len(data.get("messages", [])) // 2,
+                "case_id": data.get("case_id", f.stem),
+                "saved_at": data.get("updated_at") or data.get("created_at", ""),
+                "created_at": data.get("created_at", ""),
+                "turns": turns,
+                "has_diagnosis": has_diagnosis,
+                "basic_info": basic_info,
             })
         except Exception as e:
-            logger.warning(f"读取历史文件 {f} 失败: {e}")
+            logger.warning(f"读取记录文件 {f} 失败: {e}")
     return jsonify({"histories": histories, "total": len(histories)})
 
 
-@app.route("/api/history/<filename>")
-def api_history_detail(filename):
-    """查看单条问诊历史详情"""
-    if not re.match(r'^[a-zA-Z0-9_\-\.]+\.json$', filename):
-        return jsonify({"error": "Invalid filename"}), 400
+@app.route("/api/history/<case_id>")
+def api_history_detail(case_id):
+    """查看单条问诊历史详情（从 records 读取完整问诊数据）"""
+    if not re.match(r'^[a-zA-Z0-9_\-\.]+$', case_id):
+        return jsonify({"error": "Invalid case_id"}), 400
 
-    history_file = HISTORY_DIR / filename
-    if not history_file.exists():
+    record_file = RECORDS_DIR / f"{case_id}.json"
+    if not record_file.exists():
         return jsonify({"error": "History not found"}), 404
-    data = _read_json_safe(history_file)
+    data = _read_json_safe(record_file)
     if data is None:
         return jsonify({"error": "Failed to read history"}), 500
+    # 适配前端字段：messages 对应 conversation
+    data["messages"] = data.get("conversation", [])
     return jsonify(data)
 
 
-@app.route("/api/history/<filename>", methods=["DELETE"])
-def api_history_delete(filename):
+@app.route("/api/history/<case_id>", methods=["DELETE"])
+def api_history_delete(case_id):
     """删除单条问诊历史"""
-    if not re.match(r'^[a-zA-Z0-9_\-\.]+\.json$', filename):
-        return jsonify({"error": "Invalid filename"}), 400
+    if not re.match(r'^[a-zA-Z0-9_\-\.]+$', case_id):
+        return jsonify({"error": "Invalid case_id"}), 400
 
-    history_file = HISTORY_DIR / filename
-    if not history_file.exists():
+    record_file = RECORDS_DIR / f"{case_id}.json"
+    if not record_file.exists():
         return jsonify({"error": "History not found"}), 404
     try:
-        history_file.unlink()
-        logger.info(f"问诊历史已删除: {filename}")
+        record_file.unlink()
+        logger.info(f"问诊历史已删除: {case_id}")
         return jsonify({"status": "ok"})
     except Exception as e:
         logger.error(f"删除问诊历史失败: {e}")

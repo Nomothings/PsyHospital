@@ -1,0 +1,472 @@
+/* ============================================================
+   问诊历史记录列表页面
+   ============================================================ */
+
+.history-list-page {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.history-list-page__bg {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #e8f6f3 0%, #d4ede8 50%, #c5e6e0 100%);
+    z-index: 0;
+}
+
+/* ---- 顶部导航 ---- */
+.history-list-header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(94, 214, 200, 0.2);
+}
+
+.history-list-header__left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.history-list-header__back-btn {
+    color: #2a5a5a !important;
+}
+
+.history-list-header__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2a5a5a;
+    margin: 0;
+}
+
+/* ---- 主内容 ---- */
+.history-list-content {
+    position: relative;
+    z-index: 5;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+/* ---- 记录卡片 ---- */
+.history-list-card {
+    width: 800px;
+    max-width: 95vw;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    padding: 24px 32px;
+    animation: cardFadeIn 0.4s ease-out;
+}
+
+/* ---- 历史记录条目 ---- */
+.history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-bottom: 1px solid rgba(94, 214, 200, 0.12);
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+.history-item:hover {
+    background: rgba(94, 214, 200, 0.08);
+}
+
+.history-item__left {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+}
+
+.history-item__patient {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.history-item__id {
+    font-size: 15px;
+    font-weight: 600;
+    color: #2a5a5a;
+}
+
+.history-item__info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.history-item__time {
+    font-size: 13px;
+    color: rgba(42, 90, 90, 0.5);
+}
+
+.history-item__turns {
+    font-size: 13px;
+    color: rgba(42, 90, 90, 0.5);
+}
+
+/* ---- 空状态 ---- */
+.history-list-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: rgba(42, 90, 90, 0.4);
+}
+
+.history-list-empty p {
+    margin-top: 16px;
+    font-size: 15px;
+}
+
+/* ============================================================
+   问诊历史详情页面
+   ============================================================ */
+
+.history-detail-page {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.history-detail-page__bg {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #e8f6f3 0%, #d4ede8 50%, #c5e6e0 100%);
+    z-index: 0;
+}
+
+/* ---- 顶部栏 ---- */
+.history-detail-header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(94, 214, 200, 0.2);
+}
+
+.history-detail-header__left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.history-detail-header__back-btn {
+    color: #2a5a5a !important;
+}
+
+.history-detail-header__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2a5a5a;
+    margin: 0;
+}
+
+.history-detail-header__right {
+    font-size: 14px;
+    color: rgba(42, 90, 90, 0.6);
+}
+
+.history-detail-header__patient {
+    font-size: 13px;
+    color: rgba(42, 90, 90, 0.6);
+}
+
+/* ---- 主内容 ---- */
+.history-detail-content {
+    position: relative;
+    z-index: 5;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.history-detail-card {
+    width: 800px;
+    max-width: 95vw;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    padding: 32px;
+    animation: cardFadeIn 0.4s ease-out;
+}
+
+/* ---- 分区 ---- */
+.history-detail-section {
+    margin-bottom: 28px;
+}
+
+.history-detail-section:last-child {
+    margin-bottom: 0;
+}
+
+.history-detail-section__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(94, 214, 200, 0.2);
+}
+
+.history-detail-section__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2a5a5a;
+    margin: 0;
+    flex: 1;
+}
+
+.history-detail-section__body {
+    padding: 0 4px;
+}
+
+/* ---- 基本信息 ---- */
+.history-detail-info-row {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.history-detail-info-row__label {
+    color: rgba(42, 90, 90, 0.6);
+    min-width: 80px;
+    font-weight: 600;
+}
+
+.history-detail-info-row__value {
+    color: #2a5a5a;
+    flex: 1;
+}
+
+/* ---- 对话记录 ---- */
+.history-detail-conversation {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 8px;
+}
+
+.history-detail-conversation::-webkit-scrollbar {
+    width: 4px;
+}
+
+.history-detail-conversation::-webkit-scrollbar-thumb {
+    background: rgba(94, 214, 200, 0.3);
+    border-radius: 2px;
+}
+
+.history-detail-msg {
+    display: flex;
+    gap: 10px;
+    max-width: 85%;
+}
+
+.history-detail-msg.patient {
+    align-self: flex-start;
+}
+
+.history-detail-msg.doctor {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.history-detail-msg__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.history-detail-msg.patient .history-detail-msg__avatar {
+    background: rgba(94, 214, 200, 0.2);
+    color: #3ec4b0;
+}
+
+.history-detail-msg.doctor .history-detail-msg__avatar {
+    background: rgba(64, 158, 255, 0.2);
+    color: #409eff;
+}
+
+.history-detail-msg__content {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    padding: 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.history-detail-msg__role {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.history-detail-msg.patient .history-detail-msg__role {
+    color: #3ec4b0;
+}
+
+.history-detail-msg.doctor .history-detail-msg__role {
+    color: #409eff;
+}
+
+.history-detail-msg__text {
+    font-size: 14px;
+    color: #2a5a5a;
+    line-height: 1.6;
+    word-break: break-word;
+}
+
+/* ---- 检查记录 ---- */
+.history-detail-exam-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.history-detail-exam-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.history-detail-exam-item--has {
+    background: rgba(94, 214, 200, 0.1);
+    border: 1px solid rgba(94, 214, 200, 0.2);
+}
+
+.history-detail-exam-item--none {
+    background: rgba(200, 200, 200, 0.1);
+    border: 1px solid rgba(200, 200, 200, 0.2);
+}
+
+.history-detail-exam-item__name {
+    font-weight: 600;
+    color: #2a5a5a;
+}
+
+.history-detail-exam-item__result {
+    color: rgba(42, 90, 90, 0.7);
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
+}
+
+.history-detail-exam-item--none .history-detail-exam-item__result {
+    color: rgba(42, 90, 90, 0.4);
+}
+
+/* ---- 病历书写 ---- */
+.history-detail-case-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.history-detail-cf-row {
+    display: flex;
+    gap: 12px;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(94, 214, 200, 0.15);
+    border-radius: 10px;
+    align-items: flex-start;
+}
+
+.history-detail-cf-label {
+    color: rgba(42, 90, 90, 0.55);
+    min-width: 72px;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.history-detail-cf-value {
+    color: #2a5a5a;
+    font-size: 14px;
+    line-height: 1.6;
+    flex: 1;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+/* ---- 诊断结果 ---- */
+.history-detail-diagnosis {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.history-detail-diagnosis__item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(94, 214, 200, 0.08);
+    border: 1px solid rgba(94, 214, 200, 0.15);
+    border-radius: 10px;
+}
+
+.history-detail-diagnosis__label {
+    color: rgba(42, 90, 90, 0.6);
+    min-width: 80px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.history-detail-diagnosis__value {
+    color: #2a5a5a;
+    font-size: 14px;
+    line-height: 1.6;
+    flex: 1;
+}
+
+/* ---- 空状态 ---- */
+.history-detail-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: rgba(42, 90, 90, 0.4);
+}
+
+.history-detail-empty p {
+    margin-top: 16px;
+    font-size: 15px;
+}

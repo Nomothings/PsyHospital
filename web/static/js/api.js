@@ -25,6 +25,16 @@ const API = {
         return this.request("/api/cases");
     },
 
+    // 随机抽取病例
+    async getRandomCase(mode = "common") {
+        return this.request(`/api/cases/random?mode=${mode}`);
+    },
+
+    // 获取各模式病例数量
+    async getCaseCounts() {
+        return this.request("/api/cases/counts");
+    },
+
     // 获取已有结果的模型列表
     async getModels() {
         return this.request("/api/models");
@@ -194,6 +204,30 @@ const API = {
     // 获取问诊记录
     async getCaseRecord(caseId) {
         const response = await fetch(this.BASE_URL + `/api/record/${caseId}`);
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.error || `HTTP ${response.status}`);
+        }
+        return await response.json();
+    },
+
+    // --- 问诊历史记录 ---
+
+    // 获取问诊历史列表
+    async getHistoryList() {
+        return this.request("/api/history/list");
+    },
+
+    // 获取问诊历史详情（按 case_id 读取）
+    async getHistoryDetail(caseId) {
+        return this.request(`/api/history/${caseId}`);
+    },
+
+    // 删除问诊历史
+    async deleteHistory(caseId) {
+        const response = await fetch(this.BASE_URL + `/api/history/${caseId}`, {
+            method: "DELETE",
+        });
         if (!response.ok) {
             const err = await response.json();
             throw new Error(err.error || `HTTP ${response.status}`);

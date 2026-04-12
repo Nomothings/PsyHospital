@@ -5,9 +5,13 @@ import os
 import json
 import time
 import logging
+from pathlib import Path
 from flask import Blueprint, request, jsonify
 
 from agents.patient.patient import create_patient
+
+# 项目根目录（web/routes/../../ = project_root）
+PROJECT_ROOT = Path(__file__).parent.parent.parent
 
 logger = logging.getLogger(__name__)
 

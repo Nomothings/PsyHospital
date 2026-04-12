@@ -54,6 +54,28 @@ class CaseService:
         """获取单个病例详情"""
         return self.repository.get_case_by_id(case_id)
 
+    def get_random_case(self, mode: str) -> Optional[Dict[str, str]]:
+        """从指定模式随机抽取一个病例
+
+        Args:
+            mode: "common" 或 "rare"
+
+        Returns:
+            病例基本信息，无可用病例时返回 None
+        """
+        case = self.repository.get_random_case(mode)
+        if not case:
+            return None
+        return {
+            "id": case.get("id", ""),
+            "basicInfomation": case.get("basicInfomation", ""),
+            "physicalExamination": case.get("physicalExamination", ""),
+        }
+
+    def get_mode_counts(self) -> Dict[str, int]:
+        """获取各模式的病例数量"""
+        return self.repository.get_mode_counts()
+
     def get_case_for_interview(self, case_id: str) -> Optional[Dict[str, Any]]:
         """获取用于访谈的病例数据
 

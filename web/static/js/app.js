@@ -12,6 +12,8 @@ const routes = [
     { path: "/phase2", component: Phase2Check },
     { path: "/phase3", component: Phase3Diagnosis },
     { path: "/record", component: CaseRecord },
+    { path: "/history", component: HistoryList },
+    { path: "/history-detail", component: HistoryDetail },
 ];
 
 const router = VueRouter.createRouter({

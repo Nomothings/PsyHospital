@@ -212,7 +212,12 @@ const LoginPage = {
                 this.loading = true;
                 setTimeout(() => {
                     this.loading = false;
-                    if (this.loginForm.username === 'cquzhongjiang' && this.loginForm.password === 'cqu0526') {
+                    const validAccounts = {
+                        'cquzhongjiang': 'cqu0526',
+                        'test1': '666666',
+                    };
+                    const accountName = this.loginForm.username;
+                    if (validAccounts[accountName] && validAccounts[accountName] === this.loginForm.password) {
                         this.$router.push('/patients');
                         this.$message.success('欢迎回来');
                     } else {
