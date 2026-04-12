@@ -183,7 +183,6 @@ const HistoryDetail = {
             hasDiagnosis: false,
         };
     },
-
     computed: {
         ArrowLeft() { return ElementPlusIconsVue.ArrowLeft; },
         UserFilled() { return ElementPlusIconsVue.UserFilled; },
