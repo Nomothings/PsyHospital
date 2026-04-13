@@ -79,6 +79,7 @@ from routes.diagnosis_routes import register_diagnosis_routes
 from routes.chat_routes import register_chat_routes
 from routes.check_routes import register_check_routes
 from routes.case_writing_routes import register_case_writing_routes
+from routes.treatment_routes import register_treatment_routes
 
 # ============================================================
 # Flask 应用
@@ -97,6 +98,7 @@ app.register_blueprint(register_diagnosis_routes(diagnosis_service))
 app.register_blueprint(register_chat_routes(case_service))
 app.register_blueprint(register_check_routes(case_service))
 app.register_blueprint(register_case_writing_routes(record_service))
+app.register_blueprint(register_treatment_routes(record_service))
 
 # ============================================================
 # 页面路由

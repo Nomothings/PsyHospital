@@ -164,6 +164,38 @@ const HistoryDetail = {
                         </div>
                     </div>
 
+                    <!-- 治疗方案 -->
+                    <div class="history-detail-section" v-if="treatment">
+                        <div class="history-detail-section__header">
+                            <el-icon :size="20" color="#5ed6c8"><FirstAidKit /></el-icon>
+                            <h4 class="history-detail-section__title">治疗方案</h4>
+                        </div>
+                        <div class="history-detail-section__body">
+                            <div class="history-detail-treatment">
+                                <div class="history-detail-treatment__item">
+                                    <span class="history-detail-treatment__label">药物治疗</span>
+                                    <span class="history-detail-treatment__value">{{ treatment['药物治疗'] || '无' }}</span>
+                                </div>
+                                <div class="history-detail-treatment__item">
+                                    <span class="history-detail-treatment__label">心理治疗</span>
+                                    <span class="history-detail-treatment__value">{{ treatment['心理治疗'] || '无' }}</span>
+                                </div>
+                                <div class="history-detail-treatment__item">
+                                    <span class="history-detail-treatment__label">神经调控与其他躯体治疗</span>
+                                    <span class="history-detail-treatment__value">{{ treatment['神经调控与其他躯体治疗'] || '无' }}</span>
+                                </div>
+                                <div class="history-detail-treatment__item">
+                                    <span class="history-detail-treatment__label">社会心理干预与康复治疗</span>
+                                    <span class="history-detail-treatment__value">{{ treatment['社会心理干预与康复治疗'] || '无' }}</span>
+                                </div>
+                                <div class="history-detail-treatment__item">
+                                    <span class="history-detail-treatment__label">辅助治疗</span>
+                                    <span class="history-detail-treatment__value">{{ treatment['辅助治疗'] || '无' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- 空状态 -->
                     <div v-if="!loading && !recordData.caseInfo && !messages.length && !exams.length && !caseForm && !diagnosis"
                          class="history-detail-empty">
@@ -191,6 +223,7 @@ const HistoryDetail = {
         DocumentChecked() { return ElementPlusIconsVue.DocumentChecked; },
         EditPen() { return ElementPlusIconsVue.EditPen; },
         CircleCheckFilled() { return ElementPlusIconsVue.CircleCheckFilled; },
+        FirstAidKit() { return ElementPlusIconsVue.FirstAidKit; },
         DocumentDelete() { return ElementPlusIconsVue.DocumentDelete; },
 
         messages() {
@@ -207,6 +240,10 @@ const HistoryDetail = {
 
         diagnosis() {
             return this.recordData.diagnosis || null;
+        },
+
+        treatment() {
+            return this.recordData.treatment || null;
         },
     },
 

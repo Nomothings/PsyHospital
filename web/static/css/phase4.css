@@ -1,0 +1,324 @@
+/* ============================================================
+   Phase 4 — 诊疗页面
+   尽量复用 phase3.css 的样式类名（case-info-*、phase4-panel-section 等）
+   仅补充 phase4 特有的外壳样式
+   ============================================================ */
+
+.phase4-page {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.phase4-page__bg {
+    position: absolute;
+    inset: 0;
+    background: url('/static/bg/phase3.png') center / cover no-repeat;
+    z-index: 0;
+}
+
+.phase4-page__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.2) 0%,
+        rgba(0, 0, 0, 0.05) 40%,
+        rgba(0, 0, 0, 0.35) 100%
+    );
+    z-index: 1;
+}
+
+/* ---- 顶部栏 ---- */
+.phase4-header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.phase4-header__left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.phase4-header__back-btn {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: none !important;
+    color: #2a5a5a !important;
+    font-size: 13px !important;
+    padding: 4px 12px !important;
+    height: auto !important;
+    border-radius: 10px !important;
+}
+
+.phase4-header__back-btn:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.phase4-header__title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #2a5a5a;
+    margin: 0;
+}
+
+.phase4-header__subtitle {
+    font-size: 12px;
+    color: rgba(42, 90, 90, 0.55);
+}
+
+.phase4-header__right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.phase4-header__patient {
+    font-size: 13px;
+    color: #2a5a5a;
+    background: rgba(94, 214, 200, 0.15);
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.phase4-header__complete-btn {
+    background: linear-gradient(135deg, #5ed6c8, #3ec4b0) !important;
+    border: none !important;
+    color: #fff !important;
+    font-weight: 600;
+}
+
+/* ---- 主内容区 ---- */
+.phase4-content {
+    position: relative;
+    z-index: 5;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    overflow-y: auto;
+}
+
+.phase4-content--split {
+    align-items: stretch;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px 24px;
+}
+
+/* ---- 左侧面板 ---- */
+.phase4-left-panel {
+    width: 380px;
+    min-width: 320px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-right: 4px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
+.phase4-left-panel::-webkit-scrollbar {
+    width: 4px;
+}
+
+.phase4-left-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.phase4-left-panel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+}
+
+/* 面板区块 — 复用 phase3 同名类样式 */
+.phase4-panel-section {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    padding: 14px 16px;
+}
+
+.phase4-panel-section__title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.phase4-panel-section__content {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+}
+
+/* 信息行 */
+.phase4-info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.phase4-info-row:last-child {
+    margin-bottom: 0;
+}
+
+.phase4-info-row__label {
+    flex-shrink: 0;
+    width: 60px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+}
+
+.phase4-info-row__value {
+    flex: 1;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 12px;
+}
+
+/* 辅助检查结果行 */
+.phase4-exam-result-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 11px;
+}
+
+.phase4-exam-result-row:last-child {
+    border-bottom: none;
+}
+
+.phase4-exam-result-row__name {
+    flex-shrink: 0;
+    width: 70px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.phase4-exam-result-row__value {
+    flex: 1;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.5;
+}
+
+.phase4-exam-result-row--none .phase4-exam-result-row__value {
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+}
+
+/* ---- 右侧面板 ---- */
+.phase4-right-panel {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 120px);
+}
+
+.phase4-treatment-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    padding: 24px 28px;
+    animation: cardFadeIn 0.4s ease-out;
+    overflow-y: auto;
+}
+
+.phase4-treatment-card::-webkit-scrollbar {
+    width: 5px;
+}
+
+.phase4-treatment-card::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.phase4-treatment-card::-webkit-scrollbar-thumb {
+    background: rgba(94, 214, 200, 0.3);
+    border-radius: 3px;
+}
+
+.phase4-treatment-card__header {
+    margin-bottom: 16px;
+}
+
+.phase4-treatment-card__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2a5a5a;
+    margin: 0 0 4px;
+}
+
+.phase4-treatment-card__subtitle {
+    font-size: 12px;
+    color: rgba(42, 90, 90, 0.5);
+    margin: 0;
+}
+
+/* ---- 表单提交按钮区 ---- */
+.phase4-form__actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.phase4-form__submit-btn {
+    min-width: 160px;
+    background: linear-gradient(135deg, #5ed6c8, #3ec4b0) !important;
+    border: none !important;
+    font-weight: 600;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 16px rgba(94, 214, 200, 0.35) !important;
+}
+
+.phase4-form__submit-btn:hover {
+    box-shadow: 0 6px 24px rgba(94, 214, 200, 0.5) !important;
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 768px) {
+    .phase4-header {
+        padding: 10px 16px;
+    }
+
+    .phase4-content {
+        padding: 20px 16px;
+    }
+
+    .phase4-treatment-card {
+        padding: 20px 16px;
+        border-radius: 16px;
+    }
+
+    .phase4-treatment-card__title {
+        font-size: 18px;
+    }
+}

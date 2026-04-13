@@ -11,6 +11,7 @@ const routes = [
     { path: "/phase1", component: Interview },
     { path: "/phase2", component: Phase2Check },
     { path: "/phase3", component: Phase3Diagnosis },
+    { path: "/phase4", component: Phase4Treatment },
     { path: "/record", component: CaseRecord },
     { path: "/history", component: HistoryList },
     { path: "/history-detail", component: HistoryDetail },

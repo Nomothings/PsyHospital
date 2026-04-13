@@ -513,7 +513,7 @@ const Phase3Diagnosis = {
                         reason: this.form.reason,
                     }));
 
-                    this.$router.push('/patients');
+                    this.$router.push('/phase4');
                 } catch (err) {
                     this.$message.error('提交失败: ' + (err.message || '未知错误'));
                     console.error('[Phase3Diagnosis] 提交失败:', err);

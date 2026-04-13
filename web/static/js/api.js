@@ -211,6 +211,25 @@ const API = {
         return await response.json();
     },
 
+    // --- Phase 4: 诊疗 ---
+
+    // 提交治疗方案
+    async submitTreatment(caseId, treatment) {
+        const response = await fetch(this.BASE_URL + "/api/treatment/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                case_id: caseId,
+                treatment,
+            }),
+        });
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.error || `HTTP ${response.status}`);
+        }
+        return await response.json();
+    },
+
     // --- 问诊历史记录 ---
 
     // 获取问诊历史列表
