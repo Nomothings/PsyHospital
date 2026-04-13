@@ -261,19 +261,27 @@ const Interview = {
             this.$router.push('/patients');
         },
 
-        endConversation() {
+        async endConversation() {
             const caseId = this.$route.query.id;
+            const recordId = sessionStorage.getItem('record_id') || caseId;
             if (caseId) {
                 sessionStorage.setItem('phase2_caseId', caseId);
                 sessionStorage.setItem('phase2_messages', JSON.stringify(this.messages));
 
-                API.saveCaseRecord(caseId, {
-                    caseInfo: {
-                        basicInfomation: this.patientBasicInfo,
-                        physicalExamination: this.patientPhysicalExam,
-                    },
-                    conversation: this.messages,
-                }).catch(err => console.error('[Interview] 保存记录失败:', err));
+                try {
+                    const result = await API.saveCaseRecord(recordId, {
+                        caseInfo: {
+                            basicInfomation: this.patientBasicInfo,
+                            physicalExamination: this.patientPhysicalExam,
+                        },
+                        conversation: this.messages,
+                    });
+                    if (result && result.status === 'error') {
+                        console.error('[Interview] 保存记录失败:', result.message);
+                    }
+                } catch (err) {
+                    console.error('[Interview] 保存记录失败:', err);
+                }
             }
             if (this.sessionId) API.endChat(this.sessionId);
             this.$router.push({ path: '/phase2', query: { id: caseId } });
@@ -299,6 +307,11 @@ const Interview = {
                 const chatRes = await API.startChat(caseId);
                 this.sessionId = chatRes.session_id;
                 this.patientIntro = chatRes.opening || '';
+
+                // 保存 record_id，后续所有阶段统一使用
+                if (chatRes.record_id) {
+                    sessionStorage.setItem('record_id', chatRes.record_id);
+                }
 
                 // 从开场白推断初始情绪
                 if (this.patientIntro) {

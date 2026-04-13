@@ -25,7 +25,7 @@ const HistoryList = {
                 <div class="history-list-card" v-if="filteredHistories.length">
                     <div
                         v-for="item in filteredHistories"
-                        :key="item.case_id"
+                        :key="item.record_id"
                         class="history-item"
                         @click="viewDetail(item)"
                     >
@@ -106,7 +106,7 @@ const HistoryList = {
         viewDetail(item) {
             this.$router.push({
                 path: '/history-detail',
-                query: { case_id: item.case_id },
+                query: { record_id: item.record_id },
             });
         },
     },

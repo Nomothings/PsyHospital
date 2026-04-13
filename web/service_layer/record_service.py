@@ -24,12 +24,10 @@ class RecordService:
             record_data: 记录数据
 
         Returns:
-            操作结果
+            操作结果，包含 record_id
         """
-        success = self.repository.save_record(case_id, record_data)
-        if success:
-            return {"status": "ok", "case_id": case_id}
-        return {"status": "error", "message": "保存失败"}
+        result = self.repository.save_record(case_id, record_data)
+        return result
 
     def get_record(self, case_id: str) -> Optional[Dict[str, Any]]:
         """获取问诊记录"""

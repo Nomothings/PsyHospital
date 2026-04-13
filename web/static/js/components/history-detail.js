@@ -253,7 +253,7 @@ const HistoryDetail = {
         },
 
         async loadDetail() {
-            this.caseId = this.$route.query.case_id || '';
+            this.caseId = this.$route.query.record_id || this.$route.query.case_id || '';
             if (!this.caseId) {
                 this.$message.warning('未找到历史记录');
                 return;

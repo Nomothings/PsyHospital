@@ -226,7 +226,9 @@ def api_history_list():
             case_info = data.get("caseInfo", {})
             basic_info = case_info.get("basicInfomation", "")
             has_diagnosis = bool(data.get("diagnosis"))
+            record_id = f.stem  # 文件名即 case_id，保证与 detail API 一致
             histories.append({
+                "record_id": record_id,
                 "case_id": data.get("case_id", f.stem),
                 "saved_at": data.get("updated_at") or data.get("created_at", ""),
                 "created_at": data.get("created_at", ""),
@@ -239,13 +241,13 @@ def api_history_list():
     return jsonify({"histories": histories, "total": len(histories)})
 
 
-@app.route("/api/history/<case_id>")
-def api_history_detail(case_id):
+@app.route("/api/history/<record_id>")
+def api_history_detail(record_id):
     """查看单条问诊历史详情（从 records 读取完整问诊数据）"""
-    if not re.match(r'^[a-zA-Z0-9_\-\.]+$', case_id):
-        return jsonify({"error": "Invalid case_id"}), 400
+    if not re.match(r'^[a-zA-Z0-9_\-\.]+$', record_id):
+        return jsonify({"error": "Invalid record_id"}), 400
 
-    record_file = RECORDS_DIR / f"{case_id}.json"
+    record_file = RECORDS_DIR / f"{record_id}.json"
     if not record_file.exists():
         return jsonify({"error": "History not found"}), 404
     data = _read_json_safe(record_file)
@@ -256,18 +258,18 @@ def api_history_detail(case_id):
     return jsonify(data)
 
 
-@app.route("/api/history/<case_id>", methods=["DELETE"])
-def api_history_delete(case_id):
+@app.route("/api/history/<record_id>", methods=["DELETE"])
+def api_history_delete(record_id):
     """删除单条问诊历史"""
-    if not re.match(r'^[a-zA-Z0-9_\-\.]+$', case_id):
-        return jsonify({"error": "Invalid case_id"}), 400
+    if not re.match(r'^[a-zA-Z0-9_\-\.]+$', record_id):
+        return jsonify({"error": "Invalid record_id"}), 400
 
-    record_file = RECORDS_DIR / f"{case_id}.json"
+    record_file = RECORDS_DIR / f"{record_id}.json"
     if not record_file.exists():
         return jsonify({"error": "History not found"}), 404
     try:
         record_file.unlink()
-        logger.info(f"问诊历史已删除: {case_id}")
+        logger.info(f"问诊历史已删除: {record_id}")
         return jsonify({"status": "ok"})
     except Exception as e:
         logger.error(f"删除问诊历史失败: {e}")

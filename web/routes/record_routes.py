@@ -26,16 +26,16 @@ def register_record_routes(record_service):
             logger.error(f"保存记录失败: {e}")
             return jsonify({"error": str(e)}), 500
 
-    @record_bp.route("/<case_id>")
-    def get_record(case_id):
-        """获取问诊记录"""
+    @record_bp.route("/<record_id>")
+    def get_record(record_id):
+        """获取问诊记录（通过 record_id）"""
         try:
-            record = record_service.get_record(case_id)
+            record = record_service.get_record(record_id)
             if not record:
                 return jsonify({"error": "Record not found"}), 404
             return jsonify(record)
         except Exception as e:
-            logger.error(f"获取记录 {case_id} 失败: {e}")
+            logger.error(f"获取记录 {record_id} 失败: {e}")
             return jsonify({"error": str(e)}), 500
 
     return record_bp

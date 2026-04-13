@@ -210,7 +210,7 @@ const CaseRecord = {
         },
 
         async loadRecord() {
-            this.caseId = this.$route.query.id || '';
+            this.caseId = this.$route.query.id || this.$route.query.record_id || '';
             if (!this.caseId) {
                 this.$message.warning('未找到病例信息');
                 return;

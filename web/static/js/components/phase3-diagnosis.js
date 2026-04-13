@@ -116,15 +116,15 @@ const Phase3Diagnosis = {
                                 <div class="case-info-readonly__grid">
                                     <div class="case-info-row">
                                         <span class="case-info-row__label">姓名</span>
-                                        <input v-model="caseForm.name" class="case-info-row__input" placeholder="请输入" />
+                                        <input v-model="caseForm.name" class="case-info-row__input case-info-row__input--auto" placeholder="请输入" />
                                     </div>
                                     <div class="case-info-row">
                                         <span class="case-info-row__label">年龄</span>
-                                        <input v-model="caseForm.age" class="case-info-row__input" placeholder="请输入" />
+                                        <input v-model="caseForm.age" class="case-info-row__input case-info-row__input--auto" placeholder="请输入" />
                                     </div>
                                     <div class="case-info-row">
                                         <span class="case-info-row__label">性别</span>
-                                        <input v-model="caseForm.gender" class="case-info-row__input" placeholder="请输入" />
+                                        <input v-model="caseForm.gender" class="case-info-row__input case-info-row__input--auto" placeholder="请输入" />
                                     </div>
                                 </div>
                                 <div class="case-info-divider"></div>
@@ -485,15 +485,18 @@ const Phase3Diagnosis = {
 
                 this.submitting = true;
                 try {
-                    await API.submitCaseWriting(this.caseId, JSON.stringify(this.caseForm));
+                    // 使用 record_id 确保所有数据整合到同一次问诊记录
+                    const recordId = sessionStorage.getItem('record_id') || this.caseId;
 
-                    const result = await API.submitDiagnosis(this.caseId, {
+                    await API.submitCaseWriting(recordId, JSON.stringify(this.caseForm));
+
+                    const result = await API.submitDiagnosis(recordId, {
                         category: this.form.category,
                         disease: this.form.disease,
                         reason: this.form.reason,
                     });
 
-                    await API.saveCaseRecord(this.caseId, {
+                    await API.saveCaseRecord(recordId, {
                         caseForm: { ...this.caseForm },
                         diagnosis: {
                             category: this.form.category,
@@ -536,6 +539,26 @@ const Phase3Diagnosis = {
                 try {
                     const info = await API.getCaseInfo(this.caseId);
                     this.caseInfo = info;
+
+                    // 从 basicInfomation 中解析性别和年龄，自动填入表单
+                    if (info && info.basicInfomation) {
+                        const basicInfo = info.basicInfomation;
+
+                        // 解析性别：匹配"男"或"女"
+                        const genderMatch = basicInfo.match(/患者([男女])/);
+                        if (genderMatch) {
+                            this.caseForm.gender = genderMatch[1];
+                        }
+
+                        // 解析年龄：匹配"XX 岁"或"XX岁"
+                        const ageMatch = basicInfo.match(/(\d+)\s*岁/);
+                        if (ageMatch) {
+                            this.caseForm.age = ageMatch[1];
+                        }
+
+                        // 姓名默认为"患者"
+                        this.caseForm.name = '患者';
+                    }
                 } catch (err) {
                     console.error('[Phase3Diagnosis] 加载患者信息失败:', err);
                 }

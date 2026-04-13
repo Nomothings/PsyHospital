@@ -5,6 +5,7 @@ import os
 import json
 import time
 import logging
+import re
 from pathlib import Path
 from flask import Blueprint, request, jsonify
 
@@ -13,12 +14,15 @@ from agents.patient.patient import create_patient
 # 项目根目录（web/routes/../../ = project_root）
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 
+# 问诊记录目录
+RECORDS_DIR = PROJECT_ROOT / "web" / "data" / "records"
+
 logger = logging.getLogger(__name__)
 
 # 会话 TTL：30 分钟无活动自动过期
 SESSION_TTL_SECONDS = 1800
 
-# In-memory: session_id -> { patient, case_id, messages, last_active }
+# In-memory: session_id -> { patient, case_id, record_id, messages, last_active }
 chat_sessions = {}
 
 
@@ -29,6 +33,18 @@ def _cleanup_expired_sessions():
     for sid in expired:
         del chat_sessions[sid]
         logger.info(f"会话 {sid} 已过期，自动清理")
+
+
+def _generate_record_id(case_id: str) -> str:
+    """为同一病例生成递增的 record_id（如 1009904_1, 1009904_2）"""
+    RECORDS_DIR.mkdir(parents=True, exist_ok=True)
+    # 统计已有以 case_id 开头的记录文件数
+    pattern = re.escape(case_id) + r"(?:_\d+)?\.json$"
+    existing = 0
+    for f in RECORDS_DIR.glob("*.json"):
+        if re.match(pattern, f.name):
+            existing += 1
+    return f"{case_id}_{existing + 1}"
 
 
 def register_chat_routes(case_service):
@@ -65,9 +81,11 @@ def register_chat_routes(case_service):
             )
 
             session_id = os.urandom(16).hex()
+            record_id = _generate_record_id(case_id)
             chat_sessions[session_id] = {
                 "patient": patient,
                 "case_id": case_id,
+                "record_id": record_id,
                 "messages": [],
                 "last_active": time.time(),
             }
@@ -80,10 +98,11 @@ def register_chat_routes(case_service):
             except json.JSONDecodeError:
                 opening = opening_response
 
-            logger.info(f"会话 {session_id} 已创建，病例 {case_id}")
+            logger.info(f"会话 {session_id} 已创建，病例 {case_id}，记录 {record_id}")
             return jsonify({
                 "session_id": session_id,
                 "case_id": case_id,
+                "record_id": record_id,
                 "opening": opening,
             })
         except Exception as e:
@@ -158,6 +177,7 @@ def register_chat_routes(case_service):
             sessions.append({
                 "session_id": sid,
                 "case_id": s["case_id"],
+                "record_id": s.get("record_id", ""),
                 "turns": len(s["messages"]) // 2,
                 "last_active_ago": round(now - s["last_active"]),
             })

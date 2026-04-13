@@ -176,7 +176,9 @@ const Phase2Check = {
                 result,
             }));
 
-            API.saveCaseRecord(this.caseId, {
+            // 使用 record_id 保存后续数据，确保整合到同一次问诊记录
+            const recordId = sessionStorage.getItem('record_id') || this.caseId;
+            API.saveCaseRecord(recordId, {
                 exams: examRecords,
             }).catch(err => console.error('[Phase2Check] 保存记录失败:', err));
 

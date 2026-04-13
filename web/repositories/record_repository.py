@@ -1,5 +1,6 @@
 """
 问诊记录数据仓库 - 负责问诊过程记录的持久化存储
+每次问诊会话使用一个 JSON 文件，同一次会话的所有阶段数据合并到同一文件
 """
 import re
 import os
@@ -31,20 +32,20 @@ class RecordRepository:
         safe_id = _sanitize_case_id(case_id)
         return self.records_dir / f"{safe_id}.json"
 
-    def save_record(self, case_id: str, record: Dict[str, Any]) -> bool:
-        """保存或更新问诊记录
+    def save_record(self, case_id: str, record: Dict[str, Any]) -> Dict[str, Any]:
+        """保存或更新问诊记录。每次问诊会话一个文件，同一次会话的所有阶段数据合并到同一文件。
 
         Args:
-            case_id: 病例 ID
-            record: 记录数据，包含 caseInfo, conversation, exams, caseText, diagnosis
+            case_id: 问诊记录 ID（record_id，如 1009904_1，用作文件名）
+            record: 记录数据，包含 caseInfo, conversation, exams, caseForm, diagnosis, treatment 等
 
         Returns:
-            是否保存成功
+            包含 record_id 的结果字典
         """
         try:
             record_path = self._get_record_path(case_id)
 
-            # 如果文件已存在，合并更新
+            # 如果文件已存在，合并更新（所有阶段数据合并到同一文件）
             existing = {}
             if record_path.exists():
                 with open(record_path, "r", encoding="utf-8") as f:
@@ -62,12 +63,12 @@ class RecordRepository:
             with open(record_path, "w", encoding="utf-8") as f:
                 json.dump(merged, f, ensure_ascii=False, indent=2)
 
-            logger.info(f"病例 {case_id} 记录已保存")
-            return True
+            logger.info(f"记录 {case_id} 已保存（合并模式）")
+            return {"status": "ok", "record_id": case_id}
 
         except Exception as e:
             logger.error(f"保存病例 {case_id} 记录失败: {e}")
-            return False
+            return {"status": "error", "message": str(e)}
 
     def get_record(self, case_id: str) -> Optional[Dict[str, Any]]:
         """获取病例的问诊记录
@@ -89,8 +90,15 @@ class RecordRepository:
             logger.error(f"读取病例 {case_id} 记录失败: {e}")
             return None
 
+    def get_records_by_case(self, case_id: str) -> List[Dict[str, Any]]:
+        """获取某患者的所有问诊记录（当前实现每个病例只有一个文件）"""
+        record = self.get_record(case_id)
+        if record:
+            return [record]
+        return []
+
     def delete_record(self, case_id: str) -> bool:
-        """删除病例记录"""
+        """删除问诊记录"""
         record_path = self._get_record_path(case_id)
         if record_path.exists():
             try:
@@ -110,7 +118,8 @@ class RecordRepository:
                 with open(record_file, "r", encoding="utf-8") as f:
                     data = json.load(f)
                 records.append({
-                    "case_id": data.get("case_id", record_file.stem),
+                    "record_id": data.get("record_id", record_file.stem),
+                    "case_id": data.get("case_id", ""),
                     "created_at": data.get("created_at", ""),
                     "updated_at": data.get("updated_at", ""),
                     "has_diagnosis": bool(data.get("diagnosis")),
@@ -118,4 +127,6 @@ class RecordRepository:
                 })
             except Exception as e:
                 logger.warning(f"读取记录文件 {record_file} 失败: {e}")
+        # 按更新时间倒序
+        records.sort(key=lambda x: x.get("updated_at", ""), reverse=True)
         return records

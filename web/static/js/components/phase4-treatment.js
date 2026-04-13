@@ -180,9 +180,12 @@ const Phase4Treatment = {
                     treatmentRecord[label] = this.treatment[key] ? this.treatment[key].trim() : '无';
                 }
 
-                await API.submitTreatment(this.caseId, treatmentRecord);
+                // 使用 record_id 确保所有数据整合到同一次问诊记录
+                const recordId = sessionStorage.getItem('record_id') || this.caseId;
 
-                await API.saveCaseRecord(this.caseId, {
+                await API.submitTreatment(recordId, treatmentRecord);
+
+                await API.saveCaseRecord(recordId, {
                     treatment: treatmentRecord,
                 });
 
