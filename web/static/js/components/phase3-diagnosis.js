@@ -175,58 +175,110 @@ const Phase3Diagnosis = {
                             </el-tag>
                         </div>
 
-                        <el-form
-                            :model="form"
-                            :rules="rules"
-                            ref="formRef"
-                            label-position="top"
-                            class="phase3-form"
-                        >
-                            <el-form-item label="诊断类别" prop="category">
-                                <el-select
-                                    v-model="form.category"
-                                    placeholder="请选择 ICD-11 疾病分类"
-                                    filterable
-                                    size="large"
-                                    class="phase3-form__select"
-                                >
-                                    <el-option
-                                        v-for="(cat, idx) in categories"
-                                        :key="idx"
-                                        :label="cat"
-                                        :value="cat"
-                                    />
-                                </el-select>
-                            </el-form-item>
+                        <div class="phase3-form">
+                            <!-- 诊断选择器 -->
+                            <div class="diagnosis-selector" ref="diagnosisSelectorRef">
+                                <label class="diagnosis-selector__label">诊断选择</label>
 
-                            <el-form-item label="具体病症" prop="disease">
-                                <el-select
-                                    v-model="form.disease"
-                                    placeholder="请先选择诊断类别"
-                                    filterable
-                                    size="large"
-                                    class="phase3-form__select"
-                                    :disabled="!form.category"
-                                >
-                                    <el-option
-                                        v-for="(dis, idx) in availableDiseases"
-                                        :key="idx"
-                                        :label="dis"
-                                        :value="dis"
-                                    />
-                                </el-select>
-                            </el-form-item>
+                                <!-- 组合标签容器 -->
+                                <div class="diagnosis-selector__input" @click.self="openDropdown">
+                                    <!-- 组合标签 -->
+                                    <transition-group name="compound-tag" tag="div" class="diagnosis-selector__tags">
+                                        <div
+                                            v-for="tag in compoundTags"
+                                            :key="tag.key"
+                                            class="compound-tag"
+                                            :class="{ 'compound-tag--removing': tag._removing }"
+                                            :title="tag.category + ' — ' + (tag.disease || '未选择具体疾病')"
+                                        >
+                                            <!-- 大类 -->
+                                            <span class="compound-tag__category">
+                                                <el-icon :size="10" class="compound-tag__cat-icon"><Folder /></el-icon>
+                                                {{ tag.category }}
+                                            </span>
+                                            <!-- 分隔符 -->
+                                            <span class="compound-tag__sep"></span>
+                                            <!-- 诊断项 -->
+                                            <span class="compound-tag__disease">
+                                                <span class="compound-tag__dot"></span>
+                                                {{ tag.disease || '—' }}
+                                            </span>
+                                            <!-- 删除按钮 -->
+                                            <span class="compound-tag__delete" @click.stop="removeCompoundTag(tag)" title="删除">
+                                                <el-icon :size="13"><Close /></el-icon>
+                                            </span>
+                                        </div>
+                                    </transition-group>
 
-                            <el-form-item label="诊断理由" prop="reason">
-                                <el-input
+                                    <!-- 添加按钮 -->
+                                    <div class="compound-tag compound-tag--add" @click.stop="openDropdown">
+                                        <el-icon :size="14" class="compound-tag__add-icon"><Plus /></el-icon>
+                                        <span>添加诊断</span>
+                                    </div>
+
+                                    <!-- 空状态提示 -->
+                                    <div v-if="compoundTags.length === 0" class="diagnosis-selector__placeholder">
+                                        点击「添加诊断」选择 ICD-11 疾病分类
+                                    </div>
+
+                                    <!-- 下拉面板 -->
+                                    <div v-show="dropdownVisible" class="diagnosis-dropdown" @click.stop>
+                                        <div class="diagnosis-dropdown__body">
+                                            <!-- 左侧：大类列表 -->
+                                            <div class="diagnosis-dropdown__categories">
+                                                <div class="diagnosis-dropdown__section-title">诊断大类</div>
+                                                <div
+                                                    v-for="cat in categories"
+                                                    :key="cat"
+                                                    class="diagnosis-dropdown__cat-item"
+                                                    :class="{
+                                                        'diagnosis-dropdown__cat-item--selected': isSelectedCategory(cat),
+                                                        'diagnosis-dropdown__cat-item--active': activeCategory === cat,
+                                                    }"
+                                                    @click="selectCategory(cat)"
+                                                >
+                                                    <span class="diagnosis-dropdown__cat-item__text">{{ cat }}</span>
+                                                    <el-icon v-if="isSelectedCategory(cat)" :size="14" color="#5ed6c8"><Check /></el-icon>
+                                                </div>
+                                            </div>
+                                            <!-- 右侧：疾病列表 -->
+                                            <div class="diagnosis-dropdown__diseases">
+                                                <div v-if="!activeCategory" class="diagnosis-dropdown__empty">
+                                                    请先在左侧选择一个诊断大类
+                                                </div>
+                                                <template v-else>
+                                                    <div class="diagnosis-dropdown__section-title">
+                                                        {{ activeCategory }} — 具体疾病
+                                                    </div>
+                                                    <div
+                                                        v-for="dis in getDiseasesForCategory(activeCategory)"
+                                                        :key="dis"
+                                                        class="diagnosis-dropdown__dis-item"
+                                                        :class="{
+                                                            'diagnosis-dropdown__dis-item--selected': isSelectedDisease(activeCategory, dis),
+                                                        }"
+                                                        @click="selectDisease(activeCategory, dis)"
+                                                    >
+                                                        <span class="diagnosis-dropdown__dis-item__text">{{ dis }}</span>
+                                                        <el-icon v-if="isSelectedDisease(activeCategory, dis)" :size="14" color="#5ed6c8"><Check /></el-icon>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 诊断理由 -->
+                            <div class="diagnosis-selector__reason">
+                                <label class="diagnosis-selector__label">诊断理由</label>
+                                <textarea
                                     v-model="form.reason"
-                                    type="textarea"
-                                    :rows="6"
+                                    class="diagnosis-selector__textarea"
+                                    rows="6"
                                     placeholder="请说明诊断依据和推理过程…"
-                                    resize="none"
-                                    class="phase3-form__textarea"
-                                />
-                            </el-form-item>
+                                ></textarea>
+                            </div>
 
                             <div class="phase3-form__actions">
                                 <el-button
@@ -240,7 +292,7 @@ const Phase3Diagnosis = {
                                     完成诊断
                                 </el-button>
                             </div>
-                        </el-form>
+                        </div>
                     </div>
                 </template>
             </div>
@@ -271,6 +323,13 @@ const Phase3Diagnosis = {
                 reason: '',
             },
             submitting: false,
+
+            // 诊断多选器状态
+            dropdownVisible: false,
+            activeCategory: '',
+            selectedCategories: [],
+            selectedDiseasesByCategory: {},
+
             categories: [
                 "神经发育障碍",
                 "精神分裂症或其他原发性精神病性障碍",
@@ -435,25 +494,46 @@ const Phase3Diagnosis = {
                     "6D51 施加于他人的做作性障碍",
                 ],
             },
-            rules: {
-                category: [
-                    { required: true, message: '请选择诊断类别', trigger: 'change' },
-                ],
-                disease: [
-                    { required: true, message: '请输入具体病症', trigger: 'blur' },
-                ],
-                reason: [
-                    { required: true, message: '请填写诊断理由', trigger: 'blur' },
-                ],
-            },
+            rules: {},
         };
     },
 
     computed: {
         ArrowLeft() { return ElementPlusIconsVue.ArrowLeft; },
-        availableDiseases() {
-            return this.diseaseMapping[this.form.category] || [];
+        Close() { return ElementPlusIconsVue.Close; },
+        Check() { return ElementPlusIconsVue.Check; },
+        Plus() { return ElementPlusIconsVue.Plus; },
+        Folder() { return ElementPlusIconsVue.Folder; },
+
+        compoundTags() {
+            const tags = [];
+            for (const cat of this.selectedCategories) {
+                const diseases = this.selectedDiseasesByCategory[cat] || [];
+                if (diseases.length === 0) {
+                    // 只有大类，没有子诊断
+                    tags.push({
+                        key: `cat:${cat}`,
+                        category: cat,
+                        disease: '',
+                        type: 'category-only',
+                        _removing: false,
+                    });
+                } else {
+                    // 大类 + 每个疾病一个组合标签
+                    for (const dis of diseases) {
+                        tags.push({
+                            key: `dis:${cat}::${dis}`,
+                            category: cat,
+                            disease: dis,
+                            type: 'compound',
+                            _removing: false,
+                        });
+                    }
+                }
+            }
+            return tags;
         },
+
         isCaseFormFilled() {
             const f = this.caseForm;
             return f.name && f.age && f.gender && f.chiefComplaint
@@ -462,13 +542,119 @@ const Phase3Diagnosis = {
         },
     },
 
-    watch: {
-        'form.category'() {
-            this.form.disease = '';
-        },
-    },
+    watch: {},
 
     methods: {
+        // ---- 诊断选择器方法 ----
+        getDiseasesForCategory(cat) {
+            return this.diseaseMapping[cat] || [];
+        },
+
+        isSelectedCategory(cat) {
+            return this.selectedCategories.includes(cat);
+        },
+
+        isSelectedDisease(cat, dis) {
+            return (this.selectedDiseasesByCategory[cat] || []).includes(dis);
+        },
+
+        openDropdown() {
+            this.dropdownVisible = true;
+            if (!this.activeCategory && this.selectedCategories.length > 0) {
+                this.activeCategory = this.selectedCategories[0];
+            }
+        },
+
+        closeDropdown() {
+            this.dropdownVisible = false;
+        },
+
+        toggleDropdown() {
+            this.dropdownVisible = !this.dropdownVisible;
+            if (this.dropdownVisible && !this.activeCategory && this.selectedCategories.length > 0) {
+                this.activeCategory = this.selectedCategories[0];
+            }
+        },
+
+        closeDropdown() {
+            this.dropdownVisible = false;
+        },
+
+        selectCategory(cat) {
+            if (!this.isSelectedCategory(cat)) {
+                this.selectedCategories.push(cat);
+                if (!this.selectedDiseasesByCategory[cat]) {
+                    this.selectedDiseasesByCategory[cat] = [];
+                }
+            }
+            // 选中大类后，立刻切到右侧显示该大类的疾病列表
+            this.activeCategory = cat;
+        },
+
+        selectDisease(cat, dis) {
+            if (!this.selectedDiseasesByCategory[cat]) {
+                this.selectedDiseasesByCategory[cat] = [];
+            }
+            const diseases = this.selectedDiseasesByCategory[cat];
+            if (!diseases.includes(dis)) {
+                diseases.push(dis);
+            } else {
+                // 已选则取消
+                this.selectedDiseasesByCategory[cat] = diseases.filter(d => d !== dis);
+            }
+        },
+
+        removeCompoundTag(tag) {
+            if (tag.type === 'category-only') {
+                // 删除大类-only标签
+                this.selectedCategories = this.selectedCategories.filter(c => c !== tag.category);
+                delete this.selectedDiseasesByCategory[tag.category];
+                if (this.activeCategory === tag.category) {
+                    this.activeCategory = this.selectedCategories[0] || '';
+                }
+            } else {
+                // 删除组合标签（大类 + 疾病）
+                if (this.selectedDiseasesByCategory[tag.category]) {
+                    this.selectedDiseasesByCategory[tag.category] = this.selectedDiseasesByCategory[tag.category].filter(d => d !== tag.disease);
+                    // 如果该大类下没有疾病了，自动移除大类
+                    if (this.selectedDiseasesByCategory[tag.category].length === 0) {
+                        this.selectedCategories = this.selectedCategories.filter(c => c !== tag.category);
+                        delete this.selectedDiseasesByCategory[tag.category];
+                        if (this.activeCategory === tag.category) {
+                            this.activeCategory = this.selectedCategories[0] || '';
+                        }
+                    }
+                }
+            }
+        },
+
+        removeTag(key) {
+            // 兼容旧方法
+            if (key.startsWith('cat:')) {
+                const cat = key.slice(4);
+                this.selectedCategories = this.selectedCategories.filter(c => c !== cat);
+                delete this.selectedDiseasesByCategory[cat];
+                if (this.activeCategory === cat) {
+                    this.activeCategory = this.selectedCategories[0] || '';
+                }
+            } else if (key.startsWith('dis:')) {
+                const parts = key.slice(4).split('::');
+                const cat = parts[0];
+                const dis = parts.slice(1).join('::');
+                if (this.selectedDiseasesByCategory[cat]) {
+                    this.selectedDiseasesByCategory[cat] = this.selectedDiseasesByCategory[cat].filter(d => d !== dis);
+                }
+            }
+        },
+
+        handleClickOutside(e) {
+            const el = this.$refs.diagnosisSelectorRef;
+            if (el && !el.contains(e.target)) {
+                this.closeDropdown();
+            }
+        },
+
+        // ---- 原有方法 ----
         goToDiagnosis() {
             if (!this.isCaseFormFilled) {
                 this.$message.warning('请先填写完整病历表单');
@@ -480,50 +666,70 @@ const Phase3Diagnosis = {
         },
 
         async handleSubmit() {
-            this.$refs.formRef.validate(async (valid) => {
-                if (!valid) return;
+            if (this.selectedCategories.length === 0) {
+                this.$message.warning('请至少选择一个诊断类别');
+                return;
+            }
+            if (!this.form.reason.trim()) {
+                this.$message.warning('请填写诊断理由');
+                return;
+            }
 
-                this.submitting = true;
-                try {
-                    // 使用 record_id 确保所有数据整合到同一次问诊记录
-                    const recordId = sessionStorage.getItem('record_id') || this.caseId;
+            this.submitting = true;
+            try {
+                // 使用 record_id 确保所有数据整合到同一次问诊记录
+                const recordId = sessionStorage.getItem('record_id') || this.caseId;
 
-                    await API.submitCaseWriting(recordId, JSON.stringify(this.caseForm));
-
-                    const result = await API.submitDiagnosis(recordId, {
-                        category: this.form.category,
-                        disease: this.form.disease,
-                        reason: this.form.reason,
-                    });
-
-                    await API.saveCaseRecord(recordId, {
-                        caseForm: { ...this.caseForm },
-                        diagnosis: {
-                            category: this.form.category,
-                            disease: this.form.disease,
-                            reason: this.form.reason,
-                        },
-                    });
-
-                    this.$message.success('第三阶段已完成');
-                    console.log('[Phase3Diagnosis] 提交成功:', result);
-
-                    sessionStorage.setItem('phase3_result', JSON.stringify({
-                        caseId: this.caseId,
-                        caseForm: { ...this.caseForm },
-                        category: this.form.category,
-                        disease: this.form.disease,
-                        reason: this.form.reason,
-                    }));
-
-                    this.$router.push('/phase4');
-                } catch (err) {
-                    this.$message.error('提交失败: ' + (err.message || '未知错误'));
-                    console.error('[Phase3Diagnosis] 提交失败:', err);
-                } finally {
-                    this.submitting = false;
+                // 构建诊断提交数据
+                const allDiseases = [];
+                const diagnoses = [];
+                for (const cat of this.selectedCategories) {
+                    const diseases = this.selectedDiseasesByCategory[cat] || [];
+                    allDiseases.push(...diseases);
+                    diagnoses.push({ category: cat, diseases });
                 }
-            });
+
+                // 兼容后端：第一个类别作为主要类别，第一个疾病作为主要疾病
+                const primaryCategory = this.selectedCategories[0] || '';
+                const primaryDisease = allDiseases[0] || '';
+
+                await API.submitCaseWriting(recordId, JSON.stringify(this.caseForm));
+
+                const result = await API.submitDiagnosis(recordId, {
+                    category: primaryCategory,
+                    disease: allDiseases.join('、') || primaryDisease,
+                    reason: this.form.reason,
+                });
+
+                await API.saveCaseRecord(recordId, {
+                    caseForm: { ...this.caseForm },
+                    diagnosis: {
+                        category: primaryCategory,
+                        disease: allDiseases.join('、') || primaryDisease,
+                        reason: this.form.reason,
+                        diagnoses: diagnoses,
+                    },
+                });
+
+                this.$message.success('第三阶段已完成');
+                console.log('[Phase3Diagnosis] 提交成功:', result);
+
+                sessionStorage.setItem('phase3_result', JSON.stringify({
+                    caseId: this.caseId,
+                    caseForm: { ...this.caseForm },
+                    category: primaryCategory,
+                    disease: allDiseases.join('、') || primaryDisease,
+                    reason: this.form.reason,
+                    diagnoses: diagnoses,
+                }));
+
+                this.$router.push('/phase4');
+            } catch (err) {
+                this.$message.error('提交失败: ' + (err.message || '未知错误'));
+                console.error('[Phase3Diagnosis] 提交失败:', err);
+            } finally {
+                this.submitting = false;
+            }
         },
 
         goBack() {
@@ -605,5 +811,10 @@ const Phase3Diagnosis = {
             this.$message.warning('未找到病例信息，请从患者列表进入');
         }
         this.loadPhaseData();
+        document.addEventListener('mousedown', this.handleClickOutside);
+    },
+
+    beforeUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
     },
 };

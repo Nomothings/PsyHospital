@@ -148,14 +148,29 @@ const HistoryDetail = {
                         </div>
                         <div class="history-detail-section__body">
                             <div class="history-detail-diagnosis">
-                                <div class="history-detail-diagnosis__item">
-                                    <span class="history-detail-diagnosis__label">诊断类别</span>
-                                    <span class="history-detail-diagnosis__value">{{ diagnosis.category }}</span>
-                                </div>
-                                <div class="history-detail-diagnosis__item">
-                                    <span class="history-detail-diagnosis__label">具体病症</span>
-                                    <span class="history-detail-diagnosis__value">{{ diagnosis.disease }}</span>
-                                </div>
+                                <!-- 新格式：多个诊断 -->
+                                <template v-if="diagnosis.diagnoses && diagnosis.diagnoses.length">
+                                    <div v-for="(dx, idx) in diagnosis.diagnoses" :key="idx" class="history-detail-diagnosis-group">
+                                        <div class="history-detail-diagnosis-group__header">
+                                            <el-tag type="success" size="small" effect="plain" round>{{ dx.category }}</el-tag>
+                                        </div>
+                                        <div class="history-detail-diagnosis-group__items" v-if="dx.diseases && dx.diseases.length">
+                                            <el-tag v-for="(dis, di) in dx.diseases" :key="di" size="small" round style="margin: 2px 4px 2px 0;">{{ dis }}</el-tag>
+                                        </div>
+                                        <div v-else class="history-detail-diagnosis-group__none">未选择具体疾病</div>
+                                    </div>
+                                </template>
+                                <!-- 旧格式：单个诊断 -->
+                                <template v-else>
+                                    <div class="history-detail-diagnosis__item">
+                                        <span class="history-detail-diagnosis__label">诊断类别</span>
+                                        <span class="history-detail-diagnosis__value">{{ diagnosis.category }}</span>
+                                    </div>
+                                    <div class="history-detail-diagnosis__item">
+                                        <span class="history-detail-diagnosis__label">具体病症</span>
+                                        <span class="history-detail-diagnosis__value">{{ diagnosis.disease }}</span>
+                                    </div>
+                                </template>
                                 <div class="history-detail-diagnosis__item">
                                     <span class="history-detail-diagnosis__label">诊断理由</span>
                                     <span class="history-detail-diagnosis__value">{{ diagnosis.reason }}</span>

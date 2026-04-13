@@ -1,4 +1,406 @@
 /* ============================================================
+   诊断多选选择器 — 组合标签系统
+   ============================================================ */
+
+.diagnosis-selector {
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.diagnosis-selector__label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2a5a5a;
+    padding-bottom: 8px;
+}
+
+/* ---- 组合标签容器 ---- */
+
+.diagnosis-selector__input {
+    min-height: 48px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 0 1px rgba(94, 214, 200, 0.15) inset;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.diagnosis-selector__input:hover {
+    box-shadow: 0 0 0 1px rgba(94, 214, 200, 0.35) inset;
+}
+
+.diagnosis-selector__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    flex: 1;
+}
+
+/* ---- 空状态 ---- */
+
+.diagnosis-selector__placeholder {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(42, 90, 90, 0.3);
+    font-size: 13px;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* ---- 组合标签 ---- */
+
+.compound-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    padding: 5px 6px 5px 10px;
+    border-radius: 999px;
+    background: rgba(94, 214, 200, 0.08);
+    border: 1px solid rgba(94, 214, 200, 0.2);
+    font-size: 12px;
+    line-height: 1.4;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    max-width: 320px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.compound-tag:hover {
+    background: rgba(94, 214, 200, 0.14);
+    border-color: rgba(94, 214, 200, 0.32);
+    transform: scale(1.015);
+}
+
+/* 大类 */
+.compound-tag__category {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(42, 90, 90, 0.5);
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.compound-tag__cat-icon {
+    flex-shrink: 0;
+    opacity: 0.5;
+}
+
+/* 分隔符 */
+.compound-tag__sep {
+    display: inline-block;
+    width: 1px;
+    height: 16px;
+    background: rgba(94, 214, 200, 0.2);
+    margin: 0 6px;
+    flex-shrink: 0;
+}
+
+/* 诊断项 */
+.compound-tag__disease {
+    font-size: 12px;
+    font-weight: 600;
+    color: #2a5a5a;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 诊断项前的小圆点 */
+.compound-tag__dot {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(94, 214, 200, 0.5);
+    flex-shrink: 0;
+}
+
+/* 删除按钮 */
+.compound-tag__delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: transparent;
+    color: rgba(42, 90, 90, 0.35);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+    margin-left: 4px;
+}
+
+.compound-tag__delete:hover {
+    background: rgba(255, 100, 100, 0.12);
+    color: #d94040;
+}
+
+.compound-tag__delete:active {
+    background: rgba(255, 100, 100, 0.2);
+    transform: scale(0.92);
+}
+
+/* ---- 添加按钮 ---- */
+
+.compound-tag--add {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: transparent;
+    border: 1.5px dashed rgba(94, 214, 200, 0.3);
+    color: rgba(42, 90, 90, 0.4);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.compound-tag--add:hover {
+    border-color: rgba(94, 214, 200, 0.55);
+    background: rgba(94, 214, 200, 0.06);
+    color: rgba(42, 90, 90, 0.65);
+}
+
+.compound-tag--add:active {
+    transform: scale(0.97);
+}
+
+.compound-tag__add-icon {
+    transition: transform 0.2s ease;
+}
+
+.compound-tag--add:hover .compound-tag__add-icon {
+    transform: rotate(90deg);
+}
+
+/* ---- 标签进出场动效 ---- */
+
+.compound-tag-enter-active {
+    animation: compoundTagIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.compound-tag-leave-active {
+    animation: compoundTagOut 0.2s ease both;
+}
+
+.compound-tag-move {
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes compoundTagIn {
+    from {
+        opacity: 0;
+        transform: scale(0.85) translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes compoundTagOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+        max-height: 36px;
+        margin: 0;
+        padding: 5px 6px 5px 10px;
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.85);
+        max-height: 0;
+        margin: 0;
+        padding: 0 6px 0 10px;
+        border-width: 0;
+    }
+}
+
+/* ---- 下拉面板 ---- */
+.diagnosis-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: -1px;
+    right: -1px;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(94, 214, 200, 0.2);
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(94, 214, 200, 0.08);
+    animation: dropdownFadeIn 0.18s ease-out;
+    overflow: hidden;
+}
+
+@keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.diagnosis-dropdown__body {
+    display: flex;
+    height: 360px;
+}
+
+.diagnosis-dropdown__categories {
+    width: 240px;
+    min-width: 200px;
+    border-right: 1px solid rgba(94, 214, 200, 0.12);
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.diagnosis-dropdown__categories::-webkit-scrollbar,
+.diagnosis-dropdown__diseases::-webkit-scrollbar {
+    width: 4px;
+}
+
+.diagnosis-dropdown__categories::-webkit-scrollbar-thumb,
+.diagnosis-dropdown__diseases::-webkit-scrollbar-thumb {
+    background: rgba(94, 214, 200, 0.3);
+    border-radius: 2px;
+}
+
+.diagnosis-dropdown__diseases {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.diagnosis-dropdown__section-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(42, 90, 90, 0.4);
+    padding: 4px 14px 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.diagnosis-dropdown__cat-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-size: 12px;
+    color: #2a5a5a;
+}
+
+.diagnosis-dropdown__cat-item:hover {
+    background: rgba(94, 214, 200, 0.08);
+}
+
+.diagnosis-dropdown__cat-item--selected {
+    background: rgba(94, 214, 200, 0.12);
+    font-weight: 600;
+}
+
+.diagnosis-dropdown__cat-item--active {
+    background: rgba(94, 214, 200, 0.18);
+}
+
+.diagnosis-dropdown__cat-item__text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 8px;
+}
+
+.diagnosis-dropdown__dis-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-size: 12px;
+    color: #3a7a70;
+}
+
+.diagnosis-dropdown__dis-item:hover {
+    background: rgba(94, 214, 200, 0.08);
+}
+
+.diagnosis-dropdown__dis-item--selected {
+    background: rgba(94, 214, 200, 0.15);
+    font-weight: 600;
+}
+
+.diagnosis-dropdown__dis-item__text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 8px;
+}
+
+.diagnosis-dropdown__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: rgba(42, 90, 90, 0.3);
+    font-size: 13px;
+}
+
+/* 诊断理由 textarea */
+.diagnosis-selector__reason {
+    margin-bottom: 20px;
+}
+
+.diagnosis-selector__textarea {
+    width: 100%;
+    font-size: 14px;
+    color: #2a5a5a;
+    line-height: 1.65;
+    word-break: break-word;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(94, 214, 200, 0.2);
+    border-radius: 12px;
+    padding: 12px 14px;
+    outline: none;
+    resize: vertical;
+    font-family: inherit;
+    transition: all 0.3s;
+}
+
+.diagnosis-selector__textarea::placeholder {
+    color: rgba(42, 90, 90, 0.35);
+}
+
+.diagnosis-selector__textarea:focus {
+    border-color: rgba(94, 214, 200, 0.6);
+    background: rgba(255, 255, 255, 0.7);
+}
+
+/* ============================================================
    Phase 3 — 诊断表单页面
    ============================================================ */
 
