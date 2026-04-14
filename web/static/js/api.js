@@ -253,4 +253,20 @@ const API = {
         }
         return await response.json();
     },
+
+    // --- 阶段评价 ---
+
+    async evaluatePhase(phase, caseId, extra = {}) {
+        const payload = { case_id: caseId, ...extra };
+        const response = await fetch(this.BASE_URL + `/api/evaluate/${phase}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.error || `HTTP ${response.status}`);
+        }
+        return await response.json();
+    },
 };

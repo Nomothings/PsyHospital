@@ -277,6 +277,216 @@ def api_history_delete(record_id):
 
 
 # ============================================================
+# 阶段评价 API — 调用 core.evaluate 模块
+# ============================================================
+
+@app.route("/api/evaluate/<int:phase>", methods=["POST"])
+def api_evaluate(phase):
+    """对当前问诊会话进行阶段评价。
+
+    Request body:
+        case_id: str
+        messages: list of {role, content}  (Phase 1 必需)
+        exam_results: dict  (Phase 2 可选)
+        case_form: dict  (Phase 3 可选)
+        diagnosis: dict  (Phase 3 可选)
+        treatment: dict  (Phase 4 可选)
+    """
+    try:
+        body = request.get_json()
+        case_id = body.get("case_id", "")
+
+        if not case_id:
+            return jsonify({"error": "缺少 case_id"}), 400
+
+        evaluator_fns = {
+            1: _evaluate_phase1_live,
+            2: _evaluate_phase2_live,
+            3: _evaluate_phase3_live,
+            4: _evaluate_phase4_live,
+        }
+        fn = evaluator_fns.get(phase)
+        if fn is None:
+            return jsonify({"error": f"不支持的阶段编号: {phase}"}), 400
+
+        result = fn(case_id, body)
+        return jsonify(result)
+
+    except Exception as e:
+        logger.error(f"评价阶段 {phase} 失败: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
+def _format_conversation(messages):
+    """将前端消息格式转换为评估模块格式"""
+    lines = []
+    for idx, turn in enumerate(messages, 1):
+        role = turn.get("role", "unknown")
+        content = turn.get("content", "")
+        label = {"doctor": "医生", "patient": "患者"}.get(role, role)
+        lines.append(f"[第{idx}轮] {label}：{content}")
+    return "\n\n".join(lines)
+
+
+def _evaluate_phase1_live(case_id, body):
+    """Phase 1 实时评估 — 基于对话统计和 LLM 评估"""
+    from core.evaluate.utils.phase1 import evaluate_empathy, evaluate_profession
+
+    messages = body.get("messages", [])
+    conversation_stats = {
+        "total_turns": len([m for m in messages if m["role"] == "patient"]),
+        "doctor_turns": len([m for m in messages if m["role"] == "doctor"]),
+        "patient_turns": len([m for m in messages if m["role"] == "patient"]),
+        "conversation_length": len(messages),
+    }
+
+    conversation_text = _format_conversation(messages)
+
+    empathy_result = None
+    profession_result = None
+    try:
+        empathy_result = evaluate_empathy(conversation_text)
+    except Exception as e:
+        logger.warning(f"共情度评估失败: {e}")
+    try:
+        profession_result = evaluate_profession(conversation_text)
+    except Exception as e:
+        logger.warning(f"专业度评估失败: {e}")
+
+    result = {
+        "phase": 1,
+        "case_id": case_id,
+        "phase_name": "病史采集",
+        "conversation_stats": conversation_stats,
+    }
+    if empathy_result:
+        result["empathy_evaluation"] = {
+            "empathy_level": empathy_result.get("empathy_level"),
+            "why_this_level": empathy_result.get("why_this_level", ""),
+            "evidence": empathy_result.get("evidence", ""),
+            "level_count": empathy_result.get("level_count", 0),
+        }
+    if profession_result:
+        result["profession_evaluation"] = {
+            "total_score": profession_result.get("total_score", 0),
+            "average_score": profession_result.get("average_score", 0),
+            "question_count": profession_result.get("question_count", 0),
+        }
+    return result
+
+
+def _evaluate_phase2_live(case_id, body):
+    """Phase 2 实时评估 — 检查选择评价"""
+    exam_results = body.get("exam_results", {})
+
+    # 统计检查数据
+    total_examined = len(exam_results)
+    positive_count = sum(1 for v in exam_results.values() if v and v != "无")
+    negative_count = sum(1 for v in exam_results.values() if not v or v == "无")
+
+    # 尝试使用核心评价器计算指标
+    metrics = {}
+    try:
+        from core.evaluate.interview_phase2_eval import calculate_examination_metrics
+
+        case_data = case_service.get_case_for_interview(case_id)
+        if case_data:
+            gold_exams = case_data.get("auxiliaryExamination", {})
+            if gold_exams and exam_results:
+                import json
+                exam_query = json.dumps(list(exam_results.keys()), ensure_ascii=False)
+                gold_str = json.dumps(gold_exams, ensure_ascii=False)
+                exam_results_str = json.dumps(exam_results, ensure_ascii=False)
+
+                result = calculate_examination_metrics(
+                    response=exam_results_str,
+                    examination_query=exam_query,
+                    auxiliary_examinations=gold_str,
+                )
+                metrics = result.get("metrics", {})
+    except Exception as e:
+        logger.warning(f"Phase 2 核心评价器调用失败: {e}")
+
+    return {
+        "phase": 2,
+        "case_id": case_id,
+        "phase_name": "检查选择",
+        "exam_stats": {
+            "total_examined": total_examined,
+            "positive_results": positive_count,
+            "negative_results": negative_count,
+        },
+        "metrics": metrics if metrics else None,
+    }
+
+
+def _evaluate_phase3_live(case_id, body):
+    """Phase 3 实时评估 — 病历书写与诊断评价"""
+    case_form = body.get("case_form", {})
+    diagnosis = body.get("diagnosis", {})
+
+    # 统计病历填写情况
+    form_fields = [
+        "name", "age", "gender", "chiefComplaint",
+        "familyHistory", "pastHistory", "physicalExam",
+        "mentalExam", "auxiliaryExam",
+    ]
+    filled_fields = sum(1 for f in form_fields if case_form.get(f, "").strip())
+    form_completeness = filled_fields / len(form_fields) if form_fields else 0
+
+    # 统计诊断情况
+    diagnoses = diagnosis.get("diagnoses", [])
+    total_categories = len(diagnoses)
+    total_diseases = sum(len(d.get("diseases", [])) for d in diagnoses)
+    has_reason = bool(diagnosis.get("reason", "").strip())
+
+    return {
+        "phase": 3,
+        "case_id": case_id,
+        "phase_name": "病历书写与诊断",
+        "case_form_stats": {
+            "filled_fields": filled_fields,
+            "total_fields": len(form_fields),
+            "completeness": round(form_completeness * 100, 1),
+        },
+        "diagnosis_stats": {
+            "categories": total_categories,
+            "total_diseases": total_diseases,
+            "has_reason": has_reason,
+        },
+    }
+
+
+def _evaluate_phase4_live(case_id, body):
+    """Phase 4 实时评估 — 诊疗方案评价"""
+    treatment = body.get("treatment", {})
+
+    # 统计治疗方案填写情况
+    treatment_categories = [
+        "药物治疗", "心理治疗", "神经调控与其他躯体治疗",
+        "社会心理干预与康复治疗", "辅助治疗",
+    ]
+    filled_count = sum(
+        1 for v in treatment.values() if v and v != "无" and v.strip()
+    )
+    empty_count = len(treatment_categories) - filled_count
+
+    return {
+        "phase": 4,
+        "case_id": case_id,
+        "phase_name": "诊疗",
+        "treatment_stats": {
+            "filled_categories": filled_count,
+            "empty_categories": empty_count,
+            "total_categories": len(treatment_categories),
+            "details": treatment,
+        },
+    }
+
+
+# ============================================================
 if __name__ == "__main__":
     debug_mode = os.getenv("FLASK_DEBUG", "false").lower() == "true"
     print("\n" + "=" * 60)

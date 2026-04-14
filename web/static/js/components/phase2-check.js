@@ -29,10 +29,11 @@ const Phase2Check = {
                         type="primary"
                         size="small"
                         round
-                        @click="goToPhase3"
+                        @click="handleEndPhase"
+                        :disabled="evalState !== 'idle'"
                         class="phase2-header__next-btn"
                     >
-                        下一步：病历书写
+                        结束阶段
                     </el-button>
                 </div>
             </header>
@@ -109,6 +110,93 @@ const Phase2Check = {
                     </div>
                 </main>
             </div>
+
+            <!-- 评价加载遮罩 -->
+            <transition name="eval-fade">
+                <div v-if="evalState === 'loading'" class="eval-overlay">
+                    <div class="eval-overlay__content">
+                        <img src="/static/bg/eval.png" alt="" class="eval-overlay__icon" />
+                        <div class="eval-overlay__text">正在进行阶段评价…</div>
+                        <div class="eval-overlay__subtext">分析检查选择合理性</div>
+                    </div>
+                </div>
+            </transition>
+
+            <!-- 评价结果面板 -->
+            <transition name="eval-slide">
+                <div v-if="evalState === 'showing' || evalState === 'done'" class="eval-panel">
+                    <div class="eval-panel__inner">
+                        <div class="eval-panel__header">
+                            <el-icon :size="22" color="#5ed6c8"><CircleCheckFilled /></el-icon>
+                            <h3 class="eval-panel__title">阶段评价完成</h3>
+                            <el-tag type="success" size="small" effect="plain">Phase 2</el-tag>
+                        </div>
+
+                        <div class="eval-panel__body">
+                            <!-- 检查统计 -->
+                            <div class="eval-section" v-if="evalData.exam_stats">
+                                <div class="eval-section__title">
+                                    <el-icon :size="14" color="#5ed6c8"><DocumentChecked /></el-icon>
+                                    检查统计
+                                </div>
+                                <div class="eval-stats">
+                                    <div class="eval-stat">
+                                        <span class="eval-stat__label">已做检查</span>
+                                        <span class="eval-stat__value">{{ evalData.exam_stats.total_examined }}</span>
+                                    </div>
+                                    <div class="eval-stat">
+                                        <span class="eval-stat__label">阳性结果</span>
+                                        <span class="eval-stat__value">{{ evalData.exam_stats.positive_results }}</span>
+                                    </div>
+                                    <div class="eval-stat">
+                                        <span class="eval-stat__label">阴性结果</span>
+                                        <span class="eval-stat__value">{{ evalData.exam_stats.negative_results }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 评价指标 (如果有核心评价器结果) -->
+                            <div class="eval-section" v-if="evalData.metrics">
+                                <div class="eval-section__title">
+                                    <el-icon :size="14" color="#409eff"><DataAnalysis /></el-icon>
+                                    评价指标
+                                </div>
+                                <div class="eval-stats">
+                                    <div class="eval-stat">
+                                        <span class="eval-stat__label">Precision</span>
+                                        <span class="eval-stat__value">{{ (evalData.metrics.precision * 100).toFixed(1) }}%</span>
+                                    </div>
+                                    <div class="eval-stat">
+                                        <span class="eval-stat__label">Recall</span>
+                                        <span class="eval-stat__value">{{ (evalData.metrics.recall * 100).toFixed(1) }}%</span>
+                                    </div>
+                                    <div class="eval-stat">
+                                        <span class="eval-stat__label">F1</span>
+                                        <span class="eval-stat__value">{{ (evalData.metrics.f1 * 100).toFixed(1) }}%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 无评估数据提示 -->
+                            <div v-if="!evalData.exam_stats && !evalData.metrics" class="eval-section eval-section--note">
+                                <el-icon :size="16" color="#c0c4cc"><InfoFilled /></el-icon>
+                                <span>评价服务暂时不可用，已跳过详细评估</span>
+                            </div>
+                        </div>
+
+                        <div class="eval-panel__footer">
+                            <el-button
+                                type="primary"
+                                size="large"
+                                round
+                                @click="confirmAndProceed"
+                            >
+                                好的，进入下一阶段
+                            </el-button>
+                        </div>
+                    </div>
+                </div>
+            </transition>
         </div>
     `,
 
@@ -130,12 +218,20 @@ const Phase2Check = {
             selectedExam: null,
             loading: false,
             checkedResults: {},
+            // 评价状态: 'idle' | 'loading' | 'showing' | 'done'
+            evalState: 'idle',
+            evalData: {},
+            evalError: null,
         };
     },
 
     computed: {
         ArrowLeft() { return ElementPlusIconsVue.ArrowLeft; },
         Select() { return ElementPlusIconsVue.Select; },
+        CircleCheckFilled() { return ElementPlusIconsVue.CircleCheckFilled; },
+        DocumentChecked() { return ElementPlusIconsVue.DocumentChecked; },
+        DataAnalysis() { return ElementPlusIconsVue.DataAnalysis; },
+        InfoFilled() { return ElementPlusIconsVue.InfoFilled; },
 
         currentResult() {
             if (!this.selectedExam) return null;
@@ -168,20 +264,68 @@ const Phase2Check = {
             this.$router.push({ path: '/phase1', query: { id: this.caseId } });
         },
 
-        goToPhase3() {
-            sessionStorage.setItem('phase2_checkedResults', JSON.stringify(this.checkedResults));
+        /**
+         * 拦截"结束阶段"按钮，先进入评价流程
+         */
+        async handleEndPhase() {
+            if (this.evalState !== 'idle') return;
+            await this.startEvaluation();
+        },
 
+        /**
+         * 统一评价入口（来自 EvalMixin 模式）
+         */
+        async startEvaluation() {
+            if (this.evalState !== 'idle') return;
+
+            // 先保存检查数据到 sessionStorage
+            sessionStorage.setItem('phase2_checkedResults', JSON.stringify(this.checkedResults));
+            const recordId = sessionStorage.getItem('record_id') || this.caseId;
             const examRecords = Object.entries(this.checkedResults).map(([name, result]) => ({
                 name,
                 result,
             }));
-
-            // 使用 record_id 保存后续数据，确保整合到同一次问诊记录
-            const recordId = sessionStorage.getItem('record_id') || this.caseId;
             API.saveCaseRecord(recordId, {
                 exams: examRecords,
             }).catch(err => console.error('[Phase2Check] 保存记录失败:', err));
 
+            // 进入评价流程
+            this.evalState = 'loading';
+            this.evalError = null;
+            this.evalData = {};
+
+            try {
+                console.log(`[Phase2Check] 开始评价 Phase 2, caseId=${this.caseId}`);
+                this.evalData = await API.evaluatePhase(2, this.caseId, {
+                    exam_results: this.checkedResults,
+                });
+                console.log('[Phase2Check] 评价结果:', this.evalData);
+                this.evalState = 'showing';
+            } catch (err) {
+                console.error('[Phase2Check] 阶段评价失败:', err);
+                this.evalError = err.message || '未知错误';
+                // 即使失败也展示面板，附带基础统计
+                this.evalData = {
+                    phase: 2,
+                    phase_name: '检查选择',
+                    case_id: this.caseId,
+                    exam_stats: {
+                        total_examined: Object.keys(this.checkedResults).length,
+                        positive_results: Object.values(this.checkedResults).filter(v => v && v !== '无').length,
+                        negative_results: Object.values(this.checkedResults).filter(v => !v || v === '无').length,
+                    },
+                    _fallback: true,
+                };
+                this.evalState = 'showing';
+            }
+        },
+
+        /**
+         * 用户确认评价后进入下一阶段
+         */
+        confirmAndProceed() {
+            if (this.evalState !== 'showing' && this.evalState !== 'done') return;
+            this.evalState = 'done';
             this.$router.push({ path: '/phase3', query: { id: this.caseId } });
         },
     },

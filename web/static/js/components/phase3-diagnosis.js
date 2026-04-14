@@ -296,6 +296,89 @@ const Phase3Diagnosis = {
                     </div>
                 </template>
             </div>
+
+            <!-- 评价加载遮罩 -->
+            <transition name="eval-fade">
+                <div v-if="evalState === 'loading'" class="eval-overlay">
+                    <div class="eval-overlay__content">
+                        <img src="/static/bg/eval.png" alt="" class="eval-overlay__icon" />
+                        <div class="eval-overlay__text">正在进行阶段评价…</div>
+                        <div class="eval-overlay__subtext">分析病历书写与诊断质量</div>
+                    </div>
+                </div>
+            </transition>
+
+            <!-- 评价结果面板 -->
+            <transition name="eval-slide">
+                <div v-if="evalState === 'showing' || evalState === 'done'" class="eval-panel">
+                    <div class="eval-panel__inner">
+                        <div class="eval-panel__header">
+                            <el-icon :size="22" color="#5ed6c8"><CircleCheckFilled /></el-icon>
+                            <h3 class="eval-panel__title">阶段评价完成</h3>
+                            <el-tag type="success" size="small" effect="plain">Phase 3</el-tag>
+                        </div>
+
+                        <div class="eval-panel__body">
+                            <!-- 病历书写统计 -->
+                            <div class="eval-section" v-if="evalData.case_form_stats">
+                                <div class="eval-section__title">
+                                    <el-icon :size="14" color="#5ed6c8"><Document /></el-icon>
+                                    病历书写完成度
+                                </div>
+                                <div class="eval-stats">
+                                    <div class="eval-stat">
+                                        <span class="eval-stat__label">已填项目</span>
+                                        <span class="eval-stat__value">{{ evalData.case_form_stats.filled_fields }}/{{ evalData.case_form_stats.total_fields }}</span>
+                                    </div>
+                                    <div class="eval-stat">
+                                        <span class="eval-stat__label">完成度</span>
+                                        <span class="eval-stat__value">{{ evalData.case_form_stats.completeness }}%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 诊断统计 -->
+                            <div class="eval-section" v-if="evalData.diagnosis_stats">
+                                <div class="eval-section__title">
+                                    <el-icon :size="14" color="#409eff"><Notebook /></el-icon>
+                                    诊断情况
+                                </div>
+                                <div class="eval-stats">
+                                    <div class="eval-stat">
+                                        <span class="eval-stat__label">诊断大类</span>
+                                        <span class="eval-stat__value">{{ evalData.diagnosis_stats.categories }}</span>
+                                    </div>
+                                    <div class="eval-stat">
+                                        <span class="eval-stat__label">具体诊断</span>
+                                        <span class="eval-stat__value">{{ evalData.diagnosis_stats.total_diseases }}</span>
+                                    </div>
+                                    <div class="eval-stat">
+                                        <span class="eval-stat__label">诊断理由</span>
+                                        <span class="eval-stat__value">{{ evalData.diagnosis_stats.has_reason ? '已填' : '未填' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 无评估数据提示 -->
+                            <div v-if="!evalData.case_form_stats && !evalData.diagnosis_stats" class="eval-section eval-section--note">
+                                <el-icon :size="16" color="#c0c4cc"><InfoFilled /></el-icon>
+                                <span>评价服务暂时不可用，已跳过详细评估</span>
+                            </div>
+                        </div>
+
+                        <div class="eval-panel__footer">
+                            <el-button
+                                type="primary"
+                                size="large"
+                                round
+                                @click="confirmAndProceed"
+                            >
+                                好的，进入下一阶段
+                            </el-button>
+                        </div>
+                    </div>
+                </div>
+            </transition>
         </div>
     `,
 
@@ -495,6 +578,10 @@ const Phase3Diagnosis = {
                 ],
             },
             rules: {},
+            // 评价状态: 'idle' | 'loading' | 'showing' | 'done'
+            evalState: 'idle',
+            evalData: {},
+            evalError: null,
         };
     },
 
@@ -504,6 +591,10 @@ const Phase3Diagnosis = {
         Check() { return ElementPlusIconsVue.Check; },
         Plus() { return ElementPlusIconsVue.Plus; },
         Folder() { return ElementPlusIconsVue.Folder; },
+        CircleCheckFilled() { return ElementPlusIconsVue.CircleCheckFilled; },
+        Document() { return ElementPlusIconsVue.Document; },
+        Notebook() { return ElementPlusIconsVue.Notebook; },
+        InfoFilled() { return ElementPlusIconsVue.InfoFilled; },
 
         compoundTags() {
             const tags = [];
@@ -660,6 +751,7 @@ const Phase3Diagnosis = {
                 this.$message.warning('请先填写完整病历表单');
                 return;
             }
+            this._lastCaseForm = { ...this.caseForm };
             sessionStorage.setItem('phase3_caseForm', JSON.stringify(this.caseForm));
             this.subStep = 'diagnosis';
             this.$message.success('病历已保存，请填写诊断信息');
@@ -714,6 +806,14 @@ const Phase3Diagnosis = {
                 this.$message.success('第三阶段已完成');
                 console.log('[Phase3Diagnosis] 提交成功:', result);
 
+                // 保存诊断数据供评价使用
+                this._lastDiagnosis = {
+                    category: primaryCategory,
+                    disease: allDiseases.join('、') || primaryDisease,
+                    reason: this.form.reason,
+                    diagnoses: diagnoses,
+                };
+
                 sessionStorage.setItem('phase3_result', JSON.stringify({
                     caseId: this.caseId,
                     caseForm: { ...this.caseForm },
@@ -723,7 +823,8 @@ const Phase3Diagnosis = {
                     diagnoses: diagnoses,
                 }));
 
-                this.$router.push('/phase4');
+                // 进入评价流程
+                await this.startEvaluation();
             } catch (err) {
                 this.$message.error('提交失败: ' + (err.message || '未知错误'));
                 console.error('[Phase3Diagnosis] 提交失败:', err);
@@ -738,6 +839,62 @@ const Phase3Diagnosis = {
             } else {
                 this.$router.push({ path: '/phase2', query: { id: this.caseId } });
             }
+        },
+
+        /**
+         * 统一评价入口
+         */
+        async startEvaluation() {
+            if (this.evalState !== 'idle') return;
+
+            this.evalState = 'loading';
+            this.evalError = null;
+            this.evalData = {};
+
+            const caseForm = this._lastCaseForm || { ...this.caseForm };
+            const diagnosis = this._lastDiagnosis || {};
+
+            try {
+                console.log(`[Phase3Diagnosis] 开始评价 Phase 3, caseId=${this.caseId}`);
+                this.evalData = await API.evaluatePhase(3, this.caseId, {
+                    case_form: caseForm,
+                    diagnosis: diagnosis,
+                });
+                console.log('[Phase3Diagnosis] 评价结果:', this.evalData);
+                this.evalState = 'showing';
+            } catch (err) {
+                console.error('[Phase3Diagnosis] 阶段评价失败:', err);
+                this.evalError = err.message || '未知错误';
+                // 即使失败也展示面板
+                const formFields = ['name', 'age', 'gender', 'chiefComplaint', 'familyHistory', 'pastHistory', 'physicalExam', 'mentalExam', 'auxiliaryExam'];
+                const filledFields = formFields.filter(f => caseForm[f] && caseForm[f].trim()).length;
+                this.evalData = {
+                    phase: 3,
+                    phase_name: '病历书写与诊断',
+                    case_id: this.caseId,
+                    case_form_stats: {
+                        filled_fields: filledFields,
+                        total_fields: formFields.length,
+                        completeness: Math.round(filledFields / formFields.length * 100),
+                    },
+                    diagnosis_stats: {
+                        categories: diagnosis.diagnoses ? diagnosis.diagnoses.length : 0,
+                        total_diseases: diagnosis.diagnoses ? diagnosis.diagnoses.reduce((s, d) => s + (d.diseases ? d.diseases.length : 0), 0) : 0,
+                        has_reason: !!diagnosis.reason,
+                    },
+                    _fallback: true,
+                };
+                this.evalState = 'showing';
+            }
+        },
+
+        /**
+         * 用户确认评价后进入下一阶段
+         */
+        confirmAndProceed() {
+            if (this.evalState !== 'showing' && this.evalState !== 'done') return;
+            this.evalState = 'done';
+            this.$router.push({ path: '/phase4', query: { id: this.caseId } });
         },
 
         async loadPhaseData() {
