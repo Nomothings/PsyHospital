@@ -158,9 +158,19 @@ const Interview = {
                 </div>
             </main>
 
-            <!-- 评价加载遮罩 -->
+            <!-- 流水线转场动画 -->
+            <phase-transition-pipeline
+                :visible="showPipeline"
+                :phase-number="1"
+                :case-id="$route.query.id"
+                :eval-payload="{ messages: messages }"
+                @eval-complete="onPipelineEvalComplete"
+                @close="showPipeline = false"
+            />
+
+            <!-- 评价加载遮罩（保留作为兜底） -->
             <transition name="eval-fade">
-                <div v-if="evalState === 'loading'" class="eval-overlay">
+                <div v-if="evalState === 'loading' && !showPipeline" class="eval-overlay">
                     <div class="eval-overlay__content">
                         <img src="/static/bg/eval.png" alt="" class="eval-overlay__icon" />
                         <div class="eval-overlay__text">正在进行阶段评价…</div>
@@ -285,6 +295,8 @@ const Interview = {
             // 评价状态: 'idle' | 'loading' | 'showing' | 'done'
             evalState: 'idle',
             evalData: {},
+            // 流水线动画
+            showPipeline: false,
         };
     },
 
@@ -400,29 +412,16 @@ const Interview = {
                 }
             }
 
-            // 进入评价流程
-            this.evalState = 'loading';
-            try {
-                this.evalData = await API.evaluatePhase(1, caseId, { messages: this.messages });
-                this.evalState = 'showing';
-            } catch (err) {
-                console.error('[Interview] 阶段评价失败:', err);
-                this.$message.error('评价失败: ' + err.message);
-                // 即使评价失败也展示面板，让用户可以继续
-                this.evalData = {
-                    phase: 1,
-                    phase_name: '病史采集',
-                    case_id: caseId,
-                    conversation_stats: {
-                        total_turns: this.messages.filter(m => m.role === 'patient').length,
-                        doctor_turns: this.messages.filter(m => m.role === 'doctor').length,
-                        patient_turns: this.messages.filter(m => m.role === 'patient').length,
-                        conversation_length: this.messages.length,
-                    },
-                    _fallback: true,
-                };
-                this.evalState = 'showing';
-            }
+            // 保存记录后显示流水线动画
+            this.showPipeline = true;
+        },
+
+        /** 流水线评价完成回调 */
+        onPipelineEvalComplete(result) {
+            // 先保存评价结果
+            this.evalData = result;
+            // 显示评价结果面板
+            this.evalState = 'showing';
         },
 
         async confirmAndProceed() {

@@ -297,9 +297,19 @@ const Phase3Diagnosis = {
                 </template>
             </div>
 
-            <!-- 评价加载遮罩 -->
+            <!-- 流水线转场动画 -->
+            <phase-transition-pipeline
+                :visible="showPipeline"
+                :phase-number="3"
+                :case-id="caseId"
+                :eval-payload="getPhase3EvalPayload()"
+                @eval-complete="onPipelineEvalComplete"
+                @close="showPipeline = false"
+            />
+
+            <!-- 评价加载遮罩（保留作为兜底） -->
             <transition name="eval-fade">
-                <div v-if="evalState === 'loading'" class="eval-overlay">
+                <div v-if="evalState === 'loading' && !showPipeline" class="eval-overlay">
                     <div class="eval-overlay__content">
                         <img src="/static/bg/eval.png" alt="" class="eval-overlay__icon" />
                         <div class="eval-overlay__text">正在进行阶段评价…</div>
@@ -582,6 +592,8 @@ const Phase3Diagnosis = {
             evalState: 'idle',
             evalData: {},
             evalError: null,
+            // 流水线动画
+            showPipeline: false,
         };
     },
 
@@ -846,46 +858,24 @@ const Phase3Diagnosis = {
          */
         async startEvaluation() {
             if (this.evalState !== 'idle') return;
+            // 显示流水线动画
+            this.showPipeline = true;
+        },
 
-            this.evalState = 'loading';
-            this.evalError = null;
-            this.evalData = {};
-
+        /** 获取 Phase 3 评价参数 */
+        getPhase3EvalPayload() {
             const caseForm = this._lastCaseForm || { ...this.caseForm };
             const diagnosis = this._lastDiagnosis || {};
+            return {
+                case_form: caseForm,
+                diagnosis: diagnosis,
+            };
+        },
 
-            try {
-                console.log(`[Phase3Diagnosis] 开始评价 Phase 3, caseId=${this.caseId}`);
-                this.evalData = await API.evaluatePhase(3, this.caseId, {
-                    case_form: caseForm,
-                    diagnosis: diagnosis,
-                });
-                console.log('[Phase3Diagnosis] 评价结果:', this.evalData);
-                this.evalState = 'showing';
-            } catch (err) {
-                console.error('[Phase3Diagnosis] 阶段评价失败:', err);
-                this.evalError = err.message || '未知错误';
-                // 即使失败也展示面板
-                const formFields = ['name', 'age', 'gender', 'chiefComplaint', 'familyHistory', 'pastHistory', 'physicalExam', 'mentalExam', 'auxiliaryExam'];
-                const filledFields = formFields.filter(f => caseForm[f] && caseForm[f].trim()).length;
-                this.evalData = {
-                    phase: 3,
-                    phase_name: '病历书写与诊断',
-                    case_id: this.caseId,
-                    case_form_stats: {
-                        filled_fields: filledFields,
-                        total_fields: formFields.length,
-                        completeness: Math.round(filledFields / formFields.length * 100),
-                    },
-                    diagnosis_stats: {
-                        categories: diagnosis.diagnoses ? diagnosis.diagnoses.length : 0,
-                        total_diseases: diagnosis.diagnoses ? diagnosis.diagnoses.reduce((s, d) => s + (d.diseases ? d.diseases.length : 0), 0) : 0,
-                        has_reason: !!diagnosis.reason,
-                    },
-                    _fallback: true,
-                };
-                this.evalState = 'showing';
-            }
+        /** 流水线评价完成回调 */
+        onPipelineEvalComplete(result) {
+            this.evalData = result;
+            this.evalState = 'showing';
         },
 
         /**

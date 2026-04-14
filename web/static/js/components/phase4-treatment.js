@@ -141,9 +141,19 @@ const Phase4Treatment = {
                 </main>
             </div>
 
-            <!-- 评价加载遮罩 -->
+            <!-- 流水线转场动画 -->
+            <phase-transition-pipeline
+                :visible="showPipeline"
+                :phase-number="4"
+                :case-id="caseId"
+                :eval-payload="getPhase4EvalPayload()"
+                @eval-complete="onPipelineEvalComplete"
+                @close="showPipeline = false"
+            />
+
+            <!-- 评价加载遮罩（保留作为兜底） -->
             <transition name="eval-fade">
-                <div v-if="evalState === 'loading'" class="eval-overlay">
+                <div v-if="evalState === 'loading' && !showPipeline" class="eval-overlay">
                     <div class="eval-overlay__content">
                         <img src="/static/bg/eval.png" alt="" class="eval-overlay__icon" />
                         <div class="eval-overlay__text">正在进行阶段评价…</div>
@@ -226,6 +236,8 @@ const Phase4Treatment = {
             evalState: 'idle',
             evalData: {},
             evalError: null,
+            // 流水线动画
+            showPipeline: false,
         };
     },
 
@@ -289,38 +301,22 @@ const Phase4Treatment = {
          */
         async startEvaluation(treatmentRecord) {
             if (this.evalState !== 'idle') return;
+            // 先保存治疗数据到 sessionStorage
+            sessionStorage.setItem('phase4_treatment', JSON.stringify(treatmentRecord));
+            // 显示流水线动画
+            this.showPipeline = true;
+        },
 
-            this.evalState = 'loading';
-            this.evalError = null;
-            this.evalData = {};
+        /** 获取 Phase 4 评价参数 */
+        getPhase4EvalPayload() {
+            const treatment = JSON.parse(sessionStorage.getItem('phase4_treatment') || '{}');
+            return { treatment };
+        },
 
-            try {
-                console.log(`[Phase4Treatment] 开始评价 Phase 4, caseId=${this.caseId}`);
-                this.evalData = await API.evaluatePhase(4, this.caseId, {
-                    treatment: treatmentRecord,
-                });
-                console.log('[Phase4Treatment] 评价结果:', this.evalData);
-                this.evalState = 'showing';
-            } catch (err) {
-                console.error('[Phase4Treatment] 阶段评价失败:', err);
-                this.evalError = err.message || '未知错误';
-                // 即使失败也展示面板
-                const categories = ['药物治疗', '心理治疗', '神经调控与其他躯体治疗', '社会心理干预与康复治疗', '辅助治疗'];
-                const filled = Object.values(treatmentRecord).filter(v => v && v !== '无' && v.trim()).length;
-                this.evalData = {
-                    phase: 4,
-                    phase_name: '诊疗',
-                    case_id: this.caseId,
-                    treatment_stats: {
-                        filled_categories: filled,
-                        empty_categories: categories.length - filled,
-                        total_categories: categories.length,
-                        details: treatmentRecord,
-                    },
-                    _fallback: true,
-                };
-                this.evalState = 'showing';
-            }
+        /** 流水线评价完成回调 */
+        onPipelineEvalComplete(result) {
+            this.evalData = result;
+            this.evalState = 'showing';
         },
 
         /**

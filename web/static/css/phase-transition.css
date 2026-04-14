@@ -1,0 +1,624 @@
+/* ============================================================
+   阶段转场动画 — 流水线 Pipeline (白玻璃风)
+   ============================================================ */
+
+/* ---- 遮罩容器 ---- */
+.pipeline-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(232, 246, 243, 0.94);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    overflow: hidden;
+}
+
+.pipeline-overlay__glass {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 40%, rgba(94, 214, 200, 0.08) 0%, transparent 55%);
+    pointer-events: none;
+}
+
+/* ---- 粒子背景（低密度） ---- */
+.pipeline-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.pipeline-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(94, 214, 200, 0.2);
+    border-radius: 50%;
+    animation: particleFloat linear infinite;
+}
+
+.pipeline-particle:nth-child(odd) {
+    background: rgba(42, 90, 90, 0.06);
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(100vh) translateX(0) scale(0.5);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20px) translateX(30px) scale(1);
+        opacity: 0;
+    }
+}
+
+/* ---- 主内容 ---- */
+.pipeline-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    width: 92vw;
+    max-width: 1200px;
+    padding-top: 60px;
+    animation: pipelineFadeIn 0.6s ease-out;
+}
+
+@keyframes pipelineFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.94);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ---- 左侧: 阶段管道区 ---- */
+.pipeline-steps {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+    padding-right: 48px;
+}
+
+/* ---- 阶段节点（白玻璃风） ---- */
+.pipeline-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.pipeline-node__circle {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgba(42, 90, 90, 0.35);
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(94, 214, 200, 0.15);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 2;
+}
+
+.pipeline-node__label {
+    font-size: 20px;
+    color: rgba(42, 90, 90, 0.3);
+    white-space: nowrap;
+    transition: all 0.4s ease;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* 已完成节点 */
+.pipeline-node--done .pipeline-node__circle {
+    background: rgba(94, 214, 200, 0.15);
+    border-color: rgba(94, 214, 200, 0.35);
+    color: #3ec4b0;
+}
+
+.pipeline-node--done .pipeline-node__label {
+    color: rgba(42, 90, 90, 0.55);
+}
+
+.pipeline-node--done .pipeline-node__circle::after {
+    content: '\2713';
+    position: absolute;
+    font-size: 22px;
+    color: #3ec4b0;
+    text-shadow: 0 0 8px rgba(94, 214, 200, 0.4);
+}
+
+.pipeline-node--done .pipeline-node__circle .node-text {
+    visibility: hidden;
+}
+
+/* 当前节点 */
+.pipeline-node--active .pipeline-node__circle {
+    background: rgba(255, 255, 255, 0.75);
+    border-color: #5ed6c8;
+    color: #3ec4b0;
+    box-shadow: 0 0 24px rgba(94, 214, 200, 0.3), 0 0 48px rgba(94, 214, 200, 0.12);
+    animation: nodePulse 2s ease-in-out infinite;
+}
+
+.pipeline-node--active .pipeline-node__label {
+    color: #3ec4b0;
+    font-weight: 700;
+}
+
+/* 节点弹跳 */
+.pipeline-node--active .pipeline-node__circle {
+    animation: nodePulse 2s ease-in-out infinite, nodeBounce 3s ease-in-out infinite;
+}
+
+@keyframes nodePulse {
+    0%, 100% {
+        box-shadow: 0 0 24px rgba(94, 214, 200, 0.3), 0 0 48px rgba(94, 214, 200, 0.12);
+    }
+    50% {
+        box-shadow: 0 0 36px rgba(94, 214, 200, 0.45), 0 0 72px rgba(94, 214, 200, 0.2);
+    }
+}
+
+@keyframes nodeBounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    15% {
+        transform: scale(1.1);
+    }
+    30% {
+        transform: scale(1);
+    }
+}
+
+/* 等待中节点 */
+.pipeline-node--pending .pipeline-node__circle {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(94, 214, 200, 0.08);
+}
+
+/* ---- 连接线（半透明光带） ---- */
+.pipeline-connector {
+    width: 80px;
+    height: 3px;
+    position: relative;
+    margin: 0 -4px;
+    margin-bottom: 30px;
+}
+
+.pipeline-connector__track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(94, 214, 200, 0.08);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.pipeline-connector__track--done {
+    background: rgba(94, 214, 200, 0.25);
+}
+
+.pipeline-connector__flow {
+    position: absolute;
+    top: 0;
+    left: -24px;
+    width: 24px;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(62, 196, 176, 0.55),
+        transparent
+    );
+    border-radius: 2px;
+    animation: flowRight 1.8s ease-in-out infinite;
+}
+
+.pipeline-connector__track--done .pipeline-connector__flow {
+    animation: none;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(62, 196, 176, 0.3),
+        rgba(94, 214, 200, 0.65),
+        rgba(62, 196, 176, 0.3)
+    );
+}
+
+@keyframes flowRight {
+    0% {
+        left: -24px;
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    85% {
+        opacity: 1;
+    }
+    100% {
+        left: 80px;
+        opacity: 0;
+    }
+}
+
+/* 加速流光 */
+.pipeline-connector--fast .pipeline-connector__flow {
+    animation-duration: 0.6s;
+}
+
+/* ---- 中央核心评估区（白玻璃卡片） ---- */
+.pipeline-core {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+    padding: 40px 48px 36px;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 12px rgba(94, 214, 200, 0.08);
+}
+
+/* 核心发光背景 */
+.pipeline-core__glow {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(94, 214, 200, 0.1) 0%, transparent 65%);
+    animation: coreGlow 2.5s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes coreGlow {
+    0%, 100% {
+        transform: translate(-50%, -60%) scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translate(-50%, -60%) scale(1.2);
+        opacity: 1;
+    }
+}
+
+/* ---- eval.png 视觉核心 ---- */
+.pipeline-core__icon-wrap {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 光环 */
+.pipeline-core__halo {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(94, 214, 200, 0.15);
+    animation: haloRotate 8s linear infinite;
+    pointer-events: none;
+}
+
+.pipeline-core__halo::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid rgba(94, 214, 200, 0.08);
+    animation: haloPulse 3s ease-in-out infinite;
+}
+
+.pipeline-core__halo::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: #5ed6c8;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #5ed6c8, 0 0 24px rgba(94, 214, 200, 0.5);
+}
+
+@keyframes haloRotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes haloPulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+.pipeline-core__icon {
+    width: 170px;
+    height: 170px;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 0 24px rgba(94, 214, 200, 0.35));
+    animation: evalFloat 3s ease-in-out infinite;
+}
+
+@keyframes evalFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        filter: drop-shadow(0 0 24px rgba(94, 214, 200, 0.35));
+        opacity: 0.9;
+    }
+    25% {
+        transform: translateY(-6px) rotate(-1.5deg) scale(1.03);
+    }
+    50% {
+        transform: translateY(-4px) rotate(0deg) scale(1.06);
+        filter: drop-shadow(0 0 36px rgba(94, 214, 200, 0.55));
+        opacity: 1;
+    }
+    75% {
+        transform: translateY(-2px) rotate(1.5deg) scale(1.03);
+    }
+}
+
+/* 呼吸灯同步增强 */
+.pipeline-core__icon--breathing {
+    animation: evalBreatheSync 1.8s ease-in-out infinite;
+}
+
+@keyframes evalBreatheSync {
+    0%, 100% {
+        transform: scale(1) translateY(0);
+        filter: drop-shadow(0 0 24px rgba(94, 214, 200, 0.35));
+        opacity: 0.85;
+    }
+    50% {
+        transform: scale(1.08) translateY(-6px);
+        filter: drop-shadow(0 0 40px rgba(94, 214, 200, 0.65));
+        opacity: 1;
+    }
+}
+
+/* 中央 MentalEval 文字 */
+.pipeline-core__mental-eval {
+    font-size: 34px;
+    font-weight: 700;
+    color: #3ec4b0;
+    letter-spacing: 3px;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 0 20px rgba(94, 214, 200, 0.35), 0 0 40px rgba(94, 214, 200, 0.15);
+    animation: mentalEvalBreath 2.5s ease-in-out infinite;
+}
+
+@keyframes mentalEvalBreath {
+    0%, 100% {
+        opacity: 0.75;
+        text-shadow: 0 0 20px rgba(94, 214, 200, 0.35), 0 0 40px rgba(94, 214, 200, 0.15);
+    }
+    50% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(94, 214, 200, 0.6), 0 0 60px rgba(94, 214, 200, 0.25);
+    }
+}
+
+/* 英文副标题 */
+.pipeline-core__subtitle {
+    font-size: 13px;
+    color: rgba(42, 90, 90, 0.4);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    margin-top: -8px;
+    font-weight: 400;
+}
+
+/* 状态文字 */
+.pipeline-core__text {
+    font-size: 20px;
+    font-weight: 600;
+    color: #2a5a5a;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    letter-spacing: 1px;
+}
+
+.pipeline-core__subtext {
+    font-size: 14px;
+    color: rgba(42, 90, 90, 0.5);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* 进度条 */
+.pipeline-progress {
+    width: 240px;
+    height: 4px;
+    background: rgba(94, 214, 200, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(94, 214, 200, 0.08);
+}
+
+.pipeline-progress__bar {
+    height: 100%;
+    background: linear-gradient(90deg, #3ec4b0, #5ed6c8);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+    position: relative;
+    box-shadow: 0 0 8px rgba(94, 214, 200, 0.35);
+}
+
+.pipeline-progress__bar::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: -2px;
+    width: 8px;
+    height: 8px;
+    background: #5ed6c8;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #5ed6c8, 0 0 20px rgba(94, 214, 200, 0.4);
+}
+
+/* ---- 顶部 MentalEval 品牌标识 ---- */
+.pipeline-brand {
+    position: absolute;
+    top: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.pipeline-brand__title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #3ec4b0;
+    letter-spacing: 6px;
+    text-shadow: 0 0 16px rgba(94, 214, 200, 0.3);
+    animation: brandBreath 3s ease-in-out infinite;
+}
+
+@keyframes brandBreath {
+    0%, 100% {
+        opacity: 0.75;
+        text-shadow: 0 0 16px rgba(94, 214, 200, 0.3);
+    }
+    50% {
+        opacity: 1;
+        text-shadow: 0 0 24px rgba(94, 214, 200, 0.5);
+    }
+}
+
+.pipeline-brand__divider {
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(94, 214, 200, 0.35), transparent);
+}
+
+/* ---- 阶段名称（中央上方） ---- */
+.pipeline-phase-name {
+    position: absolute;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 24px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.pipeline-phase-name__label {
+    font-size: 14px;
+    color: rgba(42, 90, 90, 0.45);
+    letter-spacing: 1px;
+}
+
+.pipeline-phase-name__current {
+    font-size: 18px;
+    font-weight: 700;
+    color: #3ec4b0;
+    text-shadow: 0 0 8px rgba(94, 214, 200, 0.2);
+}
+
+.pipeline-phase-name__progress {
+    font-size: 14px;
+    color: rgba(62, 196, 176, 0.55);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---- 退出动画 ---- */
+.pipeline-overlay--exiting {
+    animation: pipelineExit 0.5s ease-in forwards;
+}
+
+@keyframes pipelineExit {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.03);
+    }
+}
+
+/* ---- Vue 过渡动画 ---- */
+.pipeline-fade-enter-active {
+    transition: opacity 0.4s ease;
+}
+
+.pipeline-fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.pipeline-fade-enter-from {
+    opacity: 0;
+}
+
+.pipeline-fade-leave-to {
+    opacity: 0;
+}

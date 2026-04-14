@@ -111,9 +111,19 @@ const Phase2Check = {
                 </main>
             </div>
 
-            <!-- 评价加载遮罩 -->
+            <!-- 流水线转场动画 -->
+            <phase-transition-pipeline
+                :visible="showPipeline"
+                :phase-number="2"
+                :case-id="caseId"
+                :eval-payload="{ exam_results: checkedResults }"
+                @eval-complete="onPipelineEvalComplete"
+                @close="showPipeline = false"
+            />
+
+            <!-- 评价加载遮罩（保留作为兜底） -->
             <transition name="eval-fade">
-                <div v-if="evalState === 'loading'" class="eval-overlay">
+                <div v-if="evalState === 'loading' && !showPipeline" class="eval-overlay">
                     <div class="eval-overlay__content">
                         <img src="/static/bg/eval.png" alt="" class="eval-overlay__icon" />
                         <div class="eval-overlay__text">正在进行阶段评价…</div>
@@ -222,6 +232,8 @@ const Phase2Check = {
             evalState: 'idle',
             evalData: {},
             evalError: null,
+            // 流水线动画
+            showPipeline: false,
         };
     },
 
@@ -289,35 +301,14 @@ const Phase2Check = {
                 exams: examRecords,
             }).catch(err => console.error('[Phase2Check] 保存记录失败:', err));
 
-            // 进入评价流程
-            this.evalState = 'loading';
-            this.evalError = null;
-            this.evalData = {};
+            // 显示流水线动画
+            this.showPipeline = true;
+        },
 
-            try {
-                console.log(`[Phase2Check] 开始评价 Phase 2, caseId=${this.caseId}`);
-                this.evalData = await API.evaluatePhase(2, this.caseId, {
-                    exam_results: this.checkedResults,
-                });
-                console.log('[Phase2Check] 评价结果:', this.evalData);
-                this.evalState = 'showing';
-            } catch (err) {
-                console.error('[Phase2Check] 阶段评价失败:', err);
-                this.evalError = err.message || '未知错误';
-                // 即使失败也展示面板，附带基础统计
-                this.evalData = {
-                    phase: 2,
-                    phase_name: '检查选择',
-                    case_id: this.caseId,
-                    exam_stats: {
-                        total_examined: Object.keys(this.checkedResults).length,
-                        positive_results: Object.values(this.checkedResults).filter(v => v && v !== '无').length,
-                        negative_results: Object.values(this.checkedResults).filter(v => !v || v === '无').length,
-                    },
-                    _fallback: true,
-                };
-                this.evalState = 'showing';
-            }
+        /** 流水线评价完成回调 */
+        onPipelineEvalComplete(result) {
+            this.evalData = result;
+            this.evalState = 'showing';
         },
 
         /**

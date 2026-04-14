@@ -44,5 +44,8 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component);
 }
 
+// ---- 注册全局组件 ----
+app.component('phase-transition-pipeline', PhaseTransitionPipeline);
+
 // ---- 挂载 ----
 app.mount("#app");
