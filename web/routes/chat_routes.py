@@ -36,15 +36,17 @@ def _cleanup_expired_sessions():
 
 
 def _generate_record_id(case_id: str) -> str:
-    """为同一病例生成递增的 record_id（如 1009904_1, 1009904_2）"""
-    RECORDS_DIR.mkdir(parents=True, exist_ok=True)
-    # 统计已有以 case_id 开头的记录文件数
-    pattern = re.escape(case_id) + r"(?:_\d+)?\.json$"
-    existing = 0
-    for f in RECORDS_DIR.glob("*.json"):
-        if re.match(pattern, f.name):
-            existing += 1
-    return f"{case_id}_{existing + 1}"
+    """为同一病例生成唯一的 record_id（如 1009904_20260415_143022_abc12）
+
+    使用时间戳+随机后缀确保每次问诊都有独立记录，不会互相覆盖。
+    格式：{case_id}_{YYYYMMDD}_{HHMMSS}_{5位随机字符}
+    """
+    from datetime import datetime
+    import random
+    import string
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
+    return f"{case_id}_{ts}_{suffix}"
 
 
 def register_chat_routes(case_service):

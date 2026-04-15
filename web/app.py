@@ -226,10 +226,12 @@ def api_history_list():
             case_info = data.get("caseInfo", {})
             basic_info = case_info.get("basicInfomation", "")
             has_diagnosis = bool(data.get("diagnosis"))
-            record_id = f.stem  # 文件名即 case_id，保证与 detail API 一致
+            record_id = f.stem  # 文件名即 record_id
+            # 提取原始 case_id（新格式：{case_id}_{YYYYMMDD}_{HHMMSS}）
+            raw_case_id = data.get("original_case_id") or data.get("case_id", f.stem)
             histories.append({
                 "record_id": record_id,
-                "case_id": data.get("case_id", f.stem),
+                "case_id": raw_case_id,
                 "saved_at": data.get("updated_at") or data.get("created_at", ""),
                 "created_at": data.get("created_at", ""),
                 "turns": turns,
@@ -422,41 +424,427 @@ def _evaluate_phase2_live(case_id, body):
     }
 
 
+@app.route("/api/evaluate/phase2-accuracy", methods=["POST"])
+def api_evaluate_phase2_accuracy():
+    """Phase 2 检查选择 — 仅返回正确率（Precision）。
+
+    Request body:
+        case_id: str
+        exam_results: dict  { "检查名": "结果" | "无" }
+    """
+    try:
+        body = request.get_json()
+        case_id = body.get("case_id", "")
+        exam_results = body.get("exam_results", {})
+
+        logger.info(f"[Phase2Accuracy] case_id={case_id}, exam_results_keys={list(exam_results.keys())}")
+
+        if not case_id:
+            return jsonify({"error": "缺少 case_id"}), 400
+
+        accuracy = 0.0
+        try:
+            case_data = case_service.get_case_for_interview(case_id)
+            if case_data:
+                gold_exams = case_data.get("auxiliaryExamination", {})
+                logger.info(f"[Phase2Accuracy] gold_exams_keys={list(gold_exams.keys())}")
+                if gold_exams and exam_results:
+                    exam_query = json.dumps(list(exam_results.keys()), ensure_ascii=False)
+                    gold_str = json.dumps(gold_exams, ensure_ascii=False)
+                    exam_results_str = json.dumps(exam_results, ensure_ascii=False)
+
+                    from core.evaluate.interview_phase2_eval import calculate_examination_metrics
+                    result = calculate_examination_metrics(
+                        response=exam_results_str,
+                        examination_query=exam_query,
+                        auxiliary_examinations=gold_str,
+                    )
+                    accuracy = result.get("metrics", {}).get("recall", 0.0)
+                    logger.info(f"[Phase2Accuracy] calculated accuracy={accuracy}")
+                else:
+                    logger.warning(f"[Phase2Accuracy] gold_exams empty={not gold_exams}, exam_results empty={not exam_results}")
+            else:
+                logger.warning(f"[Phase2Accuracy] case_data is None for case_id={case_id}")
+        except Exception as e:
+            logger.warning(f"Phase 2 正确率计算失败: {e}")
+
+        logger.info(f"[Phase2Accuracy] returning accuracy={accuracy}")
+        return jsonify({"accuracy": round(accuracy, 4)})
+
+    except Exception as e:
+        logger.error(f"Phase 2 正确率接口异常: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
 def _evaluate_phase3_live(case_id, body):
-    """Phase 3 实时评估 — 病历书写与诊断评价"""
+    """Phase 3 实时评估 — 病历书写 + 诊断评价
+
+    病历书写：使用 core.evaluate.interview_phase3_eval 的 LLMParser + LLMEvaluator（LLM rubric评分）
+    诊断评价：使用 core.evaluate.interview_phase4_eval.calculate_category_metrics（统计计算）
+    """
     case_form = body.get("case_form", {})
     diagnosis = body.get("diagnosis", {})
 
-    # 统计病历填写情况
-    form_fields = [
-        "name", "age", "gender", "chiefComplaint",
-        "familyHistory", "pastHistory", "physicalExam",
-        "mentalExam", "auxiliaryExam",
-    ]
-    filled_fields = sum(1 for f in form_fields if case_form.get(f, "").strip())
-    form_completeness = filled_fields / len(form_fields) if form_fields else 0
+    # ===== 第一部分：病历书写 LLM 评价（50%） =====
+    case_writing_eval = _evaluate_case_writing_llm(case_id, case_form)
 
-    # 统计诊断情况
-    diagnoses = diagnosis.get("diagnoses", [])
-    total_categories = len(diagnoses)
-    total_diseases = sum(len(d.get("diseases", [])) for d in diagnoses)
-    has_reason = bool(diagnosis.get("reason", "").strip())
+    # ===== 第二部分：诊断评价（50%） =====
+    diagnosis_eval = _evaluate_diagnosis_core(case_id, diagnosis)
+
+    # ===== 综合评分 =====
+    writing_score = case_writing_eval.get("total_percentage", 0) / 100.0
+    diagnosis_score = diagnosis_eval.get("total_score", 0)
+    overall_score = round((writing_score * 0.5 + diagnosis_score * 0.5), 2)
 
     return {
         "phase": 3,
         "case_id": case_id,
         "phase_name": "病历书写与诊断",
-        "case_form_stats": {
-            "filled_fields": filled_fields,
-            "total_fields": len(form_fields),
-            "completeness": round(form_completeness * 100, 1),
+        "overall_score": overall_score,
+        "case_writing": case_writing_eval,
+        "diagnosis": diagnosis_eval,
+    }
+
+
+def _load_ground_truth(case_id):
+    """从 ground_truth.jsonl 加载指定病例的真实诊断"""
+    gt_file = DATA_DIR / "ground_truth.jsonl"
+    if not gt_file.exists():
+        return None
+    try:
+        with open(gt_file, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    try:
+                        data = json.loads(line)
+                        if data.get("id") == case_id:
+                            return data
+                    except json.JSONDecodeError:
+                        continue
+    except Exception as e:
+        logger.warning(f"读取 ground truth 失败: {e}")
+    return None
+
+
+def _evaluate_case_writing_llm(case_id, case_form):
+    """使用核心后端 LLM 评价器进行病历书写评分
+
+    直接构造 generated_record（用户表单字段）和 true_record（LLMParser 解析 gold），
+    然后调用 LLMEvaluator.evaluate_record_parallel 进行 4 维度并行评分。
+    """
+    from services.llm_api import LLMService
+    from core.evaluate.interview_phase3_eval import (
+        RubricLoader, LLMParser, LLMEvaluator, load_ground_truth
+    )
+
+    case_data = case_service.get_case_for_interview(case_id)
+    if not case_data:
+        return {
+            "total_percentage": 0,
+            "total_score": 0,
+            "dimensions": {},
+            "warning": "无法获取病例数据",
+        }
+
+    # 构造 generated_record（从用户表单字段）
+    generated_record = {
+        "chief_complaint": (case_form.get("chiefComplaint") or "").strip(),
+        "physical_examination": (case_form.get("physicalExam") or "").strip(),
+        "mental_examination": (case_form.get("mentalExam") or "").strip(),
+        "past_family_history": (
+            "既往史：" + (case_form.get("pastHistory") or "").strip()
+            + "；家族史：" + (case_form.get("familyHistory") or "").strip()
+        ),
+    }
+
+    # 加载 ground truth 的 realFormulation
+    true_formulation = load_ground_truth(case_id)
+    if not true_formulation:
+        # 回退：用病例数据构造 true_record
+        true_record = {
+            "chief_complaint": " ".join(case_data.get("chiefComplaint", [])),
+            "physical_examination": case_data.get("physicalExamination", ""),
+            "mental_examination": " ".join(case_data.get("mentalStatus", [])),
+            "past_family_history": case_data.get("basicInfomation", ""),
+        }
+        return {
+            "total_percentage": 0,
+            "total_score": 0,
+            "dimensions": {},
+            "warning": "未找到 ground truth 中的 realFormulation",
+            "true_record": true_record,
+        }
+
+    try:
+        # 初始化 LLM 评价器
+        evaluator_llm = LLMService(role="evaluator")
+        rubric_loader = RubricLoader()
+        parser = LLMParser(evaluator_llm)
+        evaluator = LLMEvaluator(evaluator_llm, rubric_loader)
+
+        # 解析标准病历（只需要调用一次 LLMParser）
+        logger.info(f"[Phase3-CaseWriting] 正在解析标准病历 realFormulation...")
+        true_record = parser.parse(true_formulation)
+
+        # 4 维度并行评分
+        logger.info(f"[Phase3-CaseWriting] 正在进行 4 维度并行 LLM 评分...")
+        eval_result = evaluator.evaluate_record_parallel(generated_record, true_record)
+
+        return {
+            "total_percentage": eval_result.get("total_percentage", 0),
+            "total_score": round(eval_result.get("total_percentage", 0) / 100, 2),
+            "total_weighted_score": eval_result.get("total_weighted_score", 0),
+            "total_actual_score": eval_result.get("total_actual_score", 0),
+            "total_actual_max": eval_result.get("total_actual_max", 0),
+            "dimensions": _format_case_writing_dimensions(eval_result.get("dimensions", {})),
+            "true_record": true_record,
+        }
+
+    except Exception as e:
+        logger.error(f"[Phase3-CaseWriting] LLM 评价失败: {e}")
+        import traceback
+        traceback.print_exc()
+        # 回退到简易评分
+        return _evaluate_case_writing_fallback(case_id, case_form, case_data)
+
+
+def _format_case_writing_dimensions(dimensions):
+    """将 LLMEvaluator 返回的维度格式化为前端可展示的格式"""
+    result = {}
+    name_map = {
+        "chief_complaint": "主诉",
+        "physical_examination": "体格检查",
+        "mental_examination": "精神检查",
+        "past_family_history": "既往史与家族史",
+    }
+
+    for key, dim_data in dimensions.items():
+        percentage = dim_data.get("percentage", 0)
+        weighted = dim_data.get("weighted_score", 0)
+        coverage_pct = dim_data.get("coverage_percentage", 0)
+        accuracy_pct = dim_data.get("accuracy_percentage", 0)
+
+        # 提取各评分项的摘要
+        scoring_results = dim_data.get("scoring_results", [])
+        total_items = len(scoring_results)
+        scored_items = sum(
+            1 for r in scoring_results
+            if r.get("coverage_score") not in ("skip", None)
+            and r.get("accuracy_score") not in ("skip", None)
+        )
+
+        result[key] = {
+            "section_name": name_map.get(key, key),
+            "score": round(percentage / 100, 2) if percentage else 0,
+            "percentage": percentage,
+            "coverage_percentage": coverage_pct,
+            "accuracy_percentage": accuracy_pct,
+            "weighted_score": weighted,
+            "detail": f"覆盖度 {coverage_pct:.0f}%，准确度 {accuracy_pct:.0f}%，{scored_items}/{total_items} 个评分项有效",
+            "scoring_results": scoring_results,
+        }
+
+    return result
+
+
+def _evaluate_case_writing_fallback(case_id, case_form, case_data):
+    """LLM 评价失败时的回退：简易关键词匹配评分"""
+    sections = {}
+
+    # 主诉
+    user_chief = (case_form.get("chiefComplaint") or "").strip()
+    gold_chief = " ".join(case_data.get("chiefComplaint", []))
+    if user_chief and gold_chief:
+        gold_keywords = _extract_keywords(gold_chief)
+        if gold_keywords:
+            matched = sum(1 for kw in gold_keywords if kw in user_chief)
+            score = round(matched / len(gold_keywords), 2)
+        else:
+            score = 0.5
+        sections["chief_complaint"] = {
+            "section_name": "主诉",
+            "score": score,
+            "detail": f"关键词覆盖 {matched}/{len(gold_keywords)}",
+        }
+    else:
+        sections["chief_complaint"] = {"section_name": "主诉", "score": 0, "detail": "未填写"}
+
+    # 体格检查
+    user_physical = (case_form.get("physicalExam") or "").strip()
+    gold_physical = case_data.get("physicalExamination", "")
+    if user_physical and gold_physical:
+        vital_signs = ["T", "P", "R", "BP", "体温", "脉搏", "呼吸", "血压"]
+        found = sum(1 for v in vital_signs if v in user_physical)
+        total = sum(1 for v in vital_signs if v in gold_physical)
+        score = round(found / max(total, 1), 2) if total > 0 else 0.3
+        sections["physical_examination"] = {
+            "section_name": "体格检查",
+            "score": score,
+            "detail": f"生命体征覆盖 {found}/{total}",
+        }
+    else:
+        sections["physical_examination"] = {"section_name": "体格检查", "score": 0, "detail": "未填写"}
+
+    # 精神检查
+    user_mental = (case_form.get("mentalExam") or "").strip()
+    gold_mental = " ".join(case_data.get("mentalStatus", []))
+    if user_mental and gold_mental:
+        score = round(_text_overlap(user_mental, gold_mental), 2)
+        sections["mental_examination"] = {
+            "section_name": "精神检查",
+            "score": score,
+            "detail": f"文本相似度 {score:.0%}",
+        }
+    else:
+        sections["mental_examination"] = {"section_name": "精神检查", "score": 0, "detail": "未填写"}
+
+    # 既往史家族史
+    user_past = (case_form.get("pastHistory") or "").strip()
+    user_family = (case_form.get("familyHistory") or "").strip()
+    past_score = 0.5 if user_past else 0
+    family_score = 0.5 if user_family else 0
+    sections["past_family_history"] = {
+        "section_name": "既往史与家族史",
+        "score": round((past_score + family_score) / 2, 2),
+        "detail": f"既往史{'已填' if user_past else '未填'}，家族史{'已填' if user_family else '未填'}",
+    }
+
+    total_score = round(sum(s["score"] for s in sections.values()) / len(sections), 2)
+
+    return {
+        "total_percentage": round(total_score * 100, 2),
+        "total_score": total_score,
+        "dimensions": sections,
+        "fallback": True,
+    }
+
+
+def _evaluate_diagnosis_core(case_id, diagnosis):
+    """使用核心后端评价器进行诊断评价
+
+    - 疾病类型：使用 interview_phase4_eval.calculate_category_metrics（Precision/Recall/F1/Jaccard）
+    - 具体疾病：对比 realDisorder，计算 Recall（召回率）
+    - 诊断理由：检查是否填写 + 是否包含关键术语
+    """
+    from core.evaluate.interview_phase4_eval import (
+        calculate_category_metrics, load_real_categories
+    )
+
+    diagnoses_list = diagnosis.get("diagnoses", [])
+    reason = (diagnosis.get("reason") or "").strip()
+
+    # 提取用户选择的所有类别和疾病
+    user_categories = []
+    user_diseases = set()
+    for cat in diagnoses_list:
+        cat_name = cat.get("category", "")
+        if cat_name:
+            user_categories.append(cat_name)
+        for dis in cat.get("diseases", []):
+            user_diseases.add(dis)
+
+    # === 1. 疾病类型评价（使用 calculate_category_metrics） ===
+    true_categories = load_real_categories(case_id)
+    if true_categories is None:
+        true_categories = []
+
+    category_metrics = calculate_category_metrics(user_categories, true_categories)
+
+    # === 2. 具体疾病评价（对比 realDisorder） ===
+    gt = _load_ground_truth(case_id)
+    gt_disorders = set()
+    if gt:
+        gt_disorders = set(gt.get("realDisorder", []))
+
+    if gt_disorders and user_diseases:
+        matched = user_diseases & gt_disorders
+        disorder_recall = len(matched) / len(gt_disorders)
+        # FP 惩罚
+        false_positives = user_diseases - gt_disorders
+        if false_positives and disorder_recall > 0:
+            penalty = len(false_positives) / len(user_diseases)
+            disorder_recall = round(disorder_recall * (1 - penalty * 0.5), 4)
+    elif gt_disorders:
+        disorder_recall = 0.0
+    else:
+        disorder_recall = 0.5
+
+    # === 3. 诊断理由评价 ===
+    reason_score = 0.0
+    reason_detail = ""
+    if reason:
+        reason_score = 0.6
+        # 检查理由中是否包含关键诊断术语
+        gt_terms = set()
+        for dis in gt_disorders:
+            parts = dis.split(" ", 1)
+            if len(parts) > 1:
+                gt_terms.add(parts[1].lower())
+            gt_terms.add(parts[0].lower())
+        reason_lower = reason.lower()
+        matched_terms = sum(1 for t in gt_terms if t in reason_lower)
+        if matched_terms > 0:
+            reason_score = min(1.0, 0.6 + matched_terms * 0.1)
+            reason_detail = f"包含 {matched_terms} 个关键诊断术语"
+        else:
+            reason_detail = "已填写但未包含关键术语"
+    else:
+        reason_detail = "未填写"
+
+    # === 综合 ===
+    total_score = round(
+        category_metrics.get("recall", 0) * 0.35
+        + disorder_recall * 0.45
+        + reason_score * 0.2,
+        2,
+    )
+
+    return {
+        "total_score": total_score,
+        "disease_type": {
+            "score": category_metrics.get("recall", 0),
+            "metrics": category_metrics,
+            "predicted": user_categories,
+            "true": true_categories,
+            "detail": f"Recall {category_metrics.get('recall', 0):.0%}, Precision {category_metrics.get('precision', 0):.0%}, F1 {category_metrics.get('f1', 0):.0%}",
         },
-        "diagnosis_stats": {
-            "categories": total_categories,
-            "total_diseases": total_diseases,
-            "has_reason": has_reason,
+        "diagnostic_correctness": {
+            "score": disorder_recall,
+            "detail": f"具体疾病 Recall {disorder_recall:.0%}" + (f"（{len(user_diseases & gt_disorders)}/{len(gt_disorders)} 项匹配）" if gt_disorders else ""),
+        },
+        "diagnostic_reasoning": {
+            "score": reason_score,
+            "detail": reason_detail,
+        },
+        "comprehensive": {
+            "score": total_score,
+            "detail": "类型权重 35%，正确性 45%，理由 20%",
         },
     }
+
+
+def _extract_keywords(text):
+    """从文本中提取关键词（简单分词）"""
+    if not text:
+        return []
+    import re
+    cn_words = re.findall(r'[\u4e00-\u9fff]{2,}', text)
+    num_units = re.findall(r'\d+\s*[年月周天次小时]', text)
+    return list(set(cn_words + num_units))
+
+
+def _text_overlap(text1, text2):
+    """计算两个文本的字符级 Jaccard 相似度"""
+    if not text1 or not text2:
+        return 0.0
+    set1 = set(text1)
+    set2 = set(text2)
+    intersection = set1 & set2
+    union = set1 | set2
+    if not union:
+        return 0.0
+    return len(intersection) / len(union)
 
 
 def _evaluate_phase4_live(case_id, body):

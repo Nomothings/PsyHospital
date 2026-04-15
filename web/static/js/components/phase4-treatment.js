@@ -131,7 +131,6 @@ const Phase4Treatment = {
                                 round
                                 @click="handleComplete"
                                 :loading="submitting"
-                                :disabled="evalState !== 'idle'"
                                 class="phase4-form__submit-btn"
                             >
                                 完成诊疗
@@ -140,81 +139,6 @@ const Phase4Treatment = {
                     </div>
                 </main>
             </div>
-
-            <!-- 流水线转场动画 -->
-            <phase-transition-pipeline
-                :visible="showPipeline"
-                :phase-number="4"
-                :case-id="caseId"
-                :eval-payload="getPhase4EvalPayload()"
-                @eval-complete="onPipelineEvalComplete"
-                @close="showPipeline = false"
-            />
-
-            <!-- 评价加载遮罩（保留作为兜底） -->
-            <transition name="eval-fade">
-                <div v-if="evalState === 'loading' && !showPipeline" class="eval-overlay">
-                    <div class="eval-overlay__content">
-                        <img src="/static/bg/eval.png" alt="" class="eval-overlay__icon" />
-                        <div class="eval-overlay__text">正在进行阶段评价…</div>
-                        <div class="eval-overlay__subtext">分析诊疗方案合理性</div>
-                    </div>
-                </div>
-            </transition>
-
-            <!-- 评价结果面板 -->
-            <transition name="eval-slide">
-                <div v-if="evalState === 'showing' || evalState === 'done'" class="eval-panel">
-                    <div class="eval-panel__inner">
-                        <div class="eval-panel__header">
-                            <el-icon :size="22" color="#5ed6c8"><CircleCheckFilled /></el-icon>
-                            <h3 class="eval-panel__title">阶段评价完成</h3>
-                            <el-tag type="success" size="small" effect="plain">Phase 4</el-tag>
-                        </div>
-
-                        <div class="eval-panel__body">
-                            <!-- 治疗方案统计 -->
-                            <div class="eval-section" v-if="evalData.treatment_stats">
-                                <div class="eval-section__title">
-                                    <el-icon :size="14" color="#5ed6c8"><MedicineBox /></el-icon>
-                                    治疗方案
-                                </div>
-                                <div class="eval-stats">
-                                    <div class="eval-stat">
-                                        <span class="eval-stat__label">已填方案</span>
-                                        <span class="eval-stat__value">{{ evalData.treatment_stats.filled_categories }}</span>
-                                    </div>
-                                    <div class="eval-stat">
-                                        <span class="eval-stat__label">未填方案</span>
-                                        <span class="eval-stat__value">{{ evalData.treatment_stats.empty_categories }}</span>
-                                    </div>
-                                    <div class="eval-stat">
-                                        <span class="eval-stat__label">方案总数</span>
-                                        <span class="eval-stat__value">{{ evalData.treatment_stats.total_categories }}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 无评估数据提示 -->
-                            <div v-if="!evalData.treatment_stats" class="eval-section eval-section--note">
-                                <el-icon :size="16" color="#c0c4cc"><InfoFilled /></el-icon>
-                                <span>评价服务暂时不可用，已跳过详细评估</span>
-                            </div>
-                        </div>
-
-                        <div class="eval-panel__footer">
-                            <el-button
-                                type="primary"
-                                size="large"
-                                round
-                                @click="confirmAndProceed"
-                            >
-                                好的，返回患者列表
-                            </el-button>
-                        </div>
-                    </div>
-                </div>
-            </transition>
         </div>
     `,
 
@@ -232,25 +156,16 @@ const Phase4Treatment = {
                 adjuvant: '',
             },
             submitting: false,
-            // 评价状态: 'idle' | 'loading' | 'showing' | 'done'
-            evalState: 'idle',
-            evalData: {},
-            evalError: null,
-            // 流水线动画
-            showPipeline: false,
         };
     },
 
     computed: {
         ArrowLeft() { return ElementPlusIconsVue.ArrowLeft; },
-        CircleCheckFilled() { return ElementPlusIconsVue.CircleCheckFilled; },
-        MedicineBox() { return ElementPlusIconsVue.MedicineBox; },
-        InfoFilled() { return ElementPlusIconsVue.InfoFilled; },
     },
 
     methods: {
         async handleComplete() {
-            if (this.evalState !== 'idle') return;
+            if (this.submitting) return;
             this.submitting = true;
             try {
                 // 空项自动补为"无"
@@ -282,8 +197,8 @@ const Phase4Treatment = {
                     treatment: treatmentRecord,
                 }));
 
-                // 进入评价流程
-                await this.startEvaluation(treatmentRecord);
+                // 直接跳转到统一评价页，由评价页自行调用后端接口
+                this.$router.push({ path: '/evaluation', query: { id: this.caseId } });
             } catch (err) {
                 this.$message.error('提交失败: ' + (err.message || '未知错误'));
                 console.error('[Phase4Treatment] 提交失败:', err);
@@ -294,38 +209,6 @@ const Phase4Treatment = {
 
         goBack() {
             this.$router.push('/phase3');
-        },
-
-        /**
-         * 统一评价入口
-         */
-        async startEvaluation(treatmentRecord) {
-            if (this.evalState !== 'idle') return;
-            // 先保存治疗数据到 sessionStorage
-            sessionStorage.setItem('phase4_treatment', JSON.stringify(treatmentRecord));
-            // 显示流水线动画
-            this.showPipeline = true;
-        },
-
-        /** 获取 Phase 4 评价参数 */
-        getPhase4EvalPayload() {
-            const treatment = JSON.parse(sessionStorage.getItem('phase4_treatment') || '{}');
-            return { treatment };
-        },
-
-        /** 流水线评价完成回调 */
-        onPipelineEvalComplete(result) {
-            this.evalData = result;
-            this.evalState = 'showing';
-        },
-
-        /**
-         * 用户确认评价后返回患者列表
-         */
-        confirmAndProceed() {
-            if (this.evalState !== 'showing' && this.evalState !== 'done') return;
-            this.evalState = 'done';
-            this.$router.push('/patients');
         },
 
         async loadPhaseData() {

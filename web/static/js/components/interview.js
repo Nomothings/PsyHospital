@@ -56,7 +56,7 @@ const Interview = {
                             size="small"
                             round
                             @click="handleEndPhase"
-                            :disabled="evalState !== 'idle'"
+                            :disabled="saving"
                             class="interview-header__end-btn"
                         >
                             <el-icon><SwitchButton /></el-icon>
@@ -135,7 +135,7 @@ const Interview = {
                             v-model="inputText"
                             placeholder="以医生身份向患者提问…"
                             @keyup.enter.native.prevent="handleKeydown"
-                            :disabled="isTyping || evalState !== 'idle'"
+                            :disabled="isTyping || saving"
                             resize="none"
                             type="textarea"
                             :rows="1"
@@ -145,7 +145,7 @@ const Interview = {
                             type="primary"
                             round
                             @click="sendMessage"
-                            :disabled="!inputText.trim() || isTyping || evalState !== 'idle'"
+                            :disabled="!inputText.trim() || isTyping || saving"
                             class="interview-input__btn"
                         >
                             <el-icon><Position /></el-icon>
@@ -158,116 +158,12 @@ const Interview = {
                 </div>
             </main>
 
-            <!-- 流水线转场动画 -->
-            <phase-transition-pipeline
-                :visible="showPipeline"
-                :phase-number="1"
-                :case-id="$route.query.id"
-                :eval-payload="{ messages: messages }"
-                @eval-complete="onPipelineEvalComplete"
-                @close="showPipeline = false"
-            />
-
-            <!-- 评价加载遮罩（保留作为兜底） -->
+            <!-- 评价加载提示 -->
             <transition name="eval-fade">
-                <div v-if="evalState === 'loading' && !showPipeline" class="eval-overlay">
+                <div v-if="saving" class="eval-overlay">
                     <div class="eval-overlay__content">
                         <img src="/static/bg/eval.png" alt="" class="eval-overlay__icon" />
-                        <div class="eval-overlay__text">正在进行阶段评价…</div>
-                        <div class="eval-overlay__subtext">分析对话质量与临床技巧</div>
-                    </div>
-                </div>
-            </transition>
-
-            <!-- 评价结果面板 -->
-            <transition name="eval-slide">
-                <div v-if="evalState === 'showing' || evalState === 'done'" class="eval-panel">
-                    <div class="eval-panel__inner">
-                        <div class="eval-panel__header">
-                            <el-icon :size="22" color="#5ed6c8"><CircleCheckFilled /></el-icon>
-                            <h3 class="eval-panel__title">阶段评价完成</h3>
-                            <el-tag type="success" size="small" effect="plain">Phase 1</el-tag>
-                        </div>
-
-                        <div class="eval-panel__body">
-                            <!-- 对话统计 -->
-                            <div class="eval-section" v-if="evalData.conversation_stats">
-                                <div class="eval-section__title">
-                                    <el-icon :size="14" color="#5ed6c8"><ChatDotRound /></el-icon>
-                                    对话统计
-                                </div>
-                                <div class="eval-stats">
-                                    <div class="eval-stat">
-                                        <span class="eval-stat__label">总轮数</span>
-                                        <span class="eval-stat__value">{{ evalData.conversation_stats.total_turns }}</span>
-                                    </div>
-                                    <div class="eval-stat">
-                                        <span class="eval-stat__label">医生发言</span>
-                                        <span class="eval-stat__value">{{ evalData.conversation_stats.doctor_turns }}</span>
-                                    </div>
-                                    <div class="eval-stat">
-                                        <span class="eval-stat__label">患者发言</span>
-                                        <span class="eval-stat__value">{{ evalData.conversation_stats.patient_turns }}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 共情度评估 -->
-                            <div class="eval-section" v-if="evalData.empathy_evaluation">
-                                <div class="eval-section__title">
-                                    <el-icon :size="14" color="#e6a23c"><StarFilled /></el-icon>
-                                    共情度评估
-                                </div>
-                                <div class="eval-empathy">
-                                    <div class="eval-empathy__level">
-                                        <el-tag type="warning" size="large" effect="dark" round>
-                                            {{ evalData.empathy_evaluation.empathy_level }}
-                                        </el-tag>
-                                    </div>
-                                    <div class="eval-empathy__reason" v-if="evalData.empathy_evaluation.why_this_level">
-                                        {{ evalData.empathy_evaluation.why_this_level }}
-                                    </div>
-                                    <div class="eval-empathy__evidence" v-if="evalData.empathy_evaluation.evidence">
-                                        <span class="eval-empathy__evidence-label">证据：</span>
-                                        {{ evalData.empathy_evaluation.evidence }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 专业度评估 -->
-                            <div class="eval-section" v-if="evalData.profession_evaluation">
-                                <div class="eval-section__title">
-                                    <el-icon :size="14" color="#409eff"><TrophyBase /></el-icon>
-                                    专业度评估
-                                </div>
-                                <div class="eval-profession">
-                                    <div class="eval-profession__score">
-                                        <span class="eval-profession__value">{{ evalData.profession_evaluation.total_score }}</span>
-                                        <span class="eval-profession__max">/ {{ evalData.profession_evaluation.question_count * 2 }}</span>
-                                    </div>
-                                    <div class="eval-profession__avg">
-                                        平均分 {{ evalData.profession_evaluation.average_score.toFixed(2) }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 无评估数据提示 -->
-                            <div v-if="!evalData.empathy_evaluation && !evalData.profession_evaluation" class="eval-section eval-section--note">
-                                <el-icon :size="16" color="#c0c4cc"><InfoFilled /></el-icon>
-                                <span>LLM 评估服务暂时不可用，已跳过共情度与专业度评估</span>
-                            </div>
-                        </div>
-
-                        <div class="eval-panel__footer">
-                            <el-button
-                                type="primary"
-                                size="large"
-                                round
-                                @click="confirmAndProceed"
-                            >
-                                好的，进入下一阶段
-                            </el-button>
-                        </div>
+                        <div class="eval-overlay__text">正在保存数据…</div>
                     </div>
                 </div>
             </transition>
@@ -292,11 +188,8 @@ const Interview = {
             avatarEmotion: 'neutral',
             lastPatientMessage: '',
             prevEmotion: 'neutral',
-            // 评价状态: 'idle' | 'loading' | 'showing' | 'done'
-            evalState: 'idle',
-            evalData: {},
-            // 流水线动画
-            showPipeline: false,
+            // 保存状态
+            saving: false,
         };
     },
 
@@ -308,9 +201,6 @@ const Interview = {
         ArrowLeft() { return ElementPlusIconsVue.ArrowLeft; },
         SwitchButton() { return ElementPlusIconsVue.SwitchButton; },
         CircleCheckFilled() { return ElementPlusIconsVue.CircleCheckFilled; },
-        ChatDotRound() { return ElementPlusIconsVue.ChatDotRound; },
-        StarFilled() { return ElementPlusIconsVue.StarFilled; },
-        TrophyBase() { return ElementPlusIconsVue.TrophyBase; },
 
         turnCount() {
             return this.messages.filter(m => m.role === 'doctor').length;
@@ -386,13 +276,13 @@ const Interview = {
         },
 
         async handleEndPhase() {
-            if (this.evalState !== 'idle') return;
+            if (this.saving) return;
             if (this.messages.length === 0) {
-                this.$message.warning('尚未开始对话，无法评价');
+                this.$message.warning('尚未开始对话，无法结束阶段');
                 return;
             }
 
-            // 先保存当前阶段记录
+            this.saving = true;
             const caseId = this.$route.query.id;
             const recordId = sessionStorage.getItem('record_id') || caseId;
             if (caseId) {
@@ -412,21 +302,6 @@ const Interview = {
                 }
             }
 
-            // 保存记录后显示流水线动画
-            this.showPipeline = true;
-        },
-
-        /** 流水线评价完成回调 */
-        onPipelineEvalComplete(result) {
-            // 先保存评价结果
-            this.evalData = result;
-            // 显示评价结果面板
-            this.evalState = 'showing';
-        },
-
-        async confirmAndProceed() {
-            this.evalState = 'done';
-            const caseId = this.$route.query.id;
             if (this.sessionId) API.endChat(this.sessionId);
             this.$router.push({ path: '/phase2', query: { id: caseId } });
         },

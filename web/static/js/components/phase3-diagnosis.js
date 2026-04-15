@@ -297,95 +297,12 @@ const Phase3Diagnosis = {
                 </template>
             </div>
 
-            <!-- 流水线转场动画 -->
-            <phase-transition-pipeline
-                :visible="showPipeline"
-                :phase-number="3"
-                :case-id="caseId"
-                :eval-payload="getPhase3EvalPayload()"
-                @eval-complete="onPipelineEvalComplete"
-                @close="showPipeline = false"
-            />
-
-            <!-- 评价加载遮罩（保留作为兜底） -->
+            <!-- 保存状态提示 -->
             <transition name="eval-fade">
-                <div v-if="evalState === 'loading' && !showPipeline" class="eval-overlay">
+                <div v-if="saving" class="eval-overlay">
                     <div class="eval-overlay__content">
                         <img src="/static/bg/eval.png" alt="" class="eval-overlay__icon" />
-                        <div class="eval-overlay__text">正在进行阶段评价…</div>
-                        <div class="eval-overlay__subtext">分析病历书写与诊断质量</div>
-                    </div>
-                </div>
-            </transition>
-
-            <!-- 评价结果面板 -->
-            <transition name="eval-slide">
-                <div v-if="evalState === 'showing' || evalState === 'done'" class="eval-panel">
-                    <div class="eval-panel__inner">
-                        <div class="eval-panel__header">
-                            <el-icon :size="22" color="#5ed6c8"><CircleCheckFilled /></el-icon>
-                            <h3 class="eval-panel__title">阶段评价完成</h3>
-                            <el-tag type="success" size="small" effect="plain">Phase 3</el-tag>
-                        </div>
-
-                        <div class="eval-panel__body">
-                            <!-- 病历书写统计 -->
-                            <div class="eval-section" v-if="evalData.case_form_stats">
-                                <div class="eval-section__title">
-                                    <el-icon :size="14" color="#5ed6c8"><Document /></el-icon>
-                                    病历书写完成度
-                                </div>
-                                <div class="eval-stats">
-                                    <div class="eval-stat">
-                                        <span class="eval-stat__label">已填项目</span>
-                                        <span class="eval-stat__value">{{ evalData.case_form_stats.filled_fields }}/{{ evalData.case_form_stats.total_fields }}</span>
-                                    </div>
-                                    <div class="eval-stat">
-                                        <span class="eval-stat__label">完成度</span>
-                                        <span class="eval-stat__value">{{ evalData.case_form_stats.completeness }}%</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 诊断统计 -->
-                            <div class="eval-section" v-if="evalData.diagnosis_stats">
-                                <div class="eval-section__title">
-                                    <el-icon :size="14" color="#409eff"><Notebook /></el-icon>
-                                    诊断情况
-                                </div>
-                                <div class="eval-stats">
-                                    <div class="eval-stat">
-                                        <span class="eval-stat__label">诊断大类</span>
-                                        <span class="eval-stat__value">{{ evalData.diagnosis_stats.categories }}</span>
-                                    </div>
-                                    <div class="eval-stat">
-                                        <span class="eval-stat__label">具体诊断</span>
-                                        <span class="eval-stat__value">{{ evalData.diagnosis_stats.total_diseases }}</span>
-                                    </div>
-                                    <div class="eval-stat">
-                                        <span class="eval-stat__label">诊断理由</span>
-                                        <span class="eval-stat__value">{{ evalData.diagnosis_stats.has_reason ? '已填' : '未填' }}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 无评估数据提示 -->
-                            <div v-if="!evalData.case_form_stats && !evalData.diagnosis_stats" class="eval-section eval-section--note">
-                                <el-icon :size="16" color="#c0c4cc"><InfoFilled /></el-icon>
-                                <span>评价服务暂时不可用，已跳过详细评估</span>
-                            </div>
-                        </div>
-
-                        <div class="eval-panel__footer">
-                            <el-button
-                                type="primary"
-                                size="large"
-                                round
-                                @click="confirmAndProceed"
-                            >
-                                好的，进入下一阶段
-                            </el-button>
-                        </div>
+                        <div class="eval-overlay__text">正在保存数据…</div>
                     </div>
                 </div>
             </transition>
@@ -588,12 +505,8 @@ const Phase3Diagnosis = {
                 ],
             },
             rules: {},
-            // 评价状态: 'idle' | 'loading' | 'showing' | 'done'
-            evalState: 'idle',
-            evalData: {},
-            evalError: null,
-            // 流水线动画
-            showPipeline: false,
+            // 保存状态
+            saving: false,
         };
     },
 
@@ -603,10 +516,6 @@ const Phase3Diagnosis = {
         Check() { return ElementPlusIconsVue.Check; },
         Plus() { return ElementPlusIconsVue.Plus; },
         Folder() { return ElementPlusIconsVue.Folder; },
-        CircleCheckFilled() { return ElementPlusIconsVue.CircleCheckFilled; },
-        Document() { return ElementPlusIconsVue.Document; },
-        Notebook() { return ElementPlusIconsVue.Notebook; },
-        InfoFilled() { return ElementPlusIconsVue.InfoFilled; },
 
         compoundTags() {
             const tags = [];
@@ -835,8 +744,8 @@ const Phase3Diagnosis = {
                     diagnoses: diagnoses,
                 }));
 
-                // 进入评价流程
-                await this.startEvaluation();
+                // 进入评价流程（统一在第四阶段后展示）
+                this.$router.push({ path: '/phase4', query: { id: this.caseId } });
             } catch (err) {
                 this.$message.error('提交失败: ' + (err.message || '未知错误'));
                 console.error('[Phase3Diagnosis] 提交失败:', err);
@@ -851,40 +760,6 @@ const Phase3Diagnosis = {
             } else {
                 this.$router.push({ path: '/phase2', query: { id: this.caseId } });
             }
-        },
-
-        /**
-         * 统一评价入口
-         */
-        async startEvaluation() {
-            if (this.evalState !== 'idle') return;
-            // 显示流水线动画
-            this.showPipeline = true;
-        },
-
-        /** 获取 Phase 3 评价参数 */
-        getPhase3EvalPayload() {
-            const caseForm = this._lastCaseForm || { ...this.caseForm };
-            const diagnosis = this._lastDiagnosis || {};
-            return {
-                case_form: caseForm,
-                diagnosis: diagnosis,
-            };
-        },
-
-        /** 流水线评价完成回调 */
-        onPipelineEvalComplete(result) {
-            this.evalData = result;
-            this.evalState = 'showing';
-        },
-
-        /**
-         * 用户确认评价后进入下一阶段
-         */
-        confirmAndProceed() {
-            if (this.evalState !== 'showing' && this.evalState !== 'done') return;
-            this.evalState = 'done';
-            this.$router.push({ path: '/phase4', query: { id: this.caseId } });
         },
 
         async loadPhaseData() {

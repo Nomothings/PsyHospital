@@ -36,7 +36,7 @@ class RecordRepository:
         """保存或更新问诊记录。每次问诊会话一个文件，同一次会话的所有阶段数据合并到同一文件。
 
         Args:
-            case_id: 问诊记录 ID（record_id，如 1009904_1，用作文件名）
+            case_id: 问诊记录 ID（record_id，如 1009904_20260415_143022，用作文件名）
             record: 记录数据，包含 caseInfo, conversation, exams, caseForm, diagnosis, treatment 等
 
         Returns:
@@ -59,6 +59,15 @@ class RecordRepository:
             # 如果是首次创建，添加创建时间
             if "created_at" not in merged:
                 merged["created_at"] = merged["updated_at"]
+
+            # 从 record_id 提取原始 case_id（格式：{case_id}_{YYYYMMDD}_{HHMMSS}_{suffix} 或旧格式）
+            if "original_case_id" not in merged:
+                parts = case_id.rsplit("_", 2)
+                # 新格式：{case_id}_{YYYYMMDD}_{HHMMSS}_{suffix} -> 3+ parts
+                if len(parts) >= 3 and len(parts[1]) == 8:
+                    merged["original_case_id"] = parts[0]
+                else:
+                    merged["original_case_id"] = case_id
 
             with open(record_path, "w", encoding="utf-8") as f:
                 json.dump(merged, f, ensure_ascii=False, indent=2)

@@ -92,4 +92,5 @@ class CaseService:
             "chiefComplaint": case.get("chiefComplaint", []),
             "mentalStatus": case.get("mentalStatus", []),
             "physicalExamination": case.get("physicalExamination", ""),
+            "auxiliaryExamination": case.get("auxiliaryExamination", {}),
         }

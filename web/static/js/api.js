@@ -269,4 +269,42 @@ const API = {
         }
         return await response.json();
     },
+
+    // Phase 2 专用：仅获取检查正确率
+    async getPhase2Accuracy(caseId, examResults = {}) {
+        console.log('[API.getPhase2Accuracy] POST /api/evaluate/phase2-accuracy, caseId:', caseId, 'examResults:', JSON.stringify(examResults));
+        const response = await fetch(this.BASE_URL + "/api/evaluate/phase2-accuracy", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                case_id: caseId,
+                exam_results: examResults,
+            }),
+        });
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.error || `HTTP ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('[API.getPhase2Accuracy] response:', JSON.stringify(data));
+        return data;
+    },
+
+    // Phase 3 专用：获取完整评价（病历书写 + 诊断）
+    async getPhase3FullEvaluation(caseId, caseForm, diagnosis) {
+        const response = await fetch(this.BASE_URL + "/api/evaluate/phase3-full", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                case_id: caseId,
+                case_form: caseForm,
+                diagnosis: diagnosis,
+            }),
+        });
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.error || `HTTP ${response.status}`);
+        }
+        return await response.json();
+    },
 };
