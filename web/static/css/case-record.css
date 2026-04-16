@@ -329,6 +329,37 @@
     flex: 1;
 }
 
+/* 多诊断分组样式 */
+.case-record-diagnosis-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 16px;
+    background: rgba(94, 214, 200, 0.08);
+    border: 1px solid rgba(94, 214, 200, 0.15);
+    border-radius: 10px;
+}
+
+.case-record-diagnosis-group__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.case-record-diagnosis-group__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-left: 8px;
+}
+
+.case-record-diagnosis-group__none {
+    color: rgba(42, 90, 90, 0.3);
+    font-size: 13px;
+    font-style: italic;
+    margin-left: 8px;
+}
+
 /* 空状态 */
 .case-record-empty {
     text-align: center;
@@ -339,4 +370,162 @@
 .case-record-empty p {
     margin-top: 16px;
     font-size: 15px;
+}
+
+/* 治疗方案 */
+.case-record-treatment {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.case-record-tx-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 16px;
+    background: rgba(94, 214, 200, 0.06);
+    border: 1px solid rgba(94, 214, 200, 0.12);
+    border-radius: 10px;
+}
+
+.case-record-tx-item__label {
+    color: rgba(42, 90, 90, 0.6);
+    min-width: 80px;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.case-record-tx-item__value {
+    color: #2a5a5a;
+    font-size: 14px;
+    line-height: 1.6;
+    flex: 1;
+    word-break: break-word;
+}
+
+/* 综合评估报告 */
+.case-record-eval-block {
+    margin-bottom: 20px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(62, 196, 176, 0.15);
+    border-radius: 12px;
+}
+
+.case-record-eval-block:last-child {
+    margin-bottom: 0;
+}
+
+.case-record-eval-block__title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2a5a5a;
+    margin: 0 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(94, 214, 200, 0.25);
+}
+
+.case-record-eval-block__body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.case-record-eval-sub {
+    font-size: 14px;
+    color: #2a5a5a;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.case-record-eval-sub strong {
+    color: #3ec4b0;
+    font-weight: 700;
+}
+
+.case-record-eval-sub__sep {
+    color: rgba(42, 90, 90, 0.3);
+    margin: 0 4px;
+}
+
+.case-record-eval-sub__detail {
+    color: rgba(42, 90, 90, 0.55);
+    font-size: 13px;
+}
+
+.case-record-eval-sub-block {
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.case-record-eval-detail {
+    font-size: 13px;
+    color: rgba(42, 90, 90, 0.75);
+    line-height: 1.7;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    border-left: 3px solid rgba(62, 196, 176, 0.3);
+}
+
+/* 检查评价列表 */
+.case-record-eval-exam-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.case-record-eval-exam-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.case-record-eval-exam-item--correct {
+    background: rgba(103, 194, 58, 0.08);
+    color: #67c23a;
+}
+
+.case-record-eval-exam-item--wrong {
+    background: rgba(245, 108, 108, 0.08);
+    color: #f56c6c;
+}
+
+/* 治疗评价列表 */
+.case-record-eval-tx-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.case-record-eval-tx-item {
+    display: flex;
+    gap: 8px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.case-record-eval-tx-item__label {
+    color: rgba(42, 90, 90, 0.6);
+    font-weight: 600;
+    min-width: 72px;
+}
+
+.case-record-eval-tx-item__value {
+    color: #2a5a5a;
+    flex: 1;
+    word-break: break-word;
 }

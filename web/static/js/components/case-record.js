@@ -154,14 +154,29 @@ const CaseRecord = {
                         </div>
                         <div class="case-record-section__body">
                             <div class="case-record-diagnosis">
-                                <div class="case-record-diagnosis__item">
-                                    <span class="case-record-diagnosis__label">诊断类别</span>
-                                    <span class="case-record-diagnosis__value">{{ diagnosis.category }}</span>
-                                </div>
-                                <div class="case-record-diagnosis__item">
-                                    <span class="case-record-diagnosis__label">具体病症</span>
-                                    <span class="case-record-diagnosis__value">{{ diagnosis.disease }}</span>
-                                </div>
+                                <!-- 新格式：多个诊断 -->
+                                <template v-if="diagnosis.diagnoses && diagnosis.diagnoses.length">
+                                    <div v-for="(dx, idx) in diagnosis.diagnoses" :key="idx" class="case-record-diagnosis-group">
+                                        <div class="case-record-diagnosis-group__header">
+                                            <el-tag type="success" size="small" effect="plain" round>{{ dx.category }}</el-tag>
+                                        </div>
+                                        <div class="case-record-diagnosis-group__items" v-if="dx.diseases && dx.diseases.length">
+                                            <el-tag v-for="(dis, di) in dx.diseases" :key="di" size="small" round style="margin: 2px 4px 2px 0;">{{ dis }}</el-tag>
+                                        </div>
+                                        <div v-else class="case-record-diagnosis-group__none">未选择具体疾病</div>
+                                    </div>
+                                </template>
+                                <!-- 旧格式：单个诊断 -->
+                                <template v-else>
+                                    <div class="case-record-diagnosis__item">
+                                        <span class="case-record-diagnosis__label">诊断类别</span>
+                                        <span class="case-record-diagnosis__value">{{ diagnosis.category }}</span>
+                                    </div>
+                                    <div class="case-record-diagnosis__item">
+                                        <span class="case-record-diagnosis__label">具体病症</span>
+                                        <span class="case-record-diagnosis__value">{{ diagnosis.disease }}</span>
+                                    </div>
+                                </template>
                                 <div class="case-record-diagnosis__item">
                                     <span class="case-record-diagnosis__label">诊断理由</span>
                                     <span class="case-record-diagnosis__value">{{ diagnosis.reason }}</span>
@@ -170,8 +185,137 @@ const CaseRecord = {
                         </div>
                     </div>
 
+                    <!-- Phase 4: 治疗方案 -->
+                    <div class="case-record-section" v-if="treatment">
+                        <div class="case-record-section__header">
+                            <el-icon :size="20" color="#5ed6c8"><FirstAidKit /></el-icon>
+                            <h4 class="case-record-section__title">第四阶段：治疗方案</h4>
+                        </div>
+                        <div class="case-record-section__body">
+                            <div class="case-record-treatment">
+                                <div v-for="(value, key) in treatment" :key="key" class="case-record-tx-item">
+                                    <span class="case-record-tx-item__label">{{ key }}</span>
+                                    <span class="case-record-tx-item__value">{{ value }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 统一评价报告 -->
+                    <div class="case-record-section" v-if="evaluationReport">
+                        <div class="case-record-section__header">
+                            <el-icon :size="20" color="#3ec4b0"><CircleCheckFilled /></el-icon>
+                            <h4 class="case-record-section__title">综合评估报告</h4>
+                            <el-tag type="success" size="small" effect="plain">全流程评价完成</el-tag>
+                        </div>
+                        <div class="case-record-section__body">
+                            <!-- 访谈评价 -->
+                            <div class="case-record-eval-block" v-if="evaluationReport.phase1 && !evaluationReport.phase1._fallback">
+                                <h5 class="case-record-eval-block__title">一、访谈评价</h5>
+                                <div class="case-record-eval-block__body">
+                                    <div v-if="evaluationReport.phase1.conversation_stats" class="case-record-eval-sub">
+                                        <span>对话轮数: {{ evaluationReport.phase1.conversation_stats.total_turns }}</span>
+                                        <span class="case-record-eval-sub__sep">|</span>
+                                        <span>医生发言: {{ evaluationReport.phase1.conversation_stats.doctor_turns }}</span>
+                                        <span class="case-record-eval-sub__sep">|</span>
+                                        <span>患者发言: {{ evaluationReport.phase1.conversation_stats.patient_turns }}</span>
+                                    </div>
+                                    <div v-if="evaluationReport.phase1.empathy_evaluation" class="case-record-eval-sub">
+                                        <span>共情等级: <strong>{{ evaluationReport.phase1.empathy_evaluation.empathy_level }}</strong></span>
+                                    </div>
+                                    <div v-if="evaluationReport.phase1.empathy_evaluation?.why_this_level" class="case-record-eval-detail">
+                                        {{ evaluationReport.phase1.empathy_evaluation.why_this_level }}
+                                    </div>
+                                    <div v-if="evaluationReport.phase1.profession_evaluation" class="case-record-eval-sub">
+                                        <span>专业度得分: <strong>{{ evaluationReport.phase1.profession_evaluation.total_score }}</strong> / {{ evaluationReport.phase1.profession_evaluation.question_count * 2 }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 检查评价 -->
+                            <div class="case-record-eval-block" v-if="evaluationReport.phase2 && !evaluationReport.phase2._fallback">
+                                <h5 class="case-record-eval-block__title">二、检查评价</h5>
+                                <div class="case-record-eval-block__body">
+                                    <div v-if="evaluationReport.phase2.accuracy !== undefined" class="case-record-eval-sub">
+                                        <span>检查正确率: <strong>{{ formatAccuracy(evaluationReport.phase2.accuracy) }}</strong></span>
+                                    </div>
+                                    <div v-if="evaluationReport.phase2.exam_details" class="case-record-eval-exam-list">
+                                        <div v-for="(detail, key) in evaluationReport.phase2.exam_details" :key="key"
+                                             class="case-record-eval-exam-item"
+                                             :class="detail?.correct ? 'case-record-eval-exam-item--correct' : 'case-record-eval-exam-item--wrong'">
+                                            <span>{{ key }}</span>
+                                            <span>{{ detail?.correct ? '正确' : '错误' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 病历书写与诊断评价 -->
+                            <div class="case-record-eval-block" v-if="evaluationReport.phase3_full && !evaluationReport.phase3_full._fallback">
+                                <h5 class="case-record-eval-block__title">三、病历书写与诊断评价</h5>
+                                <div class="case-record-eval-block__body">
+                                    <!-- 病历书写 -->
+                                    <div v-if="evaluationReport.phase3_full.case_writing" class="case-record-eval-sub-block">
+                                        <div class="case-record-eval-sub">
+                                            <span>病历书写总分: <strong>{{ formatScore(evaluationReport.phase3_full.case_writing.total_score) }}</strong></span>
+                                        </div>
+                                        <div v-for="(section, key) in evaluationReport.phase3_full.case_writing.dimensions" :key="key" class="case-record-eval-sub">
+                                            <span>{{ section.section_name }}: {{ formatPercentage(section) }}</span>
+                                            <span v-if="section.detail" class="case-record-eval-sub__detail">— {{ section.detail }}</span>
+                                        </div>
+                                    </div>
+                                    <!-- 诊断 -->
+                                    <div v-if="evaluationReport.phase3_full.diagnosis" class="case-record-eval-sub-block">
+                                        <div class="case-record-eval-sub">
+                                            <span>疾病类型得分: <strong>{{ formatScore(evaluationReport.phase3_full.diagnosis.disease_type?.score) }}</strong></span>
+                                            <span v-if="evaluationReport.phase3_full.diagnosis.disease_type?.detail" class="case-record-eval-sub__detail">— {{ evaluationReport.phase3_full.diagnosis.disease_type.detail }}</span>
+                                        </div>
+                                        <div v-if="evaluationReport.phase3_full.diagnosis.disease_type?.metrics" class="case-record-eval-sub">
+                                            <span>P: {{ (evaluationReport.phase3_full.diagnosis.disease_type.metrics.precision * 100).toFixed(0) }}%</span>
+                                            <span>R: {{ (evaluationReport.phase3_full.diagnosis.disease_type.metrics.recall * 100).toFixed(0) }}%</span>
+                                            <span>F1: {{ (evaluationReport.phase3_full.diagnosis.disease_type.metrics.f1 * 100).toFixed(0) }}%</span>
+                                            <span>J: {{ (evaluationReport.phase3_full.diagnosis.disease_type.metrics.jaccard * 100).toFixed(0) }}%</span>
+                                        </div>
+                                        <div class="case-record-eval-sub">
+                                            <span>诊断正确性: <strong>{{ formatScore(evaluationReport.phase3_full.diagnosis.diagnostic_correctness?.score) }}</strong></span>
+                                        </div>
+                                        <div v-if="evaluationReport.phase3_full.diagnosis.diagnostic_correctness?.detail" class="case-record-eval-detail">
+                                            {{ evaluationReport.phase3_full.diagnosis.diagnostic_correctness.detail }}
+                                        </div>
+                                        <div class="case-record-eval-sub">
+                                            <span>诊断理由: <strong>{{ formatScore(evaluationReport.phase3_full.diagnosis.diagnostic_reasoning?.score) }}</strong></span>
+                                        </div>
+                                        <div v-if="evaluationReport.phase3_full.diagnosis.diagnostic_reasoning?.detail" class="case-record-eval-detail">
+                                            {{ evaluationReport.phase3_full.diagnosis.diagnostic_reasoning.detail }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 治疗评价 -->
+                            <div class="case-record-eval-block" v-if="evaluationReport.phase4 && !evaluationReport.phase4._fallback">
+                                <h5 class="case-record-eval-block__title">四、治疗评价</h5>
+                                <div class="case-record-eval-block__body">
+                                    <div v-if="evaluationReport.phase4.treatment_stats" class="case-record-eval-sub">
+                                        <span>已填方案: {{ evaluationReport.phase4.treatment_stats.filled_categories }}</span>
+                                        <span class="case-record-eval-sub__sep">|</span>
+                                        <span>未填方案: {{ evaluationReport.phase4.treatment_stats.empty_categories }}</span>
+                                        <span class="case-record-eval-sub__sep">|</span>
+                                        <span>方案总数: {{ evaluationReport.phase4.treatment_stats.total_categories }}</span>
+                                    </div>
+                                    <div v-if="evaluationReport.phase4.treatment_stats?.details" class="case-record-eval-tx-list">
+                                        <div v-for="(detail, key) in evaluationReport.phase4.treatment_stats.details" :key="key" class="case-record-eval-tx-item">
+                                            <span class="case-record-eval-tx-item__label">{{ key }}</span>
+                                            <span class="case-record-eval-tx-item__value">{{ detail }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- 空状态 -->
-                    <div v-if="!caseInfo && !conversationMessages.length && !examRecords.length && !caseText && !diagnosis"
+                    <div v-if="!caseInfo && !conversationMessages.length && !examRecords.length && !caseForm && !diagnosis && !treatment && !evaluationReport"
                          class="case-record-empty">
                         <el-icon :size="48" color="#c0c4cc"><DocumentDelete /></el-icon>
                         <p>暂无问诊记录</p>
@@ -190,6 +334,8 @@ const CaseRecord = {
             caseText: '',
             caseForm: null,
             diagnosis: null,
+            treatment: null,
+            evaluationReport: null,
         };
     },
 
@@ -202,11 +348,34 @@ const CaseRecord = {
         EditPen() { return ElementPlusIconsVue.EditPen; },
         CircleCheckFilled() { return ElementPlusIconsVue.CircleCheckFilled; },
         DocumentDelete() { return ElementPlusIconsVue.DocumentDelete; },
+        FirstAidKit() { return ElementPlusIconsVue.FirstAidKit; },
     },
 
     methods: {
         goBack() {
             this.$router.push('/patients');
+        },
+
+        /** 格式化分数：保留两位小数 */
+        formatScore(value) {
+            if (value == null) return '—';
+            const n = Number(value);
+            return isNaN(n) ? value : n.toFixed(2);
+        },
+
+        /** 格式化百分比：将分数转为百分比字符串 */
+        formatPercentage(section) {
+            if (!section) return '—';
+            if (section.percentage !== undefined) return section.percentage.toFixed(0) + '%';
+            if (section.score !== undefined) return (Number(section.score) * 100).toFixed(0) + '%';
+            return '—';
+        },
+
+        /** 格式化准确率：0-1 小数转为百分比 */
+        formatAccuracy(value) {
+            if (value == null) return '—';
+            const n = Number(value);
+            return isNaN(n) ? '—' : (n * 100).toFixed(0) + '%';
         },
 
         async loadRecord() {
@@ -225,6 +394,12 @@ const CaseRecord = {
                     this.caseText = record.caseText || '';
                     this.caseForm = record.caseForm || null;
                     this.diagnosis = record.diagnosis || null;
+                    this.treatment = record.treatment || null;
+                    this.evaluationReport = record.evaluation_report || null;
+                    // 从 record_id 中提取原始 case_id 用于显示
+                    if (record.original_case_id) {
+                        this.caseId = record.original_case_id;
+                    }
                 }
             } catch (err) {
                 console.error('[CaseRecord] 加载记录失败:', err);

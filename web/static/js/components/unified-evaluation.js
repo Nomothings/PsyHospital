@@ -80,14 +80,11 @@ const UnifiedEvaluation = {
                     </el-alert>
                 </div>
 
-                <!-- 结果头部 -->
+                <!-- 结果头部 — 只保留品牌图标，去掉重复文字 -->
                 <div v-else class="eval-result-header">
                     <div class="eval-result-header__brand">
                         <img src="/static/bg/eval.png" alt="" class="eval-result-header__icon" />
                     </div>
-                    <h2 class="eval-result-header__title">MentalEval</h2>
-                    <div class="eval-result-header__subtitle">COMPREHENSIVE CLINICAL EVALUATION REPORT</div>
-                    <div class="eval-result-header__hint">本次接诊全流程综合评价已完成</div>
                 </div>
 
                 <!-- 阶段结果卡片 -->
@@ -123,9 +120,14 @@ const UnifiedEvaluation = {
                                 <div class="eval-section" v-if="report.phase1.empathy_evaluation">
                                     <div class="eval-section__label">共情度评估</div>
                                     <div class="eval-empathy">
-                                        <el-tag type="warning" size="large" effect="dark" round>
-                                            {{ report.phase1.empathy_evaluation.empathy_level }}
-                                        </el-tag>
+                                        <div class="eval-hp-bar">
+                                            <div class="eval-hp-bar__track">
+                                                <div class="eval-hp-bar__fill"
+                                                     :style="hpBarStyle(report.phase1.empathy_evaluation.empathy_level || 0)"
+                                                ></div>
+                                            </div>
+                                            <span class="eval-hp-bar__text">{{ empathyLevelDisplay(report.phase1.empathy_evaluation.empathy_level || 0) }}</span>
+                                        </div>
                                         <div class="eval-empathy__reason" v-if="report.phase1.empathy_evaluation.why_this_level">
                                             {{ report.phase1.empathy_evaluation.why_this_level }}
                                         </div>
@@ -426,21 +428,17 @@ const UnifiedEvaluation = {
         async startUnifiedEvaluation() {
             // Phase 1
             await this.evaluatePhase1();
-            if (this.phases[0].status === 'error') return;  // 失败停在当前
 
             // Phase 2
             await this.evaluatePhase2();
-            if (this.phases[1].status === 'error') return;
 
             // Phase 3
             await this.evaluatePhase3();
-            if (this.phases[2].status === 'error') return;
 
             // Phase 4
             await this.evaluatePhase4();
-            if (this.phases[3].status === 'error') return;
 
-            // 全部完成 → 保存到后端 → 切换到结果态
+            // 评价流程结束（无论是否有阶段失败，都保存已获取的数据）
             this.allDone = true;
             await this.saveFinalRecord();
         },
@@ -536,6 +534,7 @@ const UnifiedEvaluation = {
          */
         async saveFinalRecord() {
             const recordId = sessionStorage.getItem('record_id') || this.caseId;
+            console.log('[UnifiedEval] 开始保存，recordId:', recordId);
             try {
                 // 从 sessionStorage 收集全流程数据
                 let conversation = null;
@@ -585,10 +584,15 @@ const UnifiedEvaluation = {
                 if (diagnosis) payload.diagnosis = diagnosis;
                 if (treatment) payload.treatment = treatment;
 
-                await API.saveCaseRecord(recordId, payload);
-                console.log('[UnifiedEval] 全流程记录已保存:', recordId);
+                console.log('[UnifiedEval] 提交 payload keys:', Object.keys(payload));
+                console.log('[UnifiedEval] evaluation_report keys:', this.report ? Object.keys(this.report) : 'null');
+
+                const result = await API.saveCaseRecord(recordId, payload);
+                console.log('[UnifiedEval] 全流程记录已保存:', recordId, result);
+                this.$message.success('评价报告已保存');
             } catch (err) {
-                console.warn('[UnifiedEval] 保存评价报告失败:', err);
+                console.error('[UnifiedEval] 保存评价报告失败:', err);
+                this.$message.warning('评价报告保存失败: ' + err.message);
             }
             // 同时保存到 sessionStorage 供后续查看
             sessionStorage.setItem('unified_eval_report', JSON.stringify(this.report));
@@ -628,6 +632,25 @@ const UnifiedEvaluation = {
         formatAccuracy(acc) {
             if (acc === null || acc === undefined) return '--';
             return (acc * 100).toFixed(1) + '%';
+        },
+
+        /** 5分制血条样式 — 每1分=20%，颜色从红到绿 */
+        hpBarStyle(score) {
+            const pct = Math.min(100, Math.max(0, (score / 5) * 100));
+            // 颜色渐变：红(0%) -> 橙(25%) -> 黄(50%) -> 绿(100%)
+            let color;
+            if (pct <= 20) color = 'linear-gradient(90deg, #f56c6c, #f78989)';
+            else if (pct <= 40) color = 'linear-gradient(90deg, #e6a23c, #f0c78a)';
+            else if (pct <= 60) color = 'linear-gradient(90deg, #e6c13c, #f0d48a)';
+            else if (pct <= 80) color = 'linear-gradient(90deg, #67c23a, #95d479)';
+            else color = 'linear-gradient(90deg, #3ec4b0, #5ed6c8)';
+            return { width: pct + '%', background: color };
+        },
+
+        /** 血条分数显示文字 */
+        empathyLevelDisplay(score) {
+            const rounded = Math.round(score);
+            return `${rounded} / 5`;
         },
 
         /** 返回患者列表 — 清理本次问诊的临时数据 */

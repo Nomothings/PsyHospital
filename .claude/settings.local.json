@@ -2,7 +2,19 @@
   "permissions": {
     "allow": [
       "Bash(cp \"C:/Users/David/Desktop/MentalHospital-main/bg/phase2.png\" \"C:/Users/David/Desktop/MentalHospital-main/web/static/bg/\")",
-      "Bash(cp \"C:/Users/David/Desktop/MentalHospital-main/bg/phase3.png\" \"C:/Users/David/Desktop/MentalHospital-main/web/static/bg/\")"
+      "Bash(cp \"C:/Users/David/Desktop/MentalHospital-main/bg/phase3.png\" \"C:/Users/David/Desktop/MentalHospital-main/web/static/bg/\")",
+      "Bash(python -c ':*)",
+      "Bash(node -c web/static/js/components/history-detail.js)",
+      "Bash(node -c web/static/js/components/case-record.js)",
+      "Bash(node -c web/static/js/components/unified-evaluation.js)",
+      "Bash(python web/app.py)",
+      "Bash(curl -s http://localhost:5000/api/history/1009904_20260416_134904_r4ddr)",
+      "Bash(python -m json.tool)",
+      "Bash(python app.py)",
+      "Bash(curl -s \"http://localhost:5000/api/history/1009904_20260416_134904_r4ddr\")",
+      "Bash(ls -t \"C:/Users/David/Desktop/MentalHospital-main/web/data/records/\"*.json)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill:*)"
     ]
   }
 }

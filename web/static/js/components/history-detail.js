@@ -211,6 +211,117 @@ const HistoryDetail = {
                         </div>
                     </div>
 
+                    <!-- 综合评估报告 -->
+                    <div class="history-detail-section" v-if="evaluationReport">
+                        <div class="history-detail-section__header">
+                            <el-icon :size="20" color="#3ec4b0"><CircleCheckFilled /></el-icon>
+                            <h4 class="history-detail-section__title">综合评估报告</h4>
+                            <el-tag type="success" size="small" effect="plain">全流程评价完成</el-tag>
+                        </div>
+                        <div class="history-detail-section__body">
+                            <!-- 访谈评价 -->
+                            <div class="history-detail-eval-block" v-if="evaluationReport.phase1 && !evaluationReport.phase1._fallback">
+                                <h5 class="history-detail-eval-block__title">一、访谈评价</h5>
+                                <div class="history-detail-eval-block__body">
+                                    <div v-if="evaluationReport.phase1.conversation_stats" class="history-detail-eval-sub">
+                                        <span>对话轮数: {{ evaluationReport.phase1.conversation_stats.total_turns }}</span>
+                                        <span class="history-detail-eval-sub__sep">|</span>
+                                        <span>医生发言: {{ evaluationReport.phase1.conversation_stats.doctor_turns }}</span>
+                                        <span class="history-detail-eval-sub__sep">|</span>
+                                        <span>患者发言: {{ evaluationReport.phase1.conversation_stats.patient_turns }}</span>
+                                    </div>
+                                    <div v-if="evaluationReport.phase1.empathy_evaluation" class="history-detail-eval-sub">
+                                        <span>共情等级: <strong>{{ evaluationReport.phase1.empathy_evaluation.empathy_level }}</strong></span>
+                                    </div>
+                                    <div v-if="evaluationReport.phase1.empathy_evaluation?.why_this_level" class="history-detail-eval-detail">
+                                        {{ evaluationReport.phase1.empathy_evaluation.why_this_level }}
+                                    </div>
+                                    <div v-if="evaluationReport.phase1.profession_evaluation" class="history-detail-eval-sub">
+                                        <span>专业度得分: <strong>{{ formatScore(evaluationReport.phase1.profession_evaluation.total_score) }}</strong> / {{ evaluationReport.phase1.profession_evaluation.question_count * 2 }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 检查评价 -->
+                            <div class="history-detail-eval-block" v-if="evaluationReport.phase2 && !evaluationReport.phase2._fallback">
+                                <h5 class="history-detail-eval-block__title">二、检查评价</h5>
+                                <div class="history-detail-eval-block__body">
+                                    <div v-if="evaluationReport.phase2.accuracy !== undefined" class="history-detail-eval-sub">
+                                        <span>检查正确率: <strong>{{ formatAccuracy(evaluationReport.phase2.accuracy) }}</strong></span>
+                                    </div>
+                                    <div v-if="evaluationReport.phase2.exam_details" class="history-detail-eval-exam-list">
+                                        <div v-for="(detail, key) in evaluationReport.phase2.exam_details" :key="key"
+                                             class="history-detail-eval-exam-item"
+                                             :class="detail?.correct ? 'history-detail-eval-exam-item--correct' : 'history-detail-eval-exam-item--wrong'">
+                                            <span>{{ key }}</span>
+                                            <span>{{ detail?.correct ? '正确' : '错误' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 病历书写与诊断评价 -->
+                            <div class="history-detail-eval-block" v-if="evaluationReport.phase3_full && !evaluationReport.phase3_full._fallback">
+                                <h5 class="history-detail-eval-block__title">三、病历书写与诊断评价</h5>
+                                <div class="history-detail-eval-block__body">
+                                    <div v-if="evaluationReport.phase3_full.case_writing" class="history-detail-eval-sub-block">
+                                        <div class="history-detail-eval-sub">
+                                            <span>病历书写总分: <strong>{{ formatScore(evaluationReport.phase3_full.case_writing.total_score) }}</strong></span>
+                                        </div>
+                                        <div v-for="(section, key) in evaluationReport.phase3_full.case_writing.dimensions" :key="key" class="history-detail-eval-sub">
+                                            <span>{{ section.section_name }}: {{ formatPercentage(section) }}</span>
+                                            <span v-if="section.detail" class="history-detail-eval-sub__detail">— {{ section.detail }}</span>
+                                        </div>
+                                    </div>
+                                    <div v-if="evaluationReport.phase3_full.diagnosis" class="history-detail-eval-sub-block">
+                                        <div class="history-detail-eval-sub">
+                                            <span>疾病类型得分: <strong>{{ formatScore(evaluationReport.phase3_full.diagnosis.disease_type?.score) }}</strong></span>
+                                            <span v-if="evaluationReport.phase3_full.diagnosis.disease_type?.detail" class="history-detail-eval-sub__detail">— {{ evaluationReport.phase3_full.diagnosis.disease_type.detail }}</span>
+                                        </div>
+                                        <div v-if="evaluationReport.phase3_full.diagnosis.disease_type?.metrics" class="history-detail-eval-sub">
+                                            <span>P: {{ (evaluationReport.phase3_full.diagnosis.disease_type.metrics.precision * 100).toFixed(0) }}%</span>
+                                            <span>R: {{ (evaluationReport.phase3_full.diagnosis.disease_type.metrics.recall * 100).toFixed(0) }}%</span>
+                                            <span>F1: {{ (evaluationReport.phase3_full.diagnosis.disease_type.metrics.f1 * 100).toFixed(0) }}%</span>
+                                            <span>J: {{ (evaluationReport.phase3_full.diagnosis.disease_type.metrics.jaccard * 100).toFixed(0) }}%</span>
+                                        </div>
+                                        <div class="history-detail-eval-sub">
+                                            <span>诊断正确性: <strong>{{ formatScore(evaluationReport.phase3_full.diagnosis.diagnostic_correctness?.score) }}</strong></span>
+                                        </div>
+                                        <div v-if="evaluationReport.phase3_full.diagnosis.diagnostic_correctness?.detail" class="history-detail-eval-detail">
+                                            {{ evaluationReport.phase3_full.diagnosis.diagnostic_correctness.detail }}
+                                        </div>
+                                        <div class="history-detail-eval-sub">
+                                            <span>诊断理由: <strong>{{ formatScore(evaluationReport.phase3_full.diagnosis.diagnostic_reasoning?.score) }}</strong></span>
+                                        </div>
+                                        <div v-if="evaluationReport.phase3_full.diagnosis.diagnostic_reasoning?.detail" class="history-detail-eval-detail">
+                                            {{ evaluationReport.phase3_full.diagnosis.diagnostic_reasoning.detail }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 治疗评价 -->
+                            <div class="history-detail-eval-block" v-if="evaluationReport.phase4 && !evaluationReport.phase4._fallback">
+                                <h5 class="history-detail-eval-block__title">四、治疗评价</h5>
+                                <div class="history-detail-eval-block__body">
+                                    <div v-if="evaluationReport.phase4.treatment_stats" class="history-detail-eval-sub">
+                                        <span>已填方案: {{ evaluationReport.phase4.treatment_stats.filled_categories }}</span>
+                                        <span class="history-detail-eval-sub__sep">|</span>
+                                        <span>未填方案: {{ evaluationReport.phase4.treatment_stats.empty_categories }}</span>
+                                        <span class="history-detail-eval-sub__sep">|</span>
+                                        <span>方案总数: {{ evaluationReport.phase4.treatment_stats.total_categories }}</span>
+                                    </div>
+                                    <div v-if="evaluationReport.phase4.treatment_stats?.details" class="history-detail-eval-tx-list">
+                                        <div v-for="(detail, key) in evaluationReport.phase4.treatment_stats.details" :key="key" class="history-detail-eval-tx-item">
+                                            <span class="history-detail-eval-tx-item__label">{{ key }}</span>
+                                            <span class="history-detail-eval-tx-item__value">{{ detail }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- 空状态 -->
                     <div v-if="!loading && !recordData.caseInfo && !messages.length && !exams.length && !caseForm && !diagnosis"
                          class="history-detail-empty">
@@ -260,11 +371,37 @@ const HistoryDetail = {
         treatment() {
             return this.recordData.treatment || null;
         },
+
+        evaluationReport() {
+            return this.recordData.evaluation_report || null;
+        },
     },
 
     methods: {
         goBack() {
             this.$router.push('/history');
+        },
+
+        /** 格式化分数：保留两位小数 */
+        formatScore(value) {
+            if (value == null) return '—';
+            const n = Number(value);
+            return isNaN(n) ? value : n.toFixed(2);
+        },
+
+        /** 格式化百分比：将分数转为百分比字符串 */
+        formatPercentage(section) {
+            if (!section) return '—';
+            if (section.percentage !== undefined) return section.percentage.toFixed(0) + '%';
+            if (section.score !== undefined) return (Number(section.score) * 100).toFixed(0) + '%';
+            return '—';
+        },
+
+        /** 格式化准确率：0-1 小数转为百分比 */
+        formatAccuracy(value) {
+            if (value == null) return '—';
+            const n = Number(value);
+            return isNaN(n) ? '—' : (n * 100).toFixed(0) + '%';
         },
 
         async loadDetail() {
