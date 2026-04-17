@@ -455,6 +455,14 @@
     font-size: 13px;
 }
 
+/* 其他分类自定义输入区域 */
+.phase2-dropdown__custom-input {
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 /* 自定义输入 */
 .phase2-custom-input {
     display: flex;
