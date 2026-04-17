@@ -63,7 +63,7 @@ const Phase4Treatment = {
                                  :class="result === '无' ? 'phase4-exam-result-row--none' : 'phase4-exam-result-row--has'">
                                 <span class="phase4-exam-result-row__name">{{ exam }}</span>
                                 <span class="phase4-exam-result-row__value">
-                                    {{ result === '无' ? '无此项检查' : result }}
+                                    {{ result === '无' ? '未见器质性病变' : result }}
                                 </span>
                             </div>
                         </div>
@@ -83,6 +83,37 @@ const Phase4Treatment = {
                             </div>
                         </div>
                     </div>
+
+                    <!-- 病历摘要 -->
+                    <div class="phase4-panel-section" v-if="caseForm">
+                        <div class="phase4-panel-section__title">病历摘要</div>
+                        <div class="phase4-panel-section__content phase4-panel-section__scroll">
+                            <div class="phase4-info-row">
+                                <span class="phase4-info-row__label">主诉</span>
+                                <span class="phase4-info-row__value">{{ caseForm.chiefComplaint || '暂无' }}</span>
+                            </div>
+                            <div class="phase4-info-row">
+                                <span class="phase4-info-row__label">家族史</span>
+                                <span class="phase4-info-row__value">{{ caseForm.familyHistory || '暂无' }}</span>
+                            </div>
+                            <div class="phase4-info-row">
+                                <span class="phase4-info-row__label">既往史</span>
+                                <span class="phase4-info-row__value">{{ caseForm.pastHistory || '暂无' }}</span>
+                            </div>
+                            <div class="phase4-info-row">
+                                <span class="phase4-info-row__label">体格检查</span>
+                                <span class="phase4-info-row__value">{{ caseForm.physicalExam || '暂无' }}</span>
+                            </div>
+                            <div class="phase4-info-row">
+                                <span class="phase4-info-row__label">精神检查</span>
+                                <span class="phase4-info-row__value">{{ caseForm.mentalExam || '暂无' }}</span>
+                            </div>
+                            <div class="phase4-info-row">
+                                <span class="phase4-info-row__label">辅助检查</span>
+                                <span class="phase4-info-row__value">{{ caseForm.auxiliaryExam || '暂无' }}</span>
+                            </div>
+                        </div>
+                    </div>
                 </aside>
 
                 <!-- 右侧：治疗填写 -->
@@ -96,45 +127,37 @@ const Phase4Treatment = {
                         </div>
 
                         <!-- 五大治疗类别填写区 -->
-                        <div class="case-info-readonly">
-                            <div class="case-info-section">
-                                <span class="case-info-section__label">药物治疗</span>
-                                <textarea v-model="treatment.medication" class="case-info-section__input" rows="3" placeholder="请输入药物治疗方案"></textarea>
+                        <div class="phase4-treatment-grid">
+                            <div class="phase4-treatment-card-item">
+                                <div class="phase4-treatment-card-item__header">
+                                    <span class="phase4-treatment-card-item__title">药物治疗</span>
+                                </div>
+                                <textarea v-model="treatment.medication" class="phase4-treatment-card-item__input" rows="3" placeholder="请输入药物治疗方案"></textarea>
                             </div>
-                            <div class="case-info-divider"></div>
-                            <div class="case-info-section">
-                                <span class="case-info-section__label">心理治疗</span>
-                                <textarea v-model="treatment.psychotherapy" class="case-info-section__input" rows="3" placeholder="请输入心理治疗方案"></textarea>
+                            <div class="phase4-treatment-card-item">
+                                <div class="phase4-treatment-card-item__header">
+                                    <span class="phase4-treatment-card-item__title">心理治疗</span>
+                                </div>
+                                <textarea v-model="treatment.psychotherapy" class="phase4-treatment-card-item__input" rows="3" placeholder="请输入心理治疗方案"></textarea>
                             </div>
-                            <div class="case-info-divider"></div>
-                            <div class="case-info-section">
-                                <span class="case-info-section__label">神经调控与其他躯体治疗</span>
-                                <textarea v-model="treatment.neuromodulation" class="case-info-section__input" rows="3" placeholder="请输入神经调控与其他躯体治疗方案"></textarea>
+                            <div class="phase4-treatment-card-item">
+                                <div class="phase4-treatment-card-item__header">
+                                    <span class="phase4-treatment-card-item__title">神经调控与其他躯体治疗</span>
+                                </div>
+                                <textarea v-model="treatment.neuromodulation" class="phase4-treatment-card-item__input" rows="3" placeholder="请输入神经调控与其他躯体治疗方案"></textarea>
                             </div>
-                            <div class="case-info-divider"></div>
-                            <div class="case-info-section">
-                                <span class="case-info-section__label">社会心理干预与康复治疗</span>
-                                <textarea v-model="treatment.psychosocial" class="case-info-section__input" rows="3" placeholder="请输入社会心理干预与康复治疗方案"></textarea>
+                            <div class="phase4-treatment-card-item">
+                                <div class="phase4-treatment-card-item__header">
+                                    <span class="phase4-treatment-card-item__title">社会心理干预与康复治疗</span>
+                                </div>
+                                <textarea v-model="treatment.psychosocial" class="phase4-treatment-card-item__input" rows="3" placeholder="请输入社会心理干预与康复治疗方案"></textarea>
                             </div>
-                            <div class="case-info-divider"></div>
-                            <div class="case-info-section">
-                                <span class="case-info-section__label">辅助治疗</span>
-                                <textarea v-model="treatment.adjuvant" class="case-info-section__input" rows="3" placeholder="请输入辅助治疗方案"></textarea>
+                            <div class="phase4-treatment-card-item">
+                                <div class="phase4-treatment-card-item__header">
+                                    <span class="phase4-treatment-card-item__title">辅助治疗</span>
+                                </div>
+                                <textarea v-model="treatment.adjuvant" class="phase4-treatment-card-item__input" rows="3" placeholder="请输入辅助治疗方案"></textarea>
                             </div>
-                        </div>
-
-                        <!-- 提交按钮 -->
-                        <div class="phase4-form__actions">
-                            <el-button
-                                type="primary"
-                                size="large"
-                                round
-                                @click="handleComplete"
-                                :loading="submitting"
-                                class="phase4-form__submit-btn"
-                            >
-                                完成诊疗
-                            </el-button>
                         </div>
                     </div>
                 </main>
@@ -148,6 +171,7 @@ const Phase4Treatment = {
             caseInfo: null,
             phase2Results: {},
             diagnosis: null,
+            caseForm: null,
             treatment: {
                 medication: '',
                 psychotherapy: '',
@@ -241,6 +265,7 @@ const Phase4Treatment = {
                         category: phase3Result.category,
                         disease: phase3Result.disease,
                     };
+                    this.caseForm = phase3Result.caseForm || null;
                 } catch (err) {
                     console.error('[Phase4Treatment] 解析 Phase 3 诊断结果失败:', err);
                 }

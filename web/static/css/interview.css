@@ -53,6 +53,31 @@
     margin-bottom: 12px;
 }
 
+/* 虚拟患者内容：头像在上，信息在下 */
+.interview-sidebar .virtual-patient {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* 头像区域居中 */
+.interview-sidebar .virtual-patient__avatar-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 0;
+}
+
+/* 患者信息卡片移到下方 */
+.interview-sidebar .virtual-patient__info {
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    margin-top: auto;
+}
+
 .interview-sidebar__back-btn {
     background: rgba(255, 255, 255, 0.15) !important;
     border: none !important;

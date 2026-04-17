@@ -30,7 +30,6 @@ const Interview = {
                     :basic-info="patientBasicInfo"
                     :physical-exam="patientPhysicalExam"
                     :emotion="avatarEmotion"
-                    :last-patient-message="lastPatientMessage"
                 />
             </aside>
 
@@ -74,19 +73,8 @@ const Interview = {
                         </div>
                         <div class="chat-bubble__content">
                             <div class="chat-bubble__text">
-                                您正在与患者进行临床访谈，注意问诊的全面性和沟通技巧。
+                                您正在与患者进行临床访谈，请由您（医生）发起第一次对话，注意问诊的全面性和沟通技巧。
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- 患者开场白 -->
-                    <div class="chat-bubble patient" v-if="patientIntro">
-                        <div class="chat-bubble__avatar">
-                            <el-icon :size="20"><UserFilled /></el-icon>
-                        </div>
-                        <div class="chat-bubble__content">
-                            <div class="chat-bubble__name">患者</div>
-                            <div class="chat-bubble__text">{{ patientIntro }}</div>
                         </div>
                     </div>
 
@@ -120,10 +108,10 @@ const Interview = {
                     </div>
 
                     <!-- 空状态 -->
-                    <div v-if="messages.length === 0 && !isTyping && patientIntro === null"
+                    <div v-if="messages.length === 0 && !isTyping"
                          class="chat-bubble system">
                         <div class="chat-bubble__content">
-                            <div class="chat-bubble__text">正在加载患者信息…</div>
+                            <div class="chat-bubble__text">请医生先发起第一次问诊对话…</div>
                         </div>
                     </div>
                 </div>
@@ -190,6 +178,8 @@ const Interview = {
             prevEmotion: 'neutral',
             // 保存状态
             saving: false,
+            // 第一次发送标记
+            _firstMessage: false,
         };
     },
 
@@ -224,8 +214,15 @@ const Interview = {
 
             this.isTyping = true;
             try {
-                const res = await API.sendMessage(this.sessionId, doctorMessage);
-                const patientText = res.response || '';
+                let patientText;
+                // 第一次发送：使用后端返回的开场白作为患者回复
+                if (this._firstMessage && this.patientIntro) {
+                    patientText = this.patientIntro;
+                    this._firstMessage = false;
+                } else {
+                    const res = await API.sendMessage(this.sessionId, doctorMessage);
+                    patientText = res.response || '';
+                }
 
                 this.messages.push({
                     role: 'patient',
@@ -327,20 +324,22 @@ const Interview = {
                 this.sessionId = chatRes.session_id;
                 this.patientIntro = chatRes.opening || '';
 
+                // 医生先发起对话，patientIntro 作为第一次发送时的患者回复
+                if (this.patientIntro) {
+                    this._firstMessage = true;
+                }
+
                 // 保存 record_id，后续所有阶段统一使用
                 if (chatRes.record_id) {
                     sessionStorage.setItem('record_id', chatRes.record_id);
                 }
 
-                // 从开场白推断初始情绪
-                if (this.patientIntro) {
-                    this.lastPatientMessage = this.patientIntro;
-                    this.avatarEmotion = EmotionDetector.detect(this.patientIntro, 'neutral');
-                    this.prevEmotion = this.avatarEmotion;
-                }
+                // 不再提前显示 patientIntro，等医生发送第一条消息后才由 sendMessage 更新表情
+                this.prevEmotion = this.avatarEmotion;
             } catch (err) {
                 console.error('[Interview] 初始化会话失败:', err);
                 this.patientIntro = '医生您好，我最近身体不太舒服，想请您帮我看看。';
+                this._firstMessage = true;
             }
         },
     },

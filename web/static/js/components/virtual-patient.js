@@ -8,7 +8,6 @@ const VirtualPatient = {
         basicInfo: { type: String, default: '' },
         physicalExam: { type: String, default: '' },
         emotion: { type: String, default: 'neutral' },
-        lastPatientMessage: { type: String, default: '' },
     },
 
     template: `
@@ -35,14 +34,6 @@ const VirtualPatient = {
                 <div class="virtual-patient__complaint-title">体格检查</div>
                 <div class="virtual-patient__physical-exam-text">
                     {{ physicalExam }}
-                </div>
-            </div>
-
-            <!-- 最近患者发言 -->
-            <div class="virtual-patient__last-message" v-if="lastPatientMessage">
-                <div class="virtual-patient__last-message-label">患者</div>
-                <div class="virtual-patient__last-message-text">
-                    {{ lastPatientMessage }}
                 </div>
             </div>
         </div>

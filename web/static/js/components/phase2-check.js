@@ -195,20 +195,12 @@ const Phase2Check = {
                             v-for="(result, exam) in checkedResults"
                             :key="exam"
                             class="phase2-result-item"
-                            :class="result === '无' ? 'phase2-result-item--none' : 'phase2-result-item--has'"
-                        >
+                            :class="result === '无' ? 'phase2-result-item--none' : 'phase2-result-item--has'">
                             <div class="phase2-result-item__header">
                                 <span class="phase2-result-item__name">{{ exam }}</span>
-                                <el-tag
-                                    :type="result === '无' ? 'info' : 'success'"
-                                    size="small"
-                                    class="phase2-result-item__tag"
-                                >
-                                    {{ result === '无' ? '无异常' : '有异常' }}
-                                </el-tag>
                             </div>
-                            <div v-if="result !== '无'" class="phase2-result-item__content">
-                                {{ result }}
+                            <div class="phase2-result-item__content">
+                                {{ result === '无' ? '未见器质性病变' : result }}
                             </div>
                         </div>
                     </div>

@@ -2,11 +2,12 @@
   "phase": 4,
   "case_id": "1009904",
   "model_name": "qwen-flash",
-  "timestamp": "2026-04-10T22:32:11.230057",
+  "timestamp": "2026-04-17T17:15:54.371154",
   "status": "completed",
   "diagnostic_categories": [
-    "Schizophrenia or other primary psychotic disorders"
+    "Disorders specifically associated with stress",
+    "Dissociative disorders"
   ],
-  "raw_response": "[BEGIN_DIAGNOSTIC_CATEGORY]\n[\"Schizophrenia or other primary psychotic disorders\"]\n[END_DIAGNOSTIC_CATEGORY]",
-  "last_update": "2026-04-10T22:32:12.640996"
+  "raw_response": "[BEGIN_DIAGNOSTIC_CATEGORY]\n[\"Disorders specifically associated with stress\", \"Dissociative disorders\"]\n[END_DIAGNOSTIC_CATEGORY]",
+  "last_update": "2026-04-17T17:15:56.004658"
 }

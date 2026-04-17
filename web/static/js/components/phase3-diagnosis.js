@@ -76,7 +76,7 @@ const Phase3Diagnosis = {
                                      :class="result === '无' ? 'phase3-exam-result-row--none' : 'phase3-exam-result-row--has'">
                                     <span class="phase3-exam-result-row__name">{{ exam }}</span>
                                     <span class="phase3-exam-result-row__value">
-                                        {{ result === '无' ? '无此项检查' : result }}
+                                        {{ result === '无' ? '未见器质性病变' : result }}
                                     </span>
                                 </div>
                             </div>
@@ -593,17 +593,18 @@ const Phase3Diagnosis = {
         },
 
         selectCategory(cat) {
+            // 仅切换到右侧疾病列表，不自动选中大类
+            this.activeCategory = cat;
+        },
+
+        selectDisease(cat, dis) {
+            // 点击具体疾病时：先选中大类，再切换疾病
             if (!this.isSelectedCategory(cat)) {
                 this.selectedCategories.push(cat);
                 if (!this.selectedDiseasesByCategory[cat]) {
                     this.selectedDiseasesByCategory[cat] = [];
                 }
             }
-            // 选中大类后，立刻切到右侧显示该大类的疾病列表
-            this.activeCategory = cat;
-        },
-
-        selectDisease(cat, dis) {
             if (!this.selectedDiseasesByCategory[cat]) {
                 this.selectedDiseasesByCategory[cat] = [];
             }
@@ -613,6 +614,14 @@ const Phase3Diagnosis = {
             } else {
                 // 已选则取消
                 this.selectedDiseasesByCategory[cat] = diseases.filter(d => d !== dis);
+                // 如果该大类下没有疾病了，自动移除大类
+                if (this.selectedDiseasesByCategory[cat].length === 0) {
+                    this.selectedCategories = this.selectedCategories.filter(c => c !== cat);
+                    delete this.selectedDiseasesByCategory[cat];
+                    if (this.activeCategory === cat) {
+                        this.activeCategory = this.selectedCategories[0] || '';
+                    }
+                }
             }
         },
 
