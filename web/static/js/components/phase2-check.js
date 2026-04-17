@@ -103,43 +103,6 @@ const Phase2Check = {
                                         <div v-if="!activeCategory" class="phase2-dropdown__empty">
                                             请先在左侧选择一个检查分类
                                         </div>
-                                        <template v-else-if="activeCategory === '其他'">
-                                            <div class="phase2-dropdown__section-title">
-                                                自定义检查项目
-                                            </div>
-                                            <div class="phase2-custom-input">
-                                                <input
-                                                    v-model="customExamInput"
-                                                    class="phase2-custom-input__field"
-                                                    placeholder="输入自定义检查项目，按回车添加"
-                                                    @keyup.enter="addCustomExam"
-                                                />
-                                                <el-button
-                                                    size="small"
-                                                    round
-                                                    @click="addCustomExam"
-                                                    class="phase2-custom-input__btn"
-                                                >
-                                                    添加
-                                                </el-button>
-                                            </div>
-                                            <!-- 已添加的自定义项目 -->
-                                            <div
-                                                v-for="exam in customExams"
-                                                :key="exam"
-                                                class="phase2-dropdown__exam-item"
-                                                :class="{
-                                                    'phase2-dropdown__exam-item--selected': selectedExams.includes(exam),
-                                                }"
-                                                @click="toggleExam(exam)"
-                                            >
-                                                <span class="phase2-dropdown__exam-item__text">{{ exam }}</span>
-                                                <el-icon v-if="selectedExams.includes(exam)" :size="14" color="#5ed6c8"><Check /></el-icon>
-                                            </div>
-                                            <div v-if="customExams.length === 0" class="phase2-dropdown__empty">
-                                                还没有自定义项目，请在上方输入
-                                            </div>
-                                        </template>
                                         <template v-else>
                                             <div class="phase2-dropdown__section-title">
                                                 {{ activeCategory }} — 检查项目
@@ -247,8 +210,6 @@ const Phase2Check = {
             checkedResults: {},
             dropdownVisible: false,
             activeCategory: '',
-            customExamInput: '',
-            customExams: [],
             submitting: false,
             saving: false,
             examCategories: [
@@ -326,18 +287,6 @@ const Phase2Check = {
 
         getExamsForCategory(cat) {
             return this.examMapping[cat] || [];
-        },
-
-        addCustomExam() {
-            const name = this.customExamInput.trim();
-            if (!name) return;
-            if (this.selectedExams.includes(name) || this.customExams.includes(name)) {
-                this.$message.warning('该检查已存在');
-                return;
-            }
-            this.customExams.push(name);
-            this.selectedExams.push(name);
-            this.customExamInput = '';
         },
 
         toggleExam(exam) {
