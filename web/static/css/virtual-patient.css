@@ -62,15 +62,12 @@
 }
 
 /* 情绪颜色 */
-.virtual-patient__emotion-tag .emotion-nervous { background: #E6A23C; }
-.virtual-patient__emotion-tag .emotion-suspicious { background: #9C27B0; }
+.virtual-patient__emotion-tag .emotion-neutral { background: #5ed6c8; }
 .virtual-patient__emotion-tag .emotion-sad { background: #5B86E5; }
+.virtual-patient__emotion-tag .emotion-anxious { background: #E6A23C; }
 .virtual-patient__emotion-tag .emotion-angry { background: #F56C6C; }
-.virtual-patient__emotion-tag .emotion-defensive { background: #FF9800; }
-.virtual-patient__emotion-tag .emotion-confused { background: #795548; }
-.virtual-patient__emotion-tag .emotion-relaxed { background: #67C23A; }
-.virtual-patient__emotion-tag .emotion-hesitant { background: #B0BEC5; }
-.virtual-patient__emotion-tag .emotion-distressed { background: #E91E63; }
+.virtual-patient__emotion-tag .emotion-excited { background: #FF6F00; }
+.virtual-patient__emotion-tag .emotion-flat { background: #B0BEC5; }
 
 /* ---- 患者信息 ---- */
 .virtual-patient__info {

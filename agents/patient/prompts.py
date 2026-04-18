@@ -57,17 +57,26 @@ PROMPTS[
 【注意，你必须回答医生的问题，无论查询与否】
 只输出一个 JSON 对象，格式如下：
 {
-  "presentation": "",
-  "utterance": "",
-  "grounding": {
-    "chief_complaint": [],
-    "mental_status": []
+  “presentation”: “”,
+  “utterance”: “”,
+  “grounding”: {
+    “chief_complaint”: [],
+    “mental_status”: []
   }
 }
 
 要求：
-1. presentation：本轮可观察到的简短外显表现，如“(迟疑)”“(警惕地压低声音)”；无则为空字符串。
-2. utterance：患者实际说的话，必须是主要内容。
+1. presentation：本轮可观察到的简短外显表现，如”(迟疑)””(警惕地压低声音)”；无则为空字符串。
+2. utterance：患者实际说的话。**必须在 utterance 文本的最开头用中括号标注情绪标记**，格式为 [情绪]。
+   只能从以下 6 种情绪中选择最匹配的一个：[平静] [悲伤] [焦虑] [愤怒] [激动] [淡漠]
+   选择依据：
+   - [平静]：情绪稳定，无特殊波动
+   - [悲伤]：心情低落、难过、想哭、孤独、绝望
+   - [焦虑]：紧张害怕、恐惧担忧、心慌胸闷、不知所措
+   - [愤怒]：生气敌意、抗拒防御、烦躁不满
+   - [激动]：兴奋躁狂、极度开心、精力过剩、停不下来
+   - [淡漠]：麻木冷淡、无感木僵、毫无反应、不想说话
+   示例：”utterance”: “[焦虑] 我总是睡不好觉……”
 3. grounding.chief_complaint：仅填写本轮回答中明确使用到的 CHIEF COMPLAINT 原始条目；未使用则输出 []。
 4. grounding.mental_status：仅填写本轮表现或回答方式中明确受到影响的 MENTAL STATUS 原始条目；未使用则输出 []。
 5. grounding 中的条目必须从输入数组中原样复制，不得改写、缩写、合并或自造。

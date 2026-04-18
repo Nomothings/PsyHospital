@@ -211,7 +211,7 @@ const Phase2Check = {
             <transition name="eval-fade">
                 <div v-if="saving" class="eval-overlay">
                     <div class="eval-overlay__content">
-                        <img src="/static/bg/eval.png" alt="" class="eval-overlay__icon" />
+                        <img src="/static/bg/loading2.png" alt="" class="eval-overlay__icon" />
                         <div class="eval-overlay__text">正在提交检查请求...</div>
                     </div>
                 </div>
@@ -378,7 +378,7 @@ const Phase2Check = {
                 console.error('[Phase2Check] 保存记录失败:', err);
             }
 
-            // 过场动画 1 秒后展示结果
+            // 过场动画 2 秒后展示结果
             setTimeout(() => {
                 this.checkedResults = checkedResults;
                 this.saving = false;

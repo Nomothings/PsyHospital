@@ -224,16 +224,18 @@ const Interview = {
                     patientText = res.response || '';
                 }
 
+                console.log('[Interview] 患者原始回复:', patientText.substring(0, 50));
+
+                // 提取情绪状态并移除标记
+                this.avatarEmotion = EmotionDetector.detect(patientText, this.prevEmotion);
+                const displayText = EmotionDetector.clean(patientText);
+                this.prevEmotion = this.avatarEmotion;
+
                 this.messages.push({
                     role: 'patient',
-                    content: patientText,
+                    content: displayText,
                     time: this.getCurrentTime(),
                 });
-
-                // 更新患者表情
-                this.lastPatientMessage = patientText;
-                this.avatarEmotion = EmotionDetector.detect(patientText, this.prevEmotion);
-                this.prevEmotion = this.avatarEmotion;
             } catch (err) {
                 this.messages.push({
                     role: 'patient',

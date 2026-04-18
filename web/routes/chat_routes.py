@@ -134,12 +134,18 @@ def register_chat_routes(case_service):
 
             utterance = response
             presentation = ""
+            grounding = {}
             try:
                 parsed = json.loads(response)
                 utterance = parsed.get("utterance", response)
                 presentation = parsed.get("presentation", "")
+                grounding = parsed.get("grounding", {})
             except json.JSONDecodeError:
-                pass
+                # LLM 可能返回纯文本，直接使用
+                utterance = response
+
+            logger.info(f"[chat_send] 原始响应前80字: {response[:80]}")
+            logger.info(f"[chat_send] utterance前80字: {utterance[:80]}")
 
             chat_session["messages"].append({
                 "role": "doctor",
