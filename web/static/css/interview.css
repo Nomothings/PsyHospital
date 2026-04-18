@@ -301,6 +301,12 @@
     color: #3ec4b0;
 }
 
+.chat-bubble__presentation {
+    color: rgba(62, 196, 176, 0.55);
+    font-weight: 400;
+    font-size: 12px;
+}
+
 .chat-bubble.patient .chat-bubble__text {
     color: #2a5a5a;
 }

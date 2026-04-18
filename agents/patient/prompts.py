@@ -24,7 +24,6 @@ PROMPTS[
 7. 回答应简短、自然、口语化，通常为 1–3 句话，逐步透露信息，不要一次性说出全部内容。
 8. 若问题清晰且答案明确存在，应直接回答；若涉及敏感、可疑或妄想相关内容，可以表现出迟疑、警惕、烦躁或回避，但仍需保持可继续对话。
 9. grounding 只是辅助标注，不是作答目标。回答必须优先服从医生当前提问；若当前问题不能直接对应到 CHIEF COMPLAINT 或 MENTAL STATUS，则 grounding 应为空，不得为了引用而主动塞入未被问及的信息。
-
 10. 【查询机制】当你需要回忆事件的**具体细节**时，你可以在 utterance 的开头使用查询命令。
     注意：事件名就是你的主诉的名字
     查询命令格式：[SEARCH_事件名]
@@ -57,11 +56,11 @@ PROMPTS[
 【注意，你必须回答医生的问题，无论查询与否】
 只输出一个 JSON 对象，格式如下：
 {
-  “presentation”: “”,
-  “utterance”: “”,
-  “grounding”: {
-    “chief_complaint”: [],
-    “mental_status”: []
+  "presentation": "",
+  "utterance": "",
+  "grounding": {
+    "chief_complaint": [],
+    "mental_status": []
   }
 }
 

@@ -94,9 +94,11 @@ def register_chat_routes(case_service):
 
             opening_response = patient.chat("请根据患者的主诉，主动自我介绍并描述主要不适。请用中文回复，回复格式为JSON：{\"utterance\": \"患者的话\", \"presentation\": \"外显表现\"}")
             opening = opening_response
+            opening_presentation = ""
             try:
                 parsed = json.loads(opening_response)
                 opening = parsed.get("utterance", opening_response)
+                opening_presentation = parsed.get("presentation", "")
             except json.JSONDecodeError:
                 opening = opening_response
 
@@ -106,6 +108,7 @@ def register_chat_routes(case_service):
                 "case_id": case_id,
                 "record_id": record_id,
                 "opening": opening,
+                "opening_presentation": opening_presentation,
             })
         except Exception as e:
             logger.error(f"创建会话失败: {e}")

@@ -87,7 +87,10 @@ const Interview = {
                         </div>
                         <div class="chat-bubble__content">
                             <div class="chat-bubble__name" :class="msg.role">
-                                {{ msg.role === 'patient' ? '患者' : '医生' }}
+                                <template v-if="msg.role === 'patient'">
+                                    患者 <span v-if="msg.presentation" class="chat-bubble__presentation">{{ msg.presentation }}</span>
+                                </template>
+                                <template v-else>医生</template>
                             </div>
                             <div class="chat-bubble__text">{{ msg.content }}</div>
                             <div class="chat-bubble__time">{{ msg.time }}</div>
@@ -168,6 +171,7 @@ const Interview = {
             isTyping: false,
             messages: [],
             patientIntro: null,
+            patientIntroPresentation: '',
             patientCaseId: '',
             patientBasicInfo: '',
             patientPhysicalExam: [],
@@ -215,13 +219,16 @@ const Interview = {
             this.isTyping = true;
             try {
                 let patientText;
+                let presentation = '';
                 // 第一次发送：使用后端返回的开场白作为患者回复
                 if (this._firstMessage && this.patientIntro) {
                     patientText = this.patientIntro;
+                    presentation = this.patientIntroPresentation;
                     this._firstMessage = false;
                 } else {
                     const res = await API.sendMessage(this.sessionId, doctorMessage);
                     patientText = res.response || '';
+                    presentation = res.presentation || '';
                 }
 
                 console.log('[Interview] 患者原始回复:', patientText.substring(0, 50));
@@ -234,6 +241,7 @@ const Interview = {
                 this.messages.push({
                     role: 'patient',
                     content: displayText,
+                    presentation: presentation,
                     time: this.getCurrentTime(),
                 });
             } catch (err) {
@@ -325,6 +333,7 @@ const Interview = {
                 const chatRes = await API.startChat(caseId);
                 this.sessionId = chatRes.session_id;
                 this.patientIntro = chatRes.opening || '';
+                this.patientIntroPresentation = chatRes.opening_presentation || '';
 
                 // 医生先发起对话，patientIntro 作为第一次发送时的患者回复
                 if (this.patientIntro) {
