@@ -130,6 +130,7 @@ const Interview = {
                             resize="none"
                             type="textarea"
                             :rows="1"
+                            ref="inputRef"
                             class="interview-input__field"
                         />
                         <el-button
@@ -253,7 +254,10 @@ const Interview = {
                 console.error('[Interview] 患者回复失败:', err);
             } finally {
                 this.isTyping = false;
-                this.$nextTick(() => this.scrollToBottom());
+                this.$nextTick(() => {
+                    this.scrollToBottom();
+                    this.focusInput();
+                });
             }
         },
 
@@ -275,6 +279,16 @@ const Interview = {
         scrollToBottom() {
             const el = this.$refs.chatRef;
             if (el) el.scrollTop = el.scrollHeight;
+        },
+
+        focusInput() {
+            this.$nextTick(() => {
+                const input = this.$refs.inputRef;
+                if (input) {
+                    const textarea = input.$el.querySelector('textarea');
+                    if (textarea) textarea.focus();
+                }
+            });
         },
 
         goBack() {
@@ -347,6 +361,9 @@ const Interview = {
 
                 // 不再提前显示 patientIntro，等医生发送第一条消息后才由 sendMessage 更新表情
                 this.prevEmotion = this.avatarEmotion;
+
+                // 自动聚焦输入框
+                this.focusInput();
             } catch (err) {
                 console.error('[Interview] 初始化会话失败:', err);
                 this.patientIntro = '医生您好，我最近身体不太舒服，想请您帮我看看。';
