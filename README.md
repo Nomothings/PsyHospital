@@ -401,7 +401,7 @@ If you use MentalHospital or MentalEval in your research, please cite:
 @article{mentalhospital2025,
   title   = {MentalHospital: A Virtual Psychiatric Evaluation Environment
              for LLM-based Medical AI},
-  author  = {Your Name and Collaborators},
+  author  = {ACL Anonymous},
   journal = {arXiv preprint},
   year    = {2026}
 }
