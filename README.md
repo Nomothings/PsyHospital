@@ -21,6 +21,41 @@ Experiments with LLMs, clinicians, medical trainees, and crowdworkers reveal tha
 
 ---
 
+<details open>
+<summary>📸 Web UI Screenshots</summary>
+<br>
+
+<table>
+<tr>
+  <td align="center"><a href="./screenshot/page-1.png"><img src="./screenshot/page-1.png" width="380" alt="Page 1"/></a></td>
+  <td align="center"><a href="./screenshot/page-2.png"><img src="./screenshot/page-2.png" width="380" alt="Page 2"/></a></td>
+</tr>
+<tr>
+  <td align="center"><a href="./screenshot/page-3.png"><img src="./screenshot/page-3.png" width="380" alt="Page 3"/></a></td>
+  <td align="center"><a href="./screenshot/page-4.png"><img src="./screenshot/page-4.png" width="380" alt="Page 4"/></a></td>
+</tr>
+<tr>
+  <td align="center"><a href="./screenshot/page-5.png"><img src="./screenshot/page-5.png" width="380" alt="Page 5"/></a></td>
+  <td align="center"><a href="./screenshot/page-6.png"><img src="./screenshot/page-6.png" width="380" alt="Page 6"/></a></td>
+</tr>
+<tr>
+  <td align="center"><a href="./screenshot/page-7.png"><img src="./screenshot/page-7.png" width="380" alt="Page 7"/></a></td>
+  <td align="center"><a href="./screenshot/page-8.png"><img src="./screenshot/page-8.png" width="380" alt="Page 8"/></a></td>
+</tr>
+<tr>
+  <td align="center"><a href="./screenshot/page-9.png"><img src="./screenshot/page-9.png" width="380" alt="Page 9"/></a></td>
+  <td align="center"><a href="./screenshot/page-10.png"><img src="./screenshot/page-10.png" width="380" alt="Page 10"/></a></td>
+</tr>
+<tr>
+  <td align="center"><a href="./screenshot/page-11.png"><img src="./screenshot/page-11.png" width="380" alt="Page 11"/></a></td>
+  <td align="center"><a href="./screenshot/page-12.png"><img src="./screenshot/page-12.png" width="380" alt="Page 12"/></a></td>
+</tr>
+</table>
+
+</details>
+
+---
+
 ## 🔍 Overview
 
 <p align="center">
@@ -281,32 +316,6 @@ The web UI guides you through the complete S.O.A.P. clinical workflow with real-
 ```
 History Taking → Examination Recommendation → Clinical Formulation → Diagnosis → Treatment Planning
 ```
-
-<details>
-<summary>📸 Click to expand — Web UI screenshots (11 pages)</summary>
-<br>
-
-<table>
-<tr>
-  <td align="center"><a href="./screenshot/page-1-home_page.png"><img src="./screenshot/page-1-home_page.png" width="200" alt="Home Page"/></a><br><sub>Home Page</sub></td>
-  <td align="center"><a href="./screenshot/page-2-login_page.png"><img src="./screenshot/page-2-login_page.png" width="200" alt="Login Page"/></a><br><sub>Login Page</sub></td>
-  <td align="center"><a href="./screenshot/page-3.png"><img src="./screenshot/page-3.png" width="200" alt="Page 3"/></a><br><sub>Dashboard</sub></td>
-  <td align="center"><a href="./screenshot/page-4.png"><img src="./screenshot/page-4.png" width="200" alt="Page 4"/></a><br><sub>Page 4</sub></td>
-</tr>
-<tr>
-  <td align="center"><a href="./screenshot/page-5.png"><img src="./screenshot/page-5.png" width="200" alt="Page 5"/></a><br><sub>Page 5</sub></td>
-  <td align="center"><a href="./screenshot/page-6.png"><img src="./screenshot/page-6.png" width="200" alt="Page 6"/></a><br><sub>Page 6</sub></td>
-  <td align="center"><a href="./screenshot/page-7.png"><img src="./screenshot/page-7.png" width="200" alt="Page 7"/></a><br><sub>Page 7</sub></td>
-  <td align="center"><a href="./screenshot/page-8.png"><img src="./screenshot/page-8.png" width="200" alt="Page 8"/></a><br><sub>Page 8</sub></td>
-</tr>
-<tr>
-  <td align="center"><a href="./screenshot/page-9.png"><img src="./screenshot/page-9.png" width="200" alt="Page 9"/></a><br><sub>Page 9</sub></td>
-  <td align="center"><a href="./screenshot/page-10.png"><img src="./screenshot/page-10.png" width="200" alt="Page 10"/></a><br><sub>Page 10</sub></td>
-  <td align="center"><a href="./screenshot/page-11.png"><img src="./screenshot/page-11.png" width="200" alt="Page 11"/></a><br><sub>Page 11</sub></td>
-</tr>
-</table>
-
-</details>
 
 ### 💻 Benchmark / CLI Evaluation
 
