@@ -5,10 +5,13 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Data: EHR-grounded](https://img.shields.io/badge/data-EHR--grounded-orange.svg)](#data-processing)
+[![Paper](https://img.shields.io/badge/paper-arXiv-red.svg)]()
+[![Patients](https://img.shields.io/badge/patients-1,193-purple.svg)](#data-processing)
+[![ICD--11](https://img.shields.io/badge/ICD--11-76%20disorders-lightgrey.svg)](#data-processing)
 
 </div>
 
-## Abstract
+## 📜 Abstract
 
 Large language models (LLMs) have made substantial progress in psychiatry, yet success on isolated clinical components remains insufficient to reflect the integrated capability required in real-world clinical encounters. Existing virtual medical environments still exhibit three limitations: *(1) Encounter Incompleteness* — centering on doctor--patient communication rather than complete clinical encounters; *(2) Data Inauthenticity* — relying on synthetic or web-based data with limited clinical fidelity; and *(3) Patient Simplification* — modeling virtual patients as reactive symptom carriers rather than faithful psychiatric individuals.
 
@@ -18,7 +21,7 @@ Experiments with LLMs, clinicians, medical trainees, and crowdworkers reveal tha
 
 ---
 
-## Overview
+## 🔍 Overview
 
 <p align="center">
   <img src="./figures/overview.png" alt="MentalHospital Overview" width="95%">
@@ -28,7 +31,7 @@ MentalHospital provides a complete virtual psychiatric environment where an LLM-
 
 ---
 
-## Key Contributions
+## 🌟 Key Contributions
 
 - **MentalHospital** — An EHR-grounded benchmark environment for full S.O.A.P. psychiatric encounters, using skill-augmented standardized patients constructed from 1,193 de-identified psychiatric EHR cases spanning all major ICD-11 categories and 76 disorders.
 
@@ -38,9 +41,9 @@ MentalHospital provides a complete virtual psychiatric environment where an LLM-
 
 ---
 
-## MentalHospital
+## 🏥 MentalHospital
 
-### Data Processing
+### 📋 Data Processing
 
 MentalHospital is constructed from **1,193 de-identified psychiatric EHR cases** obtained through an approved collaborative data-use partnership with a coordinating medical center. The dataset comprises multi-center records from six medical centers across three regions, including 885 single-diagnosis cases and 308 comorbid cases.
 
@@ -51,7 +54,7 @@ Each case was independently reviewed by two licensed psychiatrists (Cohen's $\ka
 
 Privacy protection uses on-premise `DeepSeek-R1`, rule-based detectors, and expert review to generalize or mask sensitive identifiers while preserving clinical meaning.
 
-### S.O.A.P. Interaction Workflow
+### 🔄 S.O.A.P. Interaction Workflow
 
 | Stage | Description | Doctor Agent Role |
 |:---|:---|:---|
@@ -60,7 +63,7 @@ Privacy protection uses on-premise `DeepSeek-R1`, rule-based detectors, and expe
 | **A**ssessment (Diagnosis) | Clinical note writing and diagnostic reasoning | Generate clinical note, formulate diagnostic hypotheses |
 | **P**lan (Treatment) | Individualized treatment planning | Produce treatment plan based on accumulated evidence |
 
-### Environment Modules
+### 🤖 Environment Modules
 
 | Module | Implementation | Function |
 |:---|:---|:---|
@@ -74,7 +77,7 @@ The standardized patient features a **hybrid skill design**:
 
 ---
 
-## MentalEval
+## 🧠 MentalEval
 
 <p align="center">
   <img src="./figures/Mentaleval.png" alt="MentalEval Construction Pipeline" width="95%">
@@ -91,7 +94,7 @@ We develop **MentalEval**, a suite of five Qwen3-8B-based domain-specific evalua
 | MentalEval-Diag | Diagnostic Rigor | 1–5 Likert |
 | MentalEval-Treat | Treatment Appropriateness | 1–5 Likert |
 
-### Training Pipeline
+### 🔥 Training Pipeline
 
 **Stage 1: Rubric-grounded SFT.** We sample 200 cases and run 20 LLMs (3 runs each) to generate complete interaction episodes. A judge ensemble of 5 LLMs (`DeepSeek-V4-Pro`, `KIMI-K2.6`, `GPT-5.5`, `Claude-Opus-4.6`, `Gemini-3.1-Pro`) generates rubric-based evaluation trajectories. Only high-agreement trajectories (≥3/5 judges consensus) are retained as SFT targets.
 
@@ -99,9 +102,9 @@ We develop **MentalEval**, a suite of five Qwen3-8B-based domain-specific evalua
 
 ---
 
-## Experiments
+## 📊 Experiments
 
-### Benchmark Comparison
+### 📋 Benchmark Comparison
 
 | Benchmark | Data Source | Psychiatry | Simulation Scope | Interaction | Evaluation Method | Reference | Evaluator |
 |:---|:---|:---:|:---|:---:|:---|:---|:---|
@@ -115,7 +118,7 @@ We develop **MentalEval**, a suite of five Qwen3-8B-based domain-specific evalua
 | AgentClinic | Single Hospital | ✗ | Inter./Exam./Diag. | ✓ | Metrics/Scale | EHR | ✗ |
 | **MentalHospital (Ours)** | **Clinical Centers** | ✓ | **Inter./Exam./Diag./Treat.** | ✓ | **Rub./Metr./Lab./Scale** | **EHR/Psychiatrist** | **MentalEval** |
 
-### Main Results
+### 🏆 Main Results
 
 | Model | Inter. (%) | Exam. (%) | Note (%) | Cate. (%) | Diso. (%) | Emp. (1–5) | Prof. (1–5) | Qual. (1–5) | Rigor (1–5) | App. (1–5) |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -141,7 +144,7 @@ We develop **MentalEval**, a suite of five Qwen3-8B-based domain-specific evalua
 
 > **Key finding:** The strongest medical-specific model (Baichuan-M2) trails medical trainees by **27.17 pp** and human experts by **37.28 pp** on average across objective metrics.
 
-### Fine-grained Coverage Analysis
+### 🔎 Fine-grained Coverage Analysis
 
 | Model | Interview Avg. | Interview CC | Interview MS | Note Avg. | Note CC | Note MS |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -153,7 +156,7 @@ We develop **MentalEval**, a suite of five Qwen3-8B-based domain-specific evalua
 
 > **Key finding:** LLMs consistently underperform on **Mental Status (MS)** examination coverage compared to **Chief Complaint (CC)**. GPT-5.5 shows a 29.66 pp gap in interviewing (85.38 vs. 55.72).
 
-### Patient Construction Ablation
+### 🔧 Patient Construction Ablation
 
 | Patient Variant | Cov. (%) ↑ | Prec. (%) ↑ | Halluc. (%) ↓ | Realism (1–5) ↑ | Fidelity (1–5) ↑ | Distinct. (1–5) ↑ |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -162,7 +165,7 @@ We develop **MentalEval**, a suite of five Qwen3-8B-based domain-specific evalua
 | Memory Skill Only | 84.83 | 91.64 | 4.52 | 3.55 | 3.87 | 2.77 |
 | **Full Patient** | **88.91** | **93.27** | **3.08** | **4.17** | **4.05** | **3.87** |
 
-### MentalEval Ablation
+### 🧪 MentalEval Ablation
 
 | Evaluator | Base (Qwen3-8B) | | | +SFT | | | +DPO | | |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -174,7 +177,7 @@ We develop **MentalEval**, a suite of five Qwen3-8B-based domain-specific evalua
 | MentalEval-Treat | 0.819 | 0.425 | 0.600 | 0.928 | 0.725 | 0.275 | **0.948** | **0.800** | **0.200** |
 | **Average** | 0.759 | 0.360 | 0.710 | 0.879 | 0.640 | 0.380 | **0.944** | **0.790** | **0.210** |
 
-### Expert Agreement
+### 🤝 Expert Agreement
 
 <p align="center">
   <img src="./figures/agreement_heatmaps.png" alt="Agreement Heatmaps" width="80%">
@@ -182,7 +185,7 @@ We develop **MentalEval**, a suite of five Qwen3-8B-based domain-specific evalua
 
 MentalEval achieves the strongest expert alignment (QWK = 0.926, Acc. = 0.725, MAE = 0.275), outperforming LLM-as-a-Judge, Multi-LLM Jury, and individual crowdworker baselines.
 
-### Clinical Faithfulness Survey
+### ✅ Clinical Faithfulness Survey
 
 <p align="center">
   <img src="./figures/experiments_faithful_scale.png" alt="Clinical Faithfulness Ratings" width="50%">
@@ -192,14 +195,14 @@ Clinician survey (5 psychiatrists, 3 psychologists, 14 medical trainees) across 
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
-### Prerequisites
+### 📦 Prerequisites
 
 - Python 3.10+
 - OpenAI-compatible LLM API endpoints (GPT-4, DeepSeek, Qwen, Claude, etc.)
 
-### Installation
+### 📥 Installation
 
 ```bash
 git clone https://github.com/your-org/MentalHospital.git
@@ -213,7 +216,7 @@ cp .env.example .env
 # Edit .env with your API base URLs, keys, and model names
 ```
 
-### Environment Configuration
+### ⚙ Environment Configuration
 
 The system uses multiple LLM agents, each configurable via environment variables:
 
@@ -225,7 +228,7 @@ The system uses multiple LLM agents, each configurable via environment variables
 
 All agents use OpenAI-compatible APIs and can point to different backends.
 
-### Testing Your Models
+### 🧪 Testing Your Models
 
 **You must configure the `.env` file before running any evaluation.** Copy `.env.example` to `.env` and fill in your API credentials. The system cannot start without valid API endpoints and keys.
 
@@ -259,9 +262,9 @@ DOCTOR_MODEL=your-model-name
 
 ---
 
-## Usage
+## 💻 Usage
 
-### Web Interface
+### 🌐 Web Interface
 
 ```bash
 python web/app.py
@@ -279,7 +282,7 @@ The web UI guides you through the complete S.O.A.P. clinical workflow with real-
 History Taking → Examination Recommendation → Clinical Formulation → Diagnosis → Treatment Planning
 ```
 
-### Benchmark / CLI Evaluation
+### 💻 Benchmark / CLI Evaluation
 
 ```bash
 # Test a single random case
@@ -297,7 +300,7 @@ python scripts/run_interview.py --mode batch --concurrency 32
 
 Results are written to `data/output/results/{model}.json` with per-case scores and running averages.
 
-### Compute Metrics
+### 📈 Compute Metrics
 
 ```bash
 # Analyze case difficulty distribution
@@ -309,7 +312,7 @@ python scripts/compute_metrics.py
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 MentalHospital/
@@ -349,13 +352,13 @@ MentalHospital/
 
 ---
 
-## Ethical Statement
+## 🛡 Ethical Statement
 
 The study protocol and annotation procedures were approved by the institutional ethics boards of all participating clinical centers. All data collection, processing, and annotation followed the *Declaration of Helsinki*. Since records were de-identified before construction, individual informed consent was waived. All processing was conducted within secure hospital environments using locally deployed models, and no identifiable patient information or intermediate records left institutional governance.
 
 ---
 
-## Citation
+## 📖 Citation
 
 If you use MentalHospital or MentalEval in your research, please cite:
 
@@ -371,7 +374,7 @@ If you use MentalHospital or MentalEval in your research, please cite:
 
 ---
 
-## License
+## 📜 License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
