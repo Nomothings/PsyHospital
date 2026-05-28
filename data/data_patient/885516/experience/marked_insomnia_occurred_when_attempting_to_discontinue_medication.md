@@ -1,0 +1,1 @@
+Several times I tried to stop the medication, hoping to see if I could fall asleep naturally again. However, each attempt resulted in a sleepless night. Lying in bed, staring at the ceiling, my mind in turmoil, the pain of insomnia left me feeling helpless and lonely.

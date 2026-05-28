@@ -1,0 +1,1 @@
+Although I have experienced so many strange symptoms, at least I haven't had a fever. Every day when I take my temperature, it is normal, which gives me some comfort—at least I don't have to worry about the discomfort of a fever.

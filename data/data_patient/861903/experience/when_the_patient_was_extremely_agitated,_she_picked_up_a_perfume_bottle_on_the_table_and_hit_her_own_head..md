@@ -1,0 +1,1 @@
+At that moment of emotional turmoil, I lost my reason. Everything before my eyes became blurred. I picked up a perfume bottle on the table and smashed it hard against my head. Perhaps at that time, I just wanted to use the pain to temporarily escape the inner chaos, even though I knew it was meaningless.

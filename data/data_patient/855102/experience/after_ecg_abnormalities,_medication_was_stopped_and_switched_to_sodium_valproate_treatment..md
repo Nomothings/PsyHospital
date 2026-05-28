@@ -1,0 +1,1 @@
+In the hospital, the doctor found some abnormalities on my electrocardiogram (ECG) and decided to stop the original medication and switch to valproate sodium for treatment. Although I am a bit worried about the change in medication, I trust the doctor is doing this for my health.

@@ -1,0 +1,1 @@
+Since elementary school, my grades have never kept up with my classmates. I study hard but always find it very difficult, especially during exams—my results are never good. This makes me feel somewhat frustrated. Although I know I’ve tried my best, I still feel there is a big gap between me and my peers.

@@ -1,0 +1,1 @@
+Four years ago, I began to feel inexplicably afraid, always feeling that someone was secretly trying to harm me. This fear made it hard for me to fall asleep at night and left me anxious and unable to focus during the day.

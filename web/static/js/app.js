@@ -1,8 +1,8 @@
 /**
- * Vue 3 应用入口 + 路由配置
+ * Vue 3 Application Entry + Router Configuration
  */
 
-// ---- 路由定义 ----
+// ---- Route Definitions ----
 const routes = [
     { path: "/", component: SplashPage },
     { path: "/login", component: LoginPage },
@@ -23,7 +23,7 @@ const router = VueRouter.createRouter({
     routes,
 });
 
-// ---- Vue 应用创建 ----
+// ---- Vue Application Creation ----
 const { createApp } = Vue;
 
 const app = createApp({
@@ -34,19 +34,19 @@ const app = createApp({
     `,
 });
 
-// ---- 注册 Element Plus ----
+// ---- Register Element Plus ----
 app.use(ElementPlus);
 
-// ---- 注册路由 ----
+// ---- Register Router ----
 app.use(router);
 
-// ---- 注册所有 Element Plus Icons ----
+// ---- Register All Element Plus Icons ----
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component);
 }
 
-// ---- 注册全局组件 ----
+// ---- Register Global Components ----
 app.component('phase-transition-pipeline', PhaseTransitionPipeline);
 
-// ---- 挂载 ----
+// ---- Mount ----
 app.mount("#app");

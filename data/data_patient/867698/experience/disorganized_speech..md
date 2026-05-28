@@ -1,0 +1,1 @@
+My words started to become disorganized, often saying things that didn't connect. My mind was filled with chaotic thoughts, preventing me from focusing on one topic. This confusion made me feel perplexed and anxious.

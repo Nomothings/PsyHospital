@@ -1,0 +1,1 @@
+There were a few times when I found that I had become incontinent of urine. It happened very suddenly; I didn't even realize it before it occurred, which made me feel very embarrassed and helpless.

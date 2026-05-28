@@ -1,0 +1,1 @@
+Two months ago, I was sent to the hospital for treatment, hoping to alleviate my symptoms through professional help. I was filled with hope that this hospitalization would truly make me better.

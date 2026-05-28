@@ -1,0 +1,1 @@
+At that moment, I found my speech becoming slurred. Every word seemed stuck in my throat, unable to be expressed smoothly. I felt my language ability slipping out of control, and even simple conversations became extremely difficult.

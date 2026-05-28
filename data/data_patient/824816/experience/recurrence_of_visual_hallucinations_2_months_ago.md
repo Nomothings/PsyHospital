@@ -1,0 +1,1 @@
+At the same time, I began seeing strange images that flickered before my eyes. I kept blinking, trying to make them disappear, but they always lingered like ghosts.

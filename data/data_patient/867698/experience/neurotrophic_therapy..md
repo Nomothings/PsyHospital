@@ -1,0 +1,1 @@
+The doctor prescribed some neurotrophic treatments. I didn't fully understand the effects of these medications, but I hoped they could help me recover and alleviate the nerve damage caused by the car accident.

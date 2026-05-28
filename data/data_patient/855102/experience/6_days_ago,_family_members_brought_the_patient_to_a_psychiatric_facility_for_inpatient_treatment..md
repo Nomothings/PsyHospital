@@ -1,0 +1,1 @@
+Six days ago, my family decided to take me to a psychiatric facility for inpatient treatment. I didn’t fully understand their decision at the time, but they said it was for my benefit, and I began to realize that I needed some help to get through this period.

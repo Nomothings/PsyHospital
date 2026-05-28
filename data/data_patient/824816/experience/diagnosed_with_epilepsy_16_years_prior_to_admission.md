@@ -1,0 +1,1 @@
+When I was about twenty years old, I was diagnosed with epilepsy. Back then, I still remember the confusion and unease I felt when the doctor told me the news. Although I was young, I had to begin facing this new reality that troubled my life.

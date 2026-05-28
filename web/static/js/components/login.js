@@ -1,46 +1,36 @@
-/**
- * LoginPage 组件
- * 登录 / 注册页面 — 毛玻璃特效
- */
 const LoginPage = {
     template: `
         <div class="login-page">
-            <!-- 背景图 -->
             <div class="login-page__bg"></div>
 
-            <!-- 装饰粒子 -->
             <div class="login-page__orb" style="width:300px;height:300px;top:-80px;right:-60px;"></div>
             <div class="login-page__orb" style="width:250px;height:250px;bottom:-60px;left:-80px;"></div>
             <div class="login-page__orb" style="width:150px;height:150px;top:50%;right:20%;"></div>
 
-            <!-- 毛玻璃卡片 -->
             <div class="login-card">
-                <!-- Logo / 标题 -->
                 <div class="login-card__header">
                     <div class="login-card__logo">
                         <el-icon :size="48" color="#5ed6c8"><FirstAidKit /></el-icon>
                     </div>
                     <h1 class="login-card__title">Mental Hospital</h1>
                     <p class="login-card__subtitle">
-                        精神科访谈训练系统
+                        Psychiatry AI Simulated Interview & Training Platform
                     </p>
                 </div>
 
-                <!-- Tab 切换 -->
                 <div class="login-card__tabs">
                     <div class="login-card__tab"
                          :class="{ active: !isRegister }"
                          @click="isRegister = false">
-                        登录
+                        Login
                     </div>
                     <div class="login-card__tab"
                          :class="{ active: isRegister }"
                          @click="isRegister = true">
-                        注册
+                        Register
                     </div>
                 </div>
 
-                <!-- 登录表单 -->
                 <el-form v-if="!isRegister"
                          :model="loginForm"
                          :rules="loginRules"
@@ -48,7 +38,7 @@ const LoginPage = {
                          class="login-card__form">
                     <el-form-item prop="username">
                         <el-input v-model="loginForm.username"
-                                  placeholder="用户名 / 邮箱"
+                                  placeholder="Username / Email"
                                   :prefix-icon="User"
                                   size="large"
                                   class="login-input" />
@@ -56,16 +46,16 @@ const LoginPage = {
                     <el-form-item prop="password">
                         <el-input v-model="loginForm.password"
                                   type="password"
-                                  placeholder="密码"
+                                  placeholder="Password"
                                   :prefix-icon="Lock"
                                   show-password
                                   size="large"
                                   class="login-input" />
                     </el-form-item>
                     <div class="login-card__actions">
-                        <el-checkbox v-model="loginForm.remember">记住我</el-checkbox>
+                        <el-checkbox v-model="loginForm.remember">Remember me</el-checkbox>
                         <el-link type="primary" :underline="false" style="font-size:13px;">
-                            忘记密码？
+                            Forgot password?
                         </el-link>
                     </div>
                     <el-button type="primary"
@@ -73,11 +63,10 @@ const LoginPage = {
                                class="login-card__submit"
                                @click="handleLogin"
                                :loading="loading">
-                        登 录
+                        Login
                     </el-button>
                 </el-form>
 
-                <!-- 注册表单 -->
                 <el-form v-else
                          :model="registerForm"
                          :rules="registerRules"
@@ -85,7 +74,7 @@ const LoginPage = {
                          class="login-card__form">
                     <el-form-item prop="username">
                         <el-input v-model="registerForm.username"
-                                  placeholder="用户名"
+                                  placeholder="Username"
                                   :prefix-icon="User"
                                   size="large"
                                   class="login-input" />
@@ -93,7 +82,7 @@ const LoginPage = {
                     <el-form-item prop="email">
                         <el-input v-model="registerForm.email"
                                   type="email"
-                                  placeholder="邮箱地址"
+                                  placeholder="Email"
                                   :prefix-icon="Message"
                                   size="large"
                                   class="login-input" />
@@ -101,7 +90,7 @@ const LoginPage = {
                     <el-form-item prop="password">
                         <el-input v-model="registerForm.password"
                                   type="password"
-                                  placeholder="密码"
+                                  placeholder="Password"
                                   :prefix-icon="Lock"
                                   show-password
                                   size="large"
@@ -110,7 +99,7 @@ const LoginPage = {
                     <el-form-item prop="confirmPassword">
                         <el-input v-model="registerForm.confirmPassword"
                                   type="password"
-                                  placeholder="确认密码"
+                                  placeholder="Confirm Password"
                                   :prefix-icon="Lock"
                                   show-password
                                   size="large"
@@ -121,16 +110,15 @@ const LoginPage = {
                                class="login-card__submit"
                                @click="handleRegister"
                                :loading="loading">
-                        注 册
+                        Register
                     </el-button>
                 </el-form>
 
-                <!-- 底部信息 -->
                 <div class="login-card__footer">
                     <span class="login-card__footer-text">
-                        {{ isRegister ? '已有账户？' : '还没有账户？' }}
+                        {{ isRegister ? 'Already have an account?' : "Don't have an account?" }}
                         <el-link type="primary" :underline="false" @click="isRegister = !isRegister">
-                            {{ isRegister ? '立即登录' : '立即注册' }}
+                            {{ isRegister ? 'Back to Login' : 'Register Now' }}
                         </el-link>
                     </span>
                 </div>
@@ -158,34 +146,34 @@ const LoginPage = {
 
             loginRules: {
                 username: [
-                    { required: true, message: '请输入用户名', trigger: 'blur' },
-                    { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' },
+                    { required: true, message: 'Please enter username or email', trigger: 'blur' },
+                    { min: 3, max: 20, message: 'Username must be 3-20 characters', trigger: 'blur' },
                 ],
                 password: [
-                    { required: true, message: '请输入密码', trigger: 'blur' },
-                    { min: 6, message: '密码至少 6 个字符', trigger: 'blur' },
+                    { required: true, message: 'Please enter password', trigger: 'blur' },
+                    { min: 6, message: 'Password must be at least 6 characters', trigger: 'blur' },
                 ],
             },
 
             registerRules: {
                 username: [
-                    { required: true, message: '请输入用户名', trigger: 'blur' },
-                    { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' },
+                    { required: true, message: 'Please enter username', trigger: 'blur' },
+                    { min: 3, max: 20, message: 'Username must be 3-20 characters', trigger: 'blur' },
                 ],
                 email: [
-                    { required: true, message: '请输入邮箱', trigger: 'blur' },
-                    { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' },
+                    { required: true, message: 'Please enter email', trigger: 'blur' },
+                    { type: 'email', message: 'Please enter a valid email format', trigger: 'blur' },
                 ],
                 password: [
-                    { required: true, message: '请输入密码', trigger: 'blur' },
-                    { min: 6, message: '密码至少 6 个字符', trigger: 'blur' },
+                    { required: true, message: 'Please enter password', trigger: 'blur' },
+                    { min: 6, message: 'Password must be at least 6 characters', trigger: 'blur' },
                 ],
                 confirmPassword: [
-                    { required: true, message: '请确认密码', trigger: 'blur' },
+                    { required: true, message: 'Please confirm password', trigger: 'blur' },
                     {
                         validator: (rule, value, callback) => {
                             if (value !== this.registerForm.password) {
-                                callback(new Error('两次密码不一致'));
+                                callback(new Error('Passwords do not match'));
                             } else {
                                 callback();
                             }
@@ -213,15 +201,15 @@ const LoginPage = {
                 setTimeout(() => {
                     this.loading = false;
                     const validAccounts = {
-                        'cquzhongjiang': 'cqu0526',
-                        'test1': '666666',
+                        admin: 'admin123',
+                        test1: '666666',
                     };
                     const accountName = this.loginForm.username;
                     if (validAccounts[accountName] && validAccounts[accountName] === this.loginForm.password) {
                         this.$router.push('/patients');
-                        this.$message.success('欢迎回来');
+                        this.$message.success('Login successful');
                     } else {
-                        this.$message.error('用户名或密码错误');
+                        this.$message.error('Invalid username or password');
                     }
                 }, 800);
             });
@@ -231,11 +219,10 @@ const LoginPage = {
             this.$refs.registerFormRef.validate((valid) => {
                 if (valid) {
                     this.loading = true;
-                    // TODO: 调用注册 API
                     setTimeout(() => {
                         this.loading = false;
                         this.isRegister = false;
-                        this.$message.success('注册成功，请登录');
+                        this.$message.success('Registration successful, please login');
                     }, 1000);
                 }
             });

@@ -1,0 +1,1 @@
+After stopping the medication, I began to feel nauseous, as if I were seasick. This sensation was very uncomfortable, as if my body was protesting my prolonged use of the drug, forcing me to rely on it again to alleviate the discomfort.

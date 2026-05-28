@@ -1,0 +1,1 @@
+When I first started taking the medication, I often felt palpitations and panic. These side effects made me very uneasy, constantly anxious and afraid that I might suddenly lose control. Every time my heart raced, I had to take deep breaths and try hard to calm myself down.

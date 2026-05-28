@@ -1,0 +1,1 @@
+I started refusing intravenous treatment, feeling that this intervention made me uncomfortable. Although I knew it was for my health, my inner resistance prevented me from cooperating, and I often showed defiance towards the medical staff.

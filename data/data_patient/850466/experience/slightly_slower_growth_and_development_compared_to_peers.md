@@ -1,0 +1,1 @@
+I often hear parents or teachers say that I am slightly shorter than peers my age, or that I seem to develop more slowly. Every time I see noticeable physical changes in friends around me, I feel a bit anxious. Although I know everyone grows at a different pace, I can’t help but compare.

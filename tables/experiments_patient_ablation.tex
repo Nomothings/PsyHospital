@@ -1,0 +1,48 @@
+\definecolor{RowGray}{RGB}{235,235,235}
+
+\begin{table}[t]
+\caption{Ablation of skill-augmented patient construction for standardized patients.}
+\label{tab:patient_ablation}
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\newcommand{\chg}[1]{\raisebox{-0.45ex}{\tiny\,$#1$}}
+
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{lllllll}
+\toprule
+\textbf{Patient Variant}
+& \multicolumn{3}{l}{\textbf{Objective Comparison (\%)}}
+& \multicolumn{3}{l}{\textbf{Subjective Assessment (1–5)}} \\
+\cmidrule(lr){2-4}
+\cmidrule(lr){5-7}
+& \textbf{Cov.$\uparrow$}
+& \textbf{Prec.$\uparrow$}
+& \textbf{Halluc.$\downarrow$}
+& \textbf{Realism$\uparrow$}
+& \textbf{Fidelity$\uparrow$}
+& \textbf{Distinct.$\uparrow$} \\
+\midrule
+
+Naive Prompting
+& 72.40 & 86.10 & 7.80
+& 2.12 & 2.23 & 1.92 \\
+
+\rowcolor{RowGray}
+Representation Skill Only
+& 72.40\chg{+0.00} & 85.72\chg{-0.38} & 9.04\chg{+1.24}
+& 4.12\chg{+2.00} & 3.82\chg{+1.59} & 3.72\chg{+1.80} \\
+
+Memory Skill Only
+& 84.83\chg{+12.43} & 91.64\chg{+5.92} & 4.52\chg{-4.52}
+& 3.55\chg{-0.57} & 3.87\chg{+0.05} & 2.77\chg{-0.95} \\
+
+\rowcolor{RowGray}
+Full Patient
+& 88.91\chg{+4.08} & 93.27\chg{+1.63} & 3.08\chg{-1.44}
+& 4.17\chg{+0.62} & 4.05\chg{+0.18} & 3.87\chg{+1.10} \\
+
+\bottomrule
+\end{tabular}
+\vspace{-1.5em}
+\end{table}

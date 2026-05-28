@@ -1,0 +1,1 @@
+I also remember passing the College English Test Band 4, which was a considerable achievement for me. Although my interest in studying had declined, I still put quite a bit of effort into language learning.

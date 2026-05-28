@@ -1,0 +1,1 @@
+During this time, my emotions have been like a roller coaster, soaring one moment and plummeting the next. Whenever I try to calm down, something or some thought always triggers new fluctuations. I feel utterly exhausted, as if life has lost its stability; even the smallest things can cause me to lose emotional control, making it hard to self-regulate.

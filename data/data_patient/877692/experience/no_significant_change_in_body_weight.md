@@ -1,0 +1,1 @@
+Although I have been through so much, my weight hasn't changed significantly. Every day when I look in the mirror, I still look about the same as before, which reassures me a little.

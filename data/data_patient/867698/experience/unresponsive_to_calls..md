@@ -1,0 +1,1 @@
+At that time, I seemed to be in a state where I couldn't respond, no matter how others called out to me, I couldn't make any reaction. Voices echoed in my ears, yet they felt isolated in a distant world. I tried hard to grasp those sounds, but couldn't respond at all.

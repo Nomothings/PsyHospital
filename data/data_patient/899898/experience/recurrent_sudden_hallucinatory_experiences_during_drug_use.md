@@ -1,0 +1,1 @@
+Whenever I used methamphetamine, sudden hallucinations would strike me. These hallucinations appeared like movie scenes, making it impossible for me to distinguish reality from illusion. Sometimes, I couldn't even tell whether I was in a dream or real life, leaving me feeling extremely uneasy and frightened.

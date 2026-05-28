@@ -1,0 +1,1 @@
+In my dreams, I often shout loudly, protesting the content of the abuse. Those dreams seem to be a release of the pain and anger that I cannot express deep inside. Every time I wake from a nightmare, I feel exhausted, as if I have been through a real struggle.

@@ -1,0 +1,1 @@
+During my attempts to quit methamphetamine, I found my mood becoming particularly depressed. Every day I felt listless, as if crushed by an invisible heavy burden. The helplessness and sense of loss lingered, causing me to lose interest in life.

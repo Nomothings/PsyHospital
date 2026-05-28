@@ -1,0 +1,1 @@
+I feel that my reactions have become slower. When others speak to me, I often need more time to understand and respond, as if my mind is always half a beat behind. Even simple instructions require repeated consideration before I can carry them out.

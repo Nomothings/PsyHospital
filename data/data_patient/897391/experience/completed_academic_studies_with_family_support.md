@@ -1,0 +1,1 @@
+With the support and encouragement of my family, I eventually completed my education. They were always by my side, urging me not to give up, helping me regain confidence, and allowing me to finish what might have been interrupted.

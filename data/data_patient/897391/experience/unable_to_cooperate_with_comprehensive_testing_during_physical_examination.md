@@ -1,0 +1,1 @@
+During the physical examination, I was unable to fully cooperate with all the tests. It might have been due to nervousness or other reasons, but overall, it made me realize that I still have some issues that need to be addressed.

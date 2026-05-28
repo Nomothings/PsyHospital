@@ -1,0 +1,1 @@
+I recall a period when my condition improved. I regained the ability to work, and the feeling of independently completing tasks gave me a sense of accomplishment. Though that period did not last long, I experienced the taste of a normal life again—freely communicating with others and participating in social activities, as if everything had returned to normal.

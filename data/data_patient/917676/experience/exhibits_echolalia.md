@@ -1,0 +1,1 @@
+Sometimes, I repeat what others have just said, not because I want to express something, but simply because after hearing those words, my brain automatically responds by repeating them, like a conditioned reflex.

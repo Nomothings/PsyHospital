@@ -1,0 +1,1 @@
+I never thought my facial expressions would become so childish. At that moment, it felt as if the entire world had become strange and distant. I looked at myself in the mirror; my face had the expression of a lost child, full of ignorance and confusion.

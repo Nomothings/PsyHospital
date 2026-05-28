@@ -1,0 +1,1 @@
+After the accident, I was in a coma for three months. During that time, my consciousness seemed to float in endless darkness, occasionally punctuated by fragmented dreams, but without any real sensation. When I woke up, I realized I had lost a lot of time.

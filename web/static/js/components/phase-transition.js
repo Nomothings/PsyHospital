@@ -1,10 +1,10 @@
 /**
- * PhaseTransitionPipeline — 阶段转场流水线动画组件
+ * PhaseTransitionPipeline - Phase transition pipeline animation component
  *
- * 用于各阶段之间的过渡，展示流水线式推进动画，
- * 同时调用后端评价接口，等待结果后自动跳转。
+ * Used for transitions between phases, displaying a pipeline-style progression animation,
+ * while calling the backend evaluation API and auto-navigating after results return.
  *
- * 用法:
+ * Usage:
  *   <phase-transition-pipeline
  *       :visible="showTransition"
  *       :phase-number="currentPhase"
@@ -18,10 +18,10 @@ const PhaseTransitionPipeline = {
     template: `
         <transition name="pipeline-fade">
             <div v-if="visible" class="pipeline-overlay" :class="{ 'pipeline-overlay--exiting': exiting }">
-                <!-- 玻璃叠加层 -->
+                <!-- Glass overlay -->
                 <div class="pipeline-overlay__glass"></div>
 
-                <!-- 粒子背景 -->
+                <!-- Particle background -->
                 <div class="pipeline-particles">
                     <div v-for="(p, i) in particles" :key="i"
                          class="pipeline-particle"
@@ -29,25 +29,25 @@ const PhaseTransitionPipeline = {
                     </div>
                 </div>
 
-                <!-- 顶部品牌标识 -->
+                <!-- Top brand logo -->
                 <div class="pipeline-brand">
                     <span class="pipeline-brand__title">MentalEval</span>
                     <div class="pipeline-brand__divider"></div>
                 </div>
 
-                <!-- 阶段名称（品牌下方） -->
+                <!-- Phase name (below brand) -->
                 <div class="pipeline-phase-name">
-                    <span class="pipeline-phase-name__label">当前阶段</span>
+                    <span class="pipeline-phase-name__label">Current Phase</span>
                     <span class="pipeline-phase-name__current">{{ currentPhaseName }}</span>
                     <span class="pipeline-phase-name__progress">{{ progressText }}</span>
                 </div>
 
-                <!-- 主内容 -->
+                <!-- Main content -->
                 <div class="pipeline-content">
-                    <!-- 左侧: 阶段管道 -->
+                    <!-- Left: Phase pipeline -->
                     <div class="pipeline-steps">
                         <template v-for="(step, idx) in steps" :key="idx">
-                            <!-- 阶段节点 -->
+                            <!-- Phase node -->
                             <div class="pipeline-node" :class="getNodeClass(idx)">
                                 <div class="pipeline-node__circle">
                                     <span class="node-text">{{ step.label }}</span>
@@ -55,7 +55,7 @@ const PhaseTransitionPipeline = {
                                 <div class="pipeline-node__label">{{ step.name }}</div>
                             </div>
 
-                            <!-- 连接线 -->
+                            <!-- Connector line -->
                             <div v-if="idx < steps.length - 1"
                                  class="pipeline-connector"
                                  :class="getConnectorClass(idx)">
@@ -67,11 +67,11 @@ const PhaseTransitionPipeline = {
                         </template>
                     </div>
 
-                    <!-- 右侧: MentalEval 核心（玻璃卡片） -->
+                    <!-- Right: MentalEval core (glass card) -->
                     <div class="pipeline-core">
                         <div class="pipeline-core__glow"></div>
 
-                        <!-- eval.png + 光环 -->
+                        <!-- eval.png + halo -->
                         <div class="pipeline-core__icon-wrap">
                             <div class="pipeline-core__halo"></div>
                             <img
@@ -82,15 +82,15 @@ const PhaseTransitionPipeline = {
                             />
                         </div>
 
-                        <!-- 中央 MentalEval 文字 -->
+                        <!-- Center MentalEval text -->
                         <div class="pipeline-core__mental-eval">MentalEval</div>
                         <div class="pipeline-core__subtitle">Evaluating Clinical Interaction...</div>
 
-                        <!-- 状态文字 -->
+                        <!-- Status text -->
                         <div class="pipeline-core__text">{{ statusText }}</div>
                         <div class="pipeline-core__subtext">{{ subStatusText }}</div>
 
-                        <!-- 进度条 -->
+                        <!-- Progress bar -->
                         <div class="pipeline-progress">
                             <div class="pipeline-progress__bar" :style="{ width: progressPercent + '%' }"></div>
                         </div>
@@ -101,17 +101,17 @@ const PhaseTransitionPipeline = {
     `,
 
     props: {
-        // 是否显示
+        // Whether to show
         visible: { type: Boolean, default: false },
-        // 当前阶段编号 1-4
+        // Current phase number 1-4
         phaseNumber: { type: Number, required: true },
-        // 病例 ID
+        // Case ID
         caseId: { type: String, default: '' },
-        // 评价额外参数
+        // Extra evaluation parameters
         evalPayload: { type: Object, default: () => ({}) },
-        // 是否自动调用评价 API
+        // Whether to auto-call evaluation API
         autoEvaluate: { type: Boolean, default: true },
-        // 下一阶段路由路径
+        // Next phase route path
         nextPath: { type: String, default: '' },
     },
 
@@ -119,83 +119,83 @@ const PhaseTransitionPipeline = {
 
     data() {
         return {
-            // 步骤定义
+            // Step definitions
             steps: [
-                { label: '1', name: '访谈' },
-                { label: '2', name: '检查' },
-                { label: '3', name: '诊断' },
-                { label: '4', name: '治疗' },
+                { label: '1', name: 'Interview' },
+                { label: '2', name: 'Examination' },
+                { label: '3', name: 'Diagnosis' },
+                { label: '4', name: 'Treatment' },
             ],
-            // 预生成的粒子数据
+            // Pre-generated particle data
             particles: [],
-            // 评价状态: 'idle' | 'evaluating' | 'done' | 'error'
+            // Evaluation status: 'idle' | 'evaluating' | 'done' | 'error'
             evalStatus: 'idle',
             evalResult: null,
             evalError: null,
-            // 退出动画标志
+            // Exit animation flag
             exiting: false,
-            // 进度模拟
+            // Progress simulation
             simulatedProgress: 0,
             progressTimer: null,
-            // 音效
+            // Sound effects
             audioCtx: null,
             soundEnabled: true,
         };
     },
 
     computed: {
-        /** 当前阶段名称 */
+        /** Current phase name */
         currentPhaseName() {
             const names = {
-                1: '病史采集',
-                2: '检查推荐',
-                3: '临床病历',
-                4: '治疗方案',
+                1: 'History Taking',
+                2: 'Examination Recommendation',
+                3: 'Clinical Case',
+                4: 'Treatment Plan',
             };
-            return names[this.phaseNumber] || '阶段 ' + this.phaseNumber;
+            return names[this.phaseNumber] || 'Phase ' + this.phaseNumber;
         },
 
-        /** 是否正在评价 */
+        /** Whether evaluation is in progress */
         isEvaluating() {
             return this.evalStatus === 'evaluating';
         },
 
-        /** 状态文字 */
+        /** Status text */
         statusText() {
             const texts = {
-                idle: '准备评估',
-                evaluating: '正在进行评估…',
-                done: '评估完成',
-                error: '评估异常',
+                idle: 'Preparing Evaluation',
+                evaluating: 'Evaluating...',
+                done: 'Evaluation Complete',
+                error: 'Evaluation Error',
             };
             return texts[this.evalStatus] || '';
         },
 
-        /** 副状态文字 */
+        /** Sub-status text */
         subStatusText() {
             if (this.evalStatus === 'evaluating') {
-                return '分析对话质量与临床技巧';
+                return 'Analyzing dialogue quality and clinical skills';
             }
             if (this.evalStatus === 'done') {
-                return '即将进入下一阶段';
+                return 'Proceeding to next phase';
             }
             if (this.evalStatus === 'error') {
-                return this.evalError || '请稍后重试';
+                return this.evalError || 'Please try again later';
             }
-            return 'MentalEval 智能评估系统';
+            return 'MentalEval Intelligent Assessment System';
         },
 
-        /** 进度百分比 */
+        /** Progress percentage */
         progressPercent() {
             if (this.evalStatus === 'done') return 100;
             if (this.evalStatus === 'evaluating') {
                 return Math.min(this.simulatedProgress, 90);
             }
-            // 基于阶段编号的初始进度
+            // Initial progress based on phase number
             return (this.phaseNumber / 4) * 25;
         },
 
-        /** 进度文字 */
+        /** Progress text */
         progressText() {
             var pct = Math.round(this.progressPercent);
             return 'Phase ' + this.phaseNumber + ' → ' + pct + '%';
@@ -203,7 +203,7 @@ const PhaseTransitionPipeline = {
     },
 
     methods: {
-        /** 获取节点样式类 */
+        /** Get node style class */
         getNodeClass(idx) {
             var phaseNum = idx + 1;
             if (phaseNum < this.phaseNumber) return 'pipeline-node--done';
@@ -214,7 +214,7 @@ const PhaseTransitionPipeline = {
             return 'pipeline-node--pending';
         },
 
-        /** 获取连接线样式类 */
+        /** Get connector style class */
         getConnectorClass(idx) {
             var isFast = this.evalStatus === 'evaluating';
             return {
@@ -222,12 +222,12 @@ const PhaseTransitionPipeline = {
             };
         },
 
-        /** 判断节点是否已完成 */
+        /** Check if node is completed */
         isDone(idx) {
             return this.phaseNumber > idx + 1 || this.evalStatus === 'done';
         },
 
-        /** 播放滴答音效 */
+        /** Play tick sound effect */
         playTick() {
             if (!this.soundEnabled) return;
             try {
@@ -245,11 +245,11 @@ const PhaseTransitionPipeline = {
                 osc.start();
                 osc.stop(this.audioCtx.currentTime + 0.15);
             } catch (e) {
-                // 音频不可用时静默失败
+                // Silently fail when audio is unavailable
             }
         },
 
-        /** 播放完成音效 */
+        /** Play completion sound effect */
         playComplete() {
             if (!this.soundEnabled) return;
             try {
@@ -272,11 +272,11 @@ const PhaseTransitionPipeline = {
                     o.stop(startTime + 0.3);
                 });
             } catch (e) {
-                // 音频不可用时静默失败
+                // Silently fail when audio is unavailable
             }
         },
 
-        /** 启动评价流程 */
+        /** Start evaluation process */
         async startEvaluation() {
             if (this.evalStatus !== 'idle') return;
 
@@ -284,7 +284,7 @@ const PhaseTransitionPipeline = {
             this.evalResult = null;
             this.evalError = null;
 
-            // 模拟进度增长
+            // Simulate progress growth
             this.simulatedProgress = 10;
             var self = this;
             this.progressTimer = setInterval(function() {
@@ -293,7 +293,7 @@ const PhaseTransitionPipeline = {
                 }
             }, 300);
 
-            // 播放滴答声
+            // Play tick sound
             this.playTick();
 
             try {
@@ -309,15 +309,15 @@ const PhaseTransitionPipeline = {
 
                 this.$emit('eval-complete', this.evalResult);
 
-                // 自动关闭并跳转
+                // Auto-close and navigate
                 var self2 = this;
                 setTimeout(function() {
                     self2.close();
                 }, 1500);
             } catch (err) {
-                console.error('[PhaseTransitionPipeline] 评价失败:', err);
-                this.evalError = err.message || '未知错误';
-                this.evalStatus = 'done'; // 仍然进入完成状态，允许用户继续
+                console.error('[PhaseTransitionPipeline] Evaluation failed:', err);
+                this.evalError = err.message || 'Unknown error';
+                this.evalStatus = 'done'; // Still enter done state to allow user to continue
                 this.simulatedProgress = 100;
                 this.playComplete();
                 this.$emit('eval-complete', this.getFallbackData());
@@ -333,7 +333,7 @@ const PhaseTransitionPipeline = {
             }
         },
 
-        /** 获取兜底数据 */
+        /** Get fallback data */
         getFallbackData() {
             return {
                 phase: this.phaseNumber,
@@ -342,7 +342,7 @@ const PhaseTransitionPipeline = {
             };
         },
 
-        /** 关闭动画 */
+        /** Close animation */
         close() {
             this.exiting = true;
             var self = this;
@@ -351,7 +351,7 @@ const PhaseTransitionPipeline = {
             }, 500);
         },
 
-        /** 重置状态 */
+        /** Reset state */
         reset() {
             this.evalStatus = 'idle';
             this.evalResult = null;
@@ -364,12 +364,12 @@ const PhaseTransitionPipeline = {
             }
         },
 
-        /** 切换音效 */
+        /** Toggle sound effects */
         toggleSound() {
             this.soundEnabled = !this.soundEnabled;
         },
 
-        /** 生成粒子数据 */
+        /** Generate particle data */
         generateParticles() {
             var particles = [];
             for (var i = 0; i < 30; i++) {
@@ -388,7 +388,7 @@ const PhaseTransitionPipeline = {
     },
 
     watch: {
-        /** 当 visible 变为 true 时自动启动评价 */
+        /** Auto-start evaluation when visible becomes true */
         visible(newVal) {
             if (newVal && this.autoEvaluate) {
                 this.reset();
@@ -402,7 +402,7 @@ const PhaseTransitionPipeline = {
     },
 
     mounted() {
-        // 键盘 ESC 关闭
+        // Keyboard ESC to close
         var self = this;
         this._onKeydown = function(e) {
             if (e.key === 'Escape' && self.visible && self.evalStatus === 'done') {

@@ -1,0 +1,1 @@
+Because of these behaviors, I was admitted to the hospital four times for treatment. Each time I was hospitalized, I hoped to find a solution, but after discharge, the impulses would return, as if deeply rooted in my mind, impossible to shake off.

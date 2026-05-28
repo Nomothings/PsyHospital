@@ -1,0 +1,1 @@
+Since becoming ill, although my mental state often fluctuates, my sleep quality has been decent. Every night I can fall asleep peacefully, and though I don't have many dreams, they at least let me temporarily forget the troubles of the day and enjoy a moment of tranquility.

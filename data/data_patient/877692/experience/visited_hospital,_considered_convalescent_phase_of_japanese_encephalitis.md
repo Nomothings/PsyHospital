@@ -1,0 +1,1 @@
+My family took me to the hospital for an examination, and the doctor said I might be in the recovery phase of Japanese encephalitis. I didn't really understand what that meant; I only remember that they said this might be the cause of my symptoms. I hope these symptoms will disappear soon so I can return to my normal life.

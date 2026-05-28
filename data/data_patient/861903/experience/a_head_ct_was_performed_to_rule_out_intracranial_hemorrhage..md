@@ -1,0 +1,1 @@
+The doctor recommended a head CT scan to rule out the possibility of intracranial hemorrhage. The results showed everything was normal, which relieved me, as at least there were no more serious physical problems.

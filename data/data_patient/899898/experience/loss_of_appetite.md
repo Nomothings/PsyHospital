@@ -1,0 +1,1 @@
+Recently, my appetite has become very poor. Even when faced with foods I used to enjoy, I have no desire to eat. Whenever I eat, the food tastes bland and insipid, and I feel full after just a few bites. I am becoming increasingly emaciated.

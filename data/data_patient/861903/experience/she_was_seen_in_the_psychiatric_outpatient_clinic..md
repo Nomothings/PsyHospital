@@ -1,0 +1,1 @@
+I came to the psychiatric outpatient clinic for help, hoping to find the root of the problem. Here, I had a detailed discussion with the doctor. Although I was still a bit nervous, I knew this was a key step in solving the problem.

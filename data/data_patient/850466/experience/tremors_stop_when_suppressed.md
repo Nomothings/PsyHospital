@@ -1,0 +1,1 @@
+When I notice my legs trembling involuntarily, I try to control it. As long as I concentrate on stopping it, the trembling usually ceases. I know it’s only due to mood or nervousness, so as long as I make an effort to relax, the situation improves.

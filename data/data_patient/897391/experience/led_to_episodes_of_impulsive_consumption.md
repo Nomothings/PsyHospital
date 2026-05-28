@@ -1,0 +1,1 @@
+Gaming addiction also led to impulsive spending incidents. I started spending recklessly, both within and outside games, in pursuit of a virtual sense of satisfaction. This impulsive spending left me feeling deeply regretful.

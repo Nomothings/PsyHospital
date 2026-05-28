@@ -1,0 +1,1 @@
+Whenever I start doing homework, I can stay focused for a few minutes at first, but my attention quickly drifts away. I’m easily distracted by surrounding sounds or my own thoughts, unable to maintain focus for long. Even with simple tasks, I work slowly because I can’t concentrate, and sometimes it takes several attempts to finish.

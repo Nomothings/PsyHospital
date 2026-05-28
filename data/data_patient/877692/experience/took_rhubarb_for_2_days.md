@@ -1,0 +1,1 @@
+To relieve the constipation, my family gave me a medicine called rhubarb. After taking it, I kept hoping to have a smooth bowel movement and relieve the discomfort in my stomach.

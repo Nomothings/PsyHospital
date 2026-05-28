@@ -1,0 +1,1 @@
+At the hospital, they injected me with diazepam at a dose of 5 mg. As the medication took effect, my mood stabilized somewhat, and my inner anxiety and unease gradually lessened, allowing me to calm down a bit and face the subsequent treatment.

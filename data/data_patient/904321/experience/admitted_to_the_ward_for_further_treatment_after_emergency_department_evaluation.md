@@ -1,0 +1,1 @@
+After evaluation in the emergency department, the doctor decided to admit me to the hospital for further treatment. I know this is for my health, but hospitalization always makes me feel nervous and uneasy, as if trapped in an unfamiliar environment.

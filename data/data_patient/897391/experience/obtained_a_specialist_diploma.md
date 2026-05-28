@@ -1,0 +1,1 @@
+Through hard work and my family's support, I eventually obtained an associate degree. This diploma means a lot to me, symbolizing my perseverance and effort during difficult times.

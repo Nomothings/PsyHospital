@@ -1,0 +1,1 @@
+Before admission, my ECG showed some pre-excitation changes. Although I don’t fully understand the specific medical terms, I realize this might be a warning from my body that needs to be taken seriously.

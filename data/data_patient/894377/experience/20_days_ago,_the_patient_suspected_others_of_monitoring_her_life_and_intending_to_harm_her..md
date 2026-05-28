@@ -1,0 +1,1 @@
+I began to feel that someone was listening in on my life, as if everything around me was being monitored. Whenever I spoke or did anything, I had a feeling of being spied on, as if someone was observing me from the shadows and trying to harm me. I even suspected that my home might have been bugged, always on guard against those who might want to hurt me.

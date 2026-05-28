@@ -1,0 +1,1 @@
+In retrospect, about 19 years ago, I began to feel that I had lost the passion and emotion I once had for many things. Whether it was happy events or frustrating ones, I had no particular reaction, as if the colors of life gradually faded away, becoming bleak and gray.

@@ -1,0 +1,1 @@
+After waking from a nightmare, I often choose to refuse communication with others. I feel a heavy burden inside me, making it hard to share my feelings with anyone. Silence seems to be my protective shield, allowing me to slightly avoid those painful memories.

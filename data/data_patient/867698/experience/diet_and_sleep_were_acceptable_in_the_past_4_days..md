@@ -1,0 +1,1 @@
+These past few days, my diet and sleep have been fairly acceptable. Although not particularly good, at least in this regard I felt some comfort, allowing me to stabilize a bit.

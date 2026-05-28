@@ -1,0 +1,1 @@
+As time went on, I found that one pill was no longer as effective as before. Each time after taking it, I lay in bed anticipating sleep, but I felt my body's growing tolerance to the medication. That sense of helplessness and disappointment gradually ate away at me, forcing me to increase the dose.

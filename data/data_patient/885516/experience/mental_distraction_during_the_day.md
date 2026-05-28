@@ -1,0 +1,1 @@
+During the day, my mental state was very scattered. Even at work or when talking with others, I often felt unable to concentrate, my mind in a fog. Such a state left me feeling exhausted and powerless, as if I had lost the motivation in life.

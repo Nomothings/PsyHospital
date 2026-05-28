@@ -1,27 +1,27 @@
 /**
- * Interview 组件
- * Phase 1 — 病史采集 / 访谈界面
+ * Interview Component
+ * Phase 1 -- History Taking / Interview Interface
  *
- * 双栏布局:
- *   左侧 — 虚拟患者展示区（含 SVG 表情头像 + 患者信息 + 情绪状态）
- *   右侧 — 医患对话区（聊天记录 + 输入框）
+ * Two-column layout:
+ *   Left -- Virtual patient display area (SVG emotion avatar + patient info + emotion state)
+ *   Right -- Doctor-patient dialogue area (chat history + input box)
  *
- * 页面语义: "医生" 与 "患者"
- *   医生发言 = 医学生输入
- *   患者发言 = LLM 输出
+ * Page semantics: "Doctor" and "Patient"
+ *   Doctor speaks = medical student input
+ *   Patient speaks = LLM output
  */
 const Interview = {
     template: `
         <div class="interview-page">
-            <!-- 背景图 -->
+            <!-- Background Image -->
             <div class="interview-page__bg"></div>
 
-            <!-- 左侧: 虚拟患者 -->
+            <!-- Left: Virtual Patient -->
             <aside class="interview-sidebar">
                 <div class="interview-sidebar__back">
                     <el-button text @click="goBack" class="interview-sidebar__back-btn">
                         <el-icon><ArrowLeft /></el-icon>
-                        返回
+                        Back
                     </el-button>
                 </div>
 
@@ -33,22 +33,22 @@ const Interview = {
                 />
             </aside>
 
-            <!-- 右侧: 对话区 -->
+            <!-- Right: Dialogue Area -->
             <main class="interview-main">
-                <!-- 顶部栏 -->
+                <!-- Top Bar -->
                 <header class="interview-header">
                     <div class="interview-header__left">
-                        <h3 class="interview-header__title">病史采集</h3>
-                        <span class="interview-header__subtitle">第一阶段访谈</span>
+                        <h3 class="interview-header__title">History Taking</h3>
+                        <span class="interview-header__subtitle">Phase 1 Interview</span>
                         <div class="interview-header__turns">
-                            第 {{ turnCount }} 轮
+                            Turn {{ turnCount }}
                         </div>
                     </div>
                     <div class="interview-header__right">
                         <div class="interview-header__status">
                             <span class="interview-header__status-dot"
                                   :class="{ 'typing': isTyping }"></span>
-                            {{ isTyping ? '患者思考中' : '问诊中' }}
+                            {{ isTyping ? 'Patient thinking...' : 'Interviewing' }}
                         </div>
                         <el-button
                             type="danger"
@@ -59,26 +59,26 @@ const Interview = {
                             class="interview-header__end-btn"
                         >
                             <el-icon><SwitchButton /></el-icon>
-                            结束阶段
+                            End Phase
                         </el-button>
                     </div>
                 </header>
 
-                <!-- 对话区域 -->
+                <!-- Dialogue Area -->
                 <div class="interview-chat" ref="chatRef">
-                    <!-- 系统提示 -->
+                    <!-- System Prompt -->
                     <div class="chat-bubble system">
                         <div class="chat-bubble__avatar">
                             <el-icon :size="18"><InfoFilled /></el-icon>
                         </div>
                         <div class="chat-bubble__content">
                             <div class="chat-bubble__text">
-                                您正在与患者进行临床访谈，请由您（医生）发起第一次对话，注意问诊的全面性和沟通技巧。
+                                You are conducting a clinical interview with the patient. Please initiate the first conversation as the doctor, paying attention to comprehensiveness and communication skills.
                             </div>
                         </div>
                     </div>
 
-                    <!-- 对话消息 -->
+                    <!-- Dialogue Messages -->
                     <div v-for="(msg, idx) in messages" :key="idx"
                          class="chat-bubble" :class="msg.role">
                         <div class="chat-bubble__avatar">
@@ -88,45 +88,45 @@ const Interview = {
                         <div class="chat-bubble__content">
                             <div class="chat-bubble__name" :class="msg.role">
                                 <template v-if="msg.role === 'patient'">
-                                    患者 <span v-if="msg.presentation" class="chat-bubble__presentation">{{ msg.presentation }}</span>
+                                    Patient <span v-if="msg.presentation" class="chat-bubble__presentation">{{ msg.presentation }}</span>
                                 </template>
-                                <template v-else>医生</template>
+                                <template v-else>Doctor</template>
                             </div>
                             <div class="chat-bubble__text">{{ msg.content }}</div>
                             <div class="chat-bubble__time">{{ msg.time }}</div>
                         </div>
                     </div>
 
-                    <!-- 患者思考中 -->
+                    <!-- Patient Thinking -->
                     <div class="chat-bubble patient" v-if="isTyping">
                         <div class="chat-bubble__avatar">
                             <el-icon :size="20"><UserFilled /></el-icon>
                         </div>
                         <div class="chat-bubble__content">
-                            <div class="chat-bubble__name">患者</div>
+                            <div class="chat-bubble__name">Patient</div>
                             <div class="typing-indicator">
                                 <span></span><span></span><span></span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 空状态 -->
+                    <!-- Empty State -->
                     <div v-if="messages.length === 0 && !isTyping"
                          class="chat-bubble system">
                         <div class="chat-bubble__content">
-                            <div class="chat-bubble__text">请医生先发起第一次问诊对话…</div>
+                            <div class="chat-bubble__text">Doctor, please initiate the first interview conversation...</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 底部输入栏 -->
+                <!-- Bottom Input Bar -->
                 <div class="interview-input">
                     <div class="interview-input__box">
                         <el-input
                             v-model="inputText"
-                            placeholder="以医生身份向患者提问…"
+                            placeholder="Ask the patient as a doctor..."
                             @keyup.enter.native.prevent="handleKeydown"
-                            :disabled="isTyping || saving"
+                            :disabled="patientLoading || !patientReady || isTyping || saving"
                             resize="none"
                             type="textarea"
                             :rows="1"
@@ -137,25 +137,25 @@ const Interview = {
                             type="primary"
                             round
                             @click="sendMessage"
-                            :disabled="!inputText.trim() || isTyping || saving"
+                            :disabled="patientLoading || !patientReady || !inputText.trim() || isTyping || saving"
                             class="interview-input__btn"
                         >
                             <el-icon><Position /></el-icon>
-                            发送
+                            Send
                         </el-button>
                     </div>
                     <div class="interview-input__hint">
-                        Enter 发送 · Shift + Enter 换行
+                        Enter to send · Shift + Enter for new line
                     </div>
                 </div>
             </main>
 
-            <!-- 评价加载提示 -->
+            <!-- Evaluation Loading Indicator -->
             <transition name="eval-fade">
                 <div v-if="saving" class="eval-overlay">
                     <div class="eval-overlay__content">
                         <img src="/static/bg/eval.png" alt="" class="eval-overlay__icon" />
-                        <div class="eval-overlay__text">正在保存数据…</div>
+                        <div class="eval-overlay__text">Saving data...</div>
                     </div>
                 </div>
             </transition>
@@ -171,20 +171,19 @@ const Interview = {
             inputText: '',
             isTyping: false,
             messages: [],
-            patientIntro: null,
-            patientIntroPresentation: '',
             patientCaseId: '',
             patientBasicInfo: '',
-            patientPhysicalExam: [],
+            patientPhysicalExam: '',
             sessionId: null,
             patientName: '',
             avatarEmotion: 'neutral',
             lastPatientMessage: '',
             prevEmotion: 'neutral',
-            // 保存状态
+            patientLoading: true,
+            patientReady: false,
+            // Save state
             saving: false,
-            // 第一次发送标记
-            _firstMessage: false,
+            // First send flag
         };
     },
 
@@ -203,8 +202,9 @@ const Interview = {
     },
 
     methods: {
-        // 医学生输入 → 显示为"医生" → 调用 LLM 患者 → 显示为"患者"
+        // Medical student input -> displayed as "Doctor" -> call LLM patient -> displayed as "Patient"
         async sendMessage() {
+            if (!this.patientReady || this.patientLoading || !this.sessionId) return;
             if (!this.inputText.trim() || this.isTyping) return;
 
             const doctorMessage = this.inputText.trim();
@@ -219,22 +219,17 @@ const Interview = {
 
             this.isTyping = true;
             try {
-                let patientText;
-                let presentation = '';
-                // 第一次发送：使用后端返回的开场白作为患者回复
-                if (this._firstMessage && this.patientIntro) {
-                    patientText = this.patientIntro;
-                    presentation = this.patientIntroPresentation;
-                    this._firstMessage = false;
-                } else {
-                    const res = await API.sendMessage(this.sessionId, doctorMessage);
-                    patientText = res.response || '';
-                    presentation = res.presentation || '';
+                const res = await API.sendMessage(this.sessionId, doctorMessage);
+                const patientText = res.response || '';
+                const presentation = res.presentation || '';
+                const searchDebug = res.search_debug || null;
+                // First send: use the opening statement returned by the backend as the patient reply
+
+                if (searchDebug) {
+                    this.logSearchDebug(searchDebug);
                 }
 
-                console.log('[Interview] 患者原始回复:', patientText.substring(0, 50));
-
-                // 提取情绪状态并移除标记
+                // Extract emotion state and remove tags
                 this.avatarEmotion = EmotionDetector.detect(patientText, this.prevEmotion);
                 const displayText = EmotionDetector.clean(patientText);
                 this.prevEmotion = this.avatarEmotion;
@@ -248,10 +243,10 @@ const Interview = {
             } catch (err) {
                 this.messages.push({
                     role: 'patient',
-                    content: '（患者暂时无法回应，请稍后重试）',
+                    content: '(Patient is temporarily unable to respond, please try again later)',
                     time: this.getCurrentTime(),
                 });
-                console.error('[Interview] 患者回复失败:', err);
+                console.error('[Interview] Patient response failed:', err);
             } finally {
                 this.isTyping = false;
                 this.$nextTick(() => {
@@ -265,6 +260,33 @@ const Interview = {
             if (!e.shiftKey) {
                 e.preventDefault();
                 this.sendMessage();
+            }
+        },
+
+        logSearchDebug(searchDebug) {
+            const code = searchDebug.code || '[SEARCH]';
+            const event = searchDebug.event || 'Unknown event';
+            const statusMap = {
+                resolved: 'Query completed and response generated',
+                triggered: 'Query triggered',
+                empty: 'Query triggered but no content returned',
+                error: 'Query processing failed',
+            };
+            const status = statusMap[searchDebug.status] || searchDebug.status || 'Unknown status';
+            const payload = {
+                code,
+                event,
+                status: searchDebug.status || 'unknown',
+                statusText: status,
+                message: searchDebug.message || '',
+            };
+
+            if (searchDebug.status === 'error') {
+                console.error('[Interview][SEARCH] Patient query processing failed:', payload);
+            } else if (searchDebug.status === 'empty') {
+                console.warn('[Interview][SEARCH] Patient query returned no content:', payload);
+            } else {
+                console.log('[Interview][SEARCH] Patient query triggered:', payload);
             }
         },
 
@@ -299,7 +321,7 @@ const Interview = {
         async handleEndPhase() {
             if (this.saving) return;
             if (this.messages.length === 0) {
-                this.$message.warning('尚未开始对话，无法结束阶段');
+                this.$message.warning('No conversation yet, cannot end phase');
                 return;
             }
 
@@ -319,7 +341,7 @@ const Interview = {
                         conversation: this.messages,
                     });
                 } catch (err) {
-                    console.error('[Interview] 保存记录失败:', err);
+                    console.error('[Interview] Failed to save record:', err);
                 }
             }
 
@@ -330,44 +352,44 @@ const Interview = {
         async initSession() {
             const caseId = this.$route.query.id;
             if (!caseId) {
-                this.patientIntro = '';
+                this.patientLoading = false;
+                this.patientReady = false;
                 return;
             }
 
             this.patientCaseId = caseId;
+            this.patientLoading = true;
+            this.patientReady = false;
 
             try {
                 const caseInfo = await API.getCaseInfo(caseId);
                 this.patientBasicInfo = caseInfo.basicInfomation || '';
                 this.patientPhysicalExam = caseInfo.physicalExamination || '';
                 this.patientName = caseInfo.basicInfomation
-                    ? caseInfo.basicInfomation.replace(/^患者/, '')
+                    ? caseInfo.basicInfomation.replace(/^Patient\s*/, '')
                     : caseId;
 
                 const chatRes = await API.startChat(caseId);
                 this.sessionId = chatRes.session_id;
-                this.patientIntro = chatRes.opening || '';
-                this.patientIntroPresentation = chatRes.opening_presentation || '';
 
-                // 医生先发起对话，patientIntro 作为第一次发送时的患者回复
-                if (this.patientIntro) {
-                    this._firstMessage = true;
-                }
+                // Doctor initiates the conversation first, patientIntro is used as patient reply on first send
 
-                // 保存 record_id，后续所有阶段统一使用
+                // Save record_id for unified use across all phases
                 if (chatRes.record_id) {
                     sessionStorage.setItem('record_id', chatRes.record_id);
                 }
 
-                // 不再提前显示 patientIntro，等医生发送第一条消息后才由 sendMessage 更新表情
+                // No longer display patientIntro upfront; wait until doctor sends first message before updating expression via sendMessage
                 this.prevEmotion = this.avatarEmotion;
+                this.patientReady = Boolean(this.sessionId);
+                this.patientLoading = false;
 
-                // 自动聚焦输入框
+                // Auto-focus input box
                 this.focusInput();
             } catch (err) {
-                console.error('[Interview] 初始化会话失败:', err);
-                this.patientIntro = '医生您好，我最近身体不太舒服，想请您帮我看看。';
-                this._firstMessage = true;
+                console.error('[Interview] Failed to initialize session:', err);
+                this.patientReady = false;
+                this.patientLoading = false;
             }
         },
     },

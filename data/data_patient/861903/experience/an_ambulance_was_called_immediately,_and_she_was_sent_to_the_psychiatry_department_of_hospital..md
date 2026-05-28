@@ -1,0 +1,1 @@
+By that time, my condition had deteriorated to the worst point, and my family finally decided to call 120 immediately and send me to the hospital's psychiatric department. On the way to the hospital, my mood was complex and chaotic. I felt both afraid and a glimmer of hope, wishing to receive help and relief.

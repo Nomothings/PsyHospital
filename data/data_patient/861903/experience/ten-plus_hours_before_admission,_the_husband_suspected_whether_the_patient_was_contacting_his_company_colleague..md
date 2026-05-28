@@ -1,0 +1,1 @@
+Even in the dozen or so hours before admission, my husband still suspected that I was continuing to contact my colleague from work. This suspicion was like a taut string; no matter how much I explained, he always felt I was hiding some shameful secret, which nearly drove me to a mental breakdown.

@@ -1,0 +1,1 @@
+On the day before admission, my husband kept trying to call me, but for some reason, my phone did not go through. Perhaps I was too exhausted at the time, or there was a problem with the phone. In any case, those missed calls became an invisible pressure, making me feel even more uneasy about life.

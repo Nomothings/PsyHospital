@@ -1,0 +1,1 @@
+At that time, I started hearing voices that seemed to emerge from the air, often leaving me confused and uneasy. I couldn't tell where these voices came from or why only I could hear them.

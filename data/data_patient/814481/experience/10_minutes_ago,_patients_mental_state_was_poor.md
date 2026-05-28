@@ -1,0 +1,1 @@
+Just ten minutes ago, my mental state suddenly deteriorated. I felt as if the whole world was pressing down on me, and my mind was in chaos. So I came to the hospital again, hoping to get some help to calm down.

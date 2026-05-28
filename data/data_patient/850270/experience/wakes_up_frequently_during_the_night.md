@@ -1,0 +1,1 @@
+Even if I am lucky enough to fall asleep, I cannot have a full night's rest. I always wake up in the middle of the night or early morning, with a racing heart and a mind full of chaotic thoughts. Such nights leave me feeling helpless and exhausted. I want to go back to sleep, but I am constantly interrupted by repeated awakenings, unable to get real rest.

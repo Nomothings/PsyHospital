@@ -1,0 +1,1 @@
+After waking up, my legs seemed no longer my own, unable to support me in walking. Whenever I tried to stand, I would always fall due to loss of balance. This made me realize that relearning to walk might take a long time, and I might never be able to move like a normal person.

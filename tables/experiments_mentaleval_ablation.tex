@@ -1,0 +1,66 @@
+\newcommand{\chg}[1]{\raisebox{-0.45ex}{\tiny\,$#1$}}
+
+\definecolor{HeaderGray}{RGB}{205,205,205}
+\definecolor{RowGray}{RGB}{235,235,235}
+
+\begin{table}[t]
+\caption{Ablation results of MentalEval training against expert ratings. DPO is applied after SFT.}
+\centering
+\label{tab:mentaleval_ablation}
+
+\scriptsize
+\renewcommand{\arraystretch}{1.15}
+\setlength{\cmidrulewidth}{0.75pt}
+
+\resizebox{\linewidth}{!}{
+\begin{tabular}{lccccccccc}
+\toprule
+\textbf{Evaluator}
+& \multicolumn{3}{c}{\textbf{Base Model (Qwen3-8B)}}
+& \multicolumn{3}{c}{\textbf{+SFT}}
+& \multicolumn{3}{c}{\textbf{+DPO}} \\
+\cmidrule(lr){2-4}
+\cmidrule(lr){5-7}
+\cmidrule(lr){8-10}
+& \textbf{QWK$\uparrow$} & \textbf{Acc.$\uparrow$} & \textbf{MAE$\downarrow$}
+& \textbf{QWK$\uparrow$} & \textbf{Acc.$\uparrow$} & \textbf{MAE$\downarrow$}
+& \textbf{QWK$\uparrow$} & \textbf{Acc.$\uparrow$} & \textbf{MAE$\downarrow$} \\
+\midrule
+
+MentalEval-Emp
+& 0.677 & 0.225 & 0.875
+& 0.824\chg{+0.148} & 0.500\chg{+0.275} & 0.525\chg{-0.350}
+& 0.926\chg{+0.102} & 0.725\chg{+0.225} & 0.275\chg{-0.250} \\
+
+
+\rowcolor{RowGray}
+MentalEval-Pro
+& 0.705 & 0.275 & 0.825
+& 0.844\chg{+0.139} & 0.550\chg{+0.275} & 0.475\chg{-0.350}
+& 0.941\chg{+0.097} & 0.775\chg{+0.225} & 0.225\chg{-0.250} \\
+
+MentalEval-Note
+& 0.766 & 0.400 & 0.675
+& 0.910\chg{+0.144} & 0.700\chg{+0.300} & 0.300\chg{-0.375}
+& 0.940\chg{+0.030} & 0.775\chg{+0.075} & 0.225\chg{-0.075} \\
+
+\rowcolor{RowGray}
+MentalEval-Diag 
+& 0.828 & 0.475 & 0.575
+& 0.887\chg{+0.059} & 0.725\chg{+0.250} & 0.325\chg{-0.250}
+& 0.967\chg{+0.080} & 0.875\chg{+0.150} & 0.125\chg{-0.200} \\
+
+MentalEval-Treat
+& 0.819 & 0.425 & 0.600
+& 0.928\chg{+0.109} & 0.725\chg{+0.300} & 0.275\chg{-0.325}
+& 0.948\chg{+0.020} & 0.800\chg{+0.075} & 0.200\chg{-0.075} \\
+\midrule
+\textbf{Average}
+& 0.759 & 0.360 & 0.710
+& 0.879\chg{+0.120} & 0.640\chg{+0.280} & 0.380\chg{-0.330}
+& 0.944\chg{+0.066} & 0.790\chg{+0.150} & 0.210\chg{-0.170} \\
+
+\bottomrule
+\end{tabular}
+}
+\end{table}

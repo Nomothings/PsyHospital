@@ -1,0 +1,1 @@
+During my hospitalization, my antipsychotic medication was also adjusted. Although I was somewhat unaccustomed to the new dosage, I knew this was part of the treatment and needed to patiently wait for the effects.

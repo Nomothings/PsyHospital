@@ -1,0 +1,1 @@
+His suspicion followed me like a shadow. No matter how much I explained and tried to prove my innocence, he always suspected that I had done something unfaithful behind his back. This endless distrust and interrogation suffocated me, as if I could never escape a life of being scrutinized and doubted.

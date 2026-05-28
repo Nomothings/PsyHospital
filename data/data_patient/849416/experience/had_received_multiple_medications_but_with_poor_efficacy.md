@@ -1,0 +1,1 @@
+I still remember trying various medications, hoping for improvement. However, no matter what medication I took, the results always seemed unsatisfactory. I often felt frustrated, as each dose brought hope, only to end in disappointment. This cycle of attempts left me with complex emotions toward medication.

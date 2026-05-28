@@ -1,0 +1,1 @@
+Since childhood, I always felt uncomfortable when I was with other children. They would play and talk happily, but I didn't know how to join their circle. I tried to imitate their behavior, but I always felt that I was different from them and couldn't truly participate.

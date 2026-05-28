@@ -1,0 +1,1 @@
+Sometimes, I suddenly feel palpitations and chest tightness, as if the air has become thin and breathing becomes difficult. This physical discomfort makes me anxious, as if I might lose control at any moment. Though these sensations come and go quickly, each occurrence leaves me unsettled.

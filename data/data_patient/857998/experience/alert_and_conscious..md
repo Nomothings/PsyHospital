@@ -1,0 +1,1 @@
+Although I have experienced many emotional disturbances, my consciousness has remained clear. I can clearly perceive my situation and state, but there is always an indescribable unease and anxiety in my heart.

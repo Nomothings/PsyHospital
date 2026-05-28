@@ -1,0 +1,1 @@
+After stopping the medication, I found myself increasingly unwilling to speak. Whenever someone asked me a question, I would respond only after a long delay, or even simply brush it off with a brief "I don't know" to avoid prolonged conversation.

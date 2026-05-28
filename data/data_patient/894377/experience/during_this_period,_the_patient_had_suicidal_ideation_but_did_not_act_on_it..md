@@ -1,0 +1,1 @@
+During that period, I once had suicidal thoughts. The pressures of life and inner pain made me feel there was no way out, as if ending everything would be a relief. But every time I thought of my family and friends, I hesitated and dared not act. Although I never actually attempted it, those thoughts kept swirling in my mind, lingering and impossible to shake off.

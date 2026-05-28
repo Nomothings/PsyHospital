@@ -1,0 +1,1 @@
+For some unknown reason, I became extremely excited and couldn't stop talking. I felt I had so much to say, as if long-suppressed emotions suddenly found an outlet, making it impossible for me to control my speech.

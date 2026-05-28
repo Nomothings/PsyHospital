@@ -1,0 +1,1 @@
+I remember going five days without having a bowel movement, which made me very uncomfortable. My stomach felt a bit bloated, but every time I went to the toilet, nothing came out, making me somewhat irritable.

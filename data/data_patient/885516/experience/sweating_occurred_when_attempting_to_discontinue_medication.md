@@ -1,0 +1,1 @@
+Every time I tried to stop the medication, I would be drenched in sweat, even while lying still in a quiet environment. This abnormal sweating made me anxious, as if my body was protesting the absence of the drug, forcing me to return to its embrace.

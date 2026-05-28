@@ -1,0 +1,1 @@
+The doctor told me I was diagnosed with diffuse axonal injury, cerebral contusion and laceration, and bilateral frontal subdural effusion, among other serious conditions. These medical terms sounded frightening, making me feel I was in a very dangerous situation.

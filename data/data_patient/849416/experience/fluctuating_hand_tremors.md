@@ -1,0 +1,1 @@
+I have noticed that my hands sometimes tremble uncontrollably. This trembling has no pattern and appears suddenly. Although it does not last long, each time it happens, I feel extremely uneasy, fearing that others might notice these abnormal signs.

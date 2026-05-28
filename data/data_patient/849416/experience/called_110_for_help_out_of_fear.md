@@ -1,0 +1,1 @@
+The panic of being confined at home eventually gave me the courage to call 110 for help. The voice on the other end of the line brought me some comfort, making me feel I was no longer alone. Despite the fear still gripping my heart, at that moment of making the call, I felt hope and the possibility of relief.

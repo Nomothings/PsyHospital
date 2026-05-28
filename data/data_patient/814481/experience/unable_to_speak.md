@@ -1,0 +1,1 @@
+When I first woke up, I found myself unable to speak. Whenever I wanted to express something, I could only shout silently in my heart, but no sound came out of my mouth. That feeling of being trapped in silence made me feel incredibly lonely and helpless.

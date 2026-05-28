@@ -1,0 +1,1 @@
+Each time I had a seizure, I would feel my limbs suddenly become stiff, as if tightly grasped by an invisible force, unable to move. This feeling terrified me immensely because I completely lost control of my body.

@@ -1,0 +1,1 @@
+Even after taking the Chinese medicine, my condition didn't seem to improve significantly. Those feelings of restlessness and strange movements kept appearing, making me somewhat frustrated, not knowing when I would return to normal.

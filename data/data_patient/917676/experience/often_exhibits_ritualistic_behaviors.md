@@ -1,0 +1,1 @@
+In some daily activities, I always have to do them in a specific way. For example, when going up or down stairs, I must first touch the ground with my toes before I can continue walking, otherwise it feels like something is wrong or missing.

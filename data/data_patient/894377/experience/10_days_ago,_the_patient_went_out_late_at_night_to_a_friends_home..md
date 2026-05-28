@@ -1,0 +1,1 @@
+That night, I felt extremely anxious and lonely, so I decided to go to a friend's house for some comfort. Although it was already late, I couldn't suppress the urge, so I put on my clothes and walked out. The streets at night seemed unusually deserted; I was a bit scared, but I felt I had to go talk to my friend, as if that was the only solace I could find.

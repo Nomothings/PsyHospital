@@ -1,0 +1,1 @@
+Before admission, most of my actions relied on assistance from my family. They helped me make decisions and participated in many preparations, which made me feel cared for and supported.

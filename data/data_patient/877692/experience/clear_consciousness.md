@@ -1,0 +1,1 @@
+Despite these symptoms, my consciousness has always been clear. I know what I'm doing and can recognize the people around me; it's just that sometimes my behavior is a bit uncontrolled.

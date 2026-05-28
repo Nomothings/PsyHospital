@@ -1,0 +1,1 @@
+During the X-ray examination, I learned that my right distal radius was severely fractured with obvious displacement of the fracture ends, accompanied by a mandibular body fracture. These injuries made me realize how intense the impact of the car accident had been.

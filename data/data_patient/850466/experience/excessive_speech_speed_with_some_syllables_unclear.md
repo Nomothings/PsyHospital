@@ -1,0 +1,1 @@
+I always speak very quickly, especially when I’m excited or nervous. As a result, some syllables become slurred, making it hard for others to understand what I’m saying. I often have to remind myself to slow down and try to pronounce each word clearly.

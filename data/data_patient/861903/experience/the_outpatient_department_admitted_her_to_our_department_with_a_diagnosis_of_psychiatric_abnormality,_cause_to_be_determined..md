@@ -1,0 +1,1 @@
+The outpatient doctor decided to admit me to the department under the diagnosis of "mental disorder to be ruled out" for observation and treatment. This decision made me feel conflicted, but at the same time, I hoped to get answers and improvement during the subsequent treatment.

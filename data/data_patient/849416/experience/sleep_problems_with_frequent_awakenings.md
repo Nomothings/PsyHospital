@@ -1,0 +1,1 @@
+Recently, my sleep quality has been very poor, and I often wake up frequently during the night. Each time I wake up, I feel confused and exhausted, unable to fall back asleep peacefully. This fragmented sleep leaves me lacking energy during the day and unable to focus on anything.

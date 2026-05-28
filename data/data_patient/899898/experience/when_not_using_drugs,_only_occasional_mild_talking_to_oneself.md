@@ -1,0 +1,1 @@
+On days when I did not use drugs, my condition was relatively stable. Although occasional mild self-talk occurred, it was not frequent and typically happened only when I was alone, without affecting daily life.

@@ -1,0 +1,1 @@
+Sometimes, I find myself drooling unconsciously. That feeling is very embarrassing, making me reluctant to face others. I can only wipe it away silently, hoping this situation will disappear soon.

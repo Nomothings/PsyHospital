@@ -1,0 +1,1 @@
+Every morning, I do some fixed household chores. After getting up, I habitually start cleaning certain areas of the house, as if setting up a morning ritual. This makes me feel that the start of the day is full of order.

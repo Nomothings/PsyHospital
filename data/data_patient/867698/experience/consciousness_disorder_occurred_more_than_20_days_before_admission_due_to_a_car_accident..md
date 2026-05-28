@@ -1,0 +1,1 @@
+I remember that day, it seemed to be July 12, 2011, when I was in a car accident. At that time, my consciousness was blurred, as if trapped in an endless darkness, and everything around me felt distant and unreal. My memories after waking up were fragmented, as if emerging from a dream, not knowing where I was.

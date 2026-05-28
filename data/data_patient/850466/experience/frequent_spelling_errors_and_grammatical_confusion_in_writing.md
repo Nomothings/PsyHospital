@@ -1,0 +1,1 @@
+When doing homework, I often misspell letters or mix up grammar. Sometimes I write a sentence that doesn’t flow well, so I have to stop and check for errors. Even though I try very hard to pay attention to these details, mistakes still appear frequently, making me feel somewhat helpless.

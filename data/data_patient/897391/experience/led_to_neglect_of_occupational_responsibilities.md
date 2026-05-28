@@ -1,0 +1,1 @@
+Due to excessive gaming addiction, I began to neglect my job responsibilities. Sometimes, just to play games, I would postpone or forget work tasks. This neglect gradually affected my professional performance.

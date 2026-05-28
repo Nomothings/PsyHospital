@@ -1,0 +1,1 @@
+I find it very difficult to concentrate. Even simple tasks cannot hold my focus. I get distracted at work, unable to follow the train of thought, frequently interrupted by other matters or ideas. This state makes me extremely frustrated in daily life, as if I cannot complete anything or enjoy any activity.

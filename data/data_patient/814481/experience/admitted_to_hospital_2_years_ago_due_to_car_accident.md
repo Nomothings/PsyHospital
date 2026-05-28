@@ -1,0 +1,1 @@
+Two years ago, that sudden car accident completely changed my life. I was just going to buy some things, but everything spiraled out of control in an instant. I remember lying on the ground, the sounds around me blurred as if through a thick layer of glass. Afterwards, I was taken to the hospital, and what followed felt like a long dream, remembered only in fragments.

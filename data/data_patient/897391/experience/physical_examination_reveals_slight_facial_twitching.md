@@ -1,0 +1,1 @@
+During the physical examination, the doctor noticed some subtle movements on my face. This phenomenon made me a bit uneasy, but I trust that the doctor will help me find the cause and solve this problem.

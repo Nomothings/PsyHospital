@@ -1,0 +1,1 @@
+Every time I impulsively hit someone, I would realize my mistake and admit I was wrong. This cycle made me feel inner conflict and struggle, hoping I could change.

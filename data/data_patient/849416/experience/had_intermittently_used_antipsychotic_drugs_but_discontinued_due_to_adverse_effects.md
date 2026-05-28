@@ -1,0 +1,1 @@
+While taking antipsychotic medications, I began to notice some side effects. Those side effects caused me physical and mental discomfort, and I eventually decided to stop the medication. This decision was not made lightly, but at the time, I could no longer tolerate those effects and longed for a more natural way to face my problems.

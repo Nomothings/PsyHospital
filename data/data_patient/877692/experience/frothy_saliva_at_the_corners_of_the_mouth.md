@@ -1,0 +1,1 @@
+One day, I noticed that foamy saliva was starting to drool from the corners of my mouth. That feeling was strange; the foam gradually accumulated at the corners of my mouth, a bit sticky and slimy. I tried to wipe it away with my hand, but it would reappear after a while, making me feel somewhat embarrassed and unsure how to handle it.

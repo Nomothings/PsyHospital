@@ -1,0 +1,1 @@
+A few hours ago, the police found me and told my family that I was a safety risk and needed to be taken home. I don't know what I did to worry them, but at that moment I felt extremely helpless and confused. My family came to pick me up, worry written all over their faces; I could only silently follow them home.

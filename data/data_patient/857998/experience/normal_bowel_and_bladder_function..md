@@ -1,0 +1,1 @@
+Although there have been many changes, my bowel and bladder functions have remained normal, with no particular abnormalities. This seems to be the only part of my body that has not been affected.

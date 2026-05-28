@@ -1,0 +1,1 @@
+I spent a long time in the hospital. Every day I woke up to a white ceiling and the smell of disinfectant. Nurses came and went, and although I don't quite remember their faces, their care brought me a glimmer of warmth. During that time, my world seemed to shrink to the confines of the hospital room.

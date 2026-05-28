@@ -1,0 +1,1 @@
+Looking back on that period, one pill easily helped me fall asleep. That effect gave me a sense of relief, as if I could finally escape the torment of insomnia. Every night before bed, I looked forward to the peace brought by that pill, feeling I had finally found a way to relax.

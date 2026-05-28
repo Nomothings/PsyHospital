@@ -1,0 +1,1 @@
+I often involuntarily manipulate objects repeatedly, such as a pen in my hand or a cup on the table. Doing this makes me feel relaxed and focused, as if only by doing so can I sort out the chaos in my mind.

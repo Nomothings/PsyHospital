@@ -1,0 +1,1 @@
+I often tell myself that I am capable and can start my own business. I feel that I can achieve more, so I begin planning some entrepreneurial ideas. Although these plans sometimes seem unrealistic, they make me feel hopeful.

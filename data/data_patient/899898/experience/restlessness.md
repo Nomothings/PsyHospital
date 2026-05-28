@@ -1,0 +1,1 @@
+After using drugs, I always felt restless and unable to sit still. Whether sitting or standing, I felt a force inside my body driving me to keep moving. No matter how I adjusted my posture, I could not truly calm down, and this feeling made me immensely irritable.

@@ -1,0 +1,1 @@
+Over time, the frequency and severity of these impulsive behaviors gradually increased. At first, they occurred only occasionally, but later they became almost part of daily life. I could feel myself losing more and more control over these behaviors, as if trapped on a rapidly spinning carousel that I couldn't stop.

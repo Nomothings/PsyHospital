@@ -1,0 +1,1 @@
+However, whenever I made up my mind to quit drugs, those tormenting symptoms seemed to gradually fade. Although the process was difficult, I could feel my physical and mental state gradually improving, giving me hope.

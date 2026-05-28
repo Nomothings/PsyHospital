@@ -1,0 +1,1 @@
+During this period, I have become particularly drowsy, always feeling exhausted. Apart from sleeping, I hardly want to move, and even walking feels laborious. Every day feels like a struggle against endless fatigue.

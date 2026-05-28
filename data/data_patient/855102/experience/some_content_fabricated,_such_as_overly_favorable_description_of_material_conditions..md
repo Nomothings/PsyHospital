@@ -1,0 +1,1 @@
+Sometimes I unconsciously exaggerate things, especially when describing my material conditions. I think it might be because I want to appear better in front of others, or it’s just a habit of wanting life to seem more beautiful than it actually is.

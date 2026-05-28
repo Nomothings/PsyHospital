@@ -1,0 +1,1 @@
+In the emergency room, I was arranged for CT scans of the head, chest, and abdomen. The doctor told me the results showed subarachnoid hemorrhage and bilateral lung contusions, but no significant issues in the abdomen. Hearing this gave me some reassurance, but I still worried about my condition.

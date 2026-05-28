@@ -1,0 +1,1 @@
+My ability to take care of myself has severely declined, even basic bathing has become difficult. My food intake has also decreased, and I often have no appetite. Every day, I feel trapped in a numb state from which I cannot escape.

@@ -1,0 +1,1 @@
+My cough is accompanied by yellowish phlegm, which makes me uneasy. Every time I see this color of phlegm, I can't help but wonder if other parts of my body have also developed problems.

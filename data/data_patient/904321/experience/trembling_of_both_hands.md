@@ -1,0 +1,1 @@
+I noticed that my hands have started trembling involuntarily. Whether holding a cup or trying to write, my hands cannot stay steady. This tremor makes me feel powerless and confused because I cannot control it.

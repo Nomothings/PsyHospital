@@ -1,0 +1,1 @@
+Due to the previous self-injurious behavior, my head needed treatment. In the surgical outpatient clinic, the doctor performed debridement and suturing. Although the process was somewhat painful, I knew it was a necessary step to recover.

@@ -1,0 +1,1 @@
+In the current treatment, I am using quetiapine to help stabilize my blood pressure. This medication seems effective, improving my physical condition. I hope to maintain this stability.

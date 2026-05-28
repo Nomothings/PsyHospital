@@ -1,0 +1,1 @@
+I find it hard to make friends with my peers. Even when they approach me proactively, I don't know how to continue the conversation or maintain the relationship. I feel that our communication always quickly becomes awkward and silent.

@@ -1,0 +1,1 @@
+Sometimes, my limbs become abnormally stiff, as if they have lost flexibility. Every time I try to move, it feels like something is restraining me, making even simple actions difficult.

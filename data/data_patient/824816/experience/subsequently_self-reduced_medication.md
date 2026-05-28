@@ -1,0 +1,1 @@
+I once tried to reduce the medication on my own, as I wanted to see if I could live a normal life without relying on drugs. Behind this decision was a sense of wishful thinking, hoping that the medication's effect had been enough for me to face things independently.

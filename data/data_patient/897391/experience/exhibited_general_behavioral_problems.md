@@ -1,0 +1,1 @@
+I remember that I also exhibited some behavioral issues at the time, possibly due to inner turmoil and helplessness. I started to have some uncontrollable actions, which, though not too severe, certainly troubled both myself and my family.

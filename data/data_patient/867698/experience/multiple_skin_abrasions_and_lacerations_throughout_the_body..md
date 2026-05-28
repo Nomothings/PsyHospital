@@ -1,0 +1,1 @@
+My body was covered with wounds, with many lacerations and bruises on the skin. Every time I touched these wounds, it reminded me of the impact of the car accident, as if my body was inscribed with the memory of that incident.

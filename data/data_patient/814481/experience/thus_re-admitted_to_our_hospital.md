@@ -1,0 +1,1 @@
+After my mental state worsened, I decided to come to the hospital again. Although I'm a bit tired of this environment, I know I have nowhere else to go. I hope this hospitalization will help me find some ways to solve the problems.

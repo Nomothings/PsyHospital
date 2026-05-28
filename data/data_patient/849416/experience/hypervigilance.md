@@ -1,0 +1,1 @@
+I have found myself becoming unusually vigilant, constantly alert to the movements around me. Even the slightest sound or change can catch my attention and make me tense. This heightened vigilance makes it hard for me to relax, as if I am living in an environment where I always need to be on guard.

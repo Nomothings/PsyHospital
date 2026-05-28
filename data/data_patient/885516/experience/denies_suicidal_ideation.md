@@ -1,0 +1,1 @@
+Although life has become so difficult, I have never had thoughts of suicide. I know I still have many responsibilities and unfinished matters. These keep me going and continue searching for ways to solve the problem.

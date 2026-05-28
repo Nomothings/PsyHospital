@@ -1,0 +1,1 @@
+I was sent to the intensive care unit, where my surroundings were always filled with the beeping of machines, and medical staff constantly came and went, monitoring my vital signs. I knew they were doing their best to care for me, but all this made me feel helpless and lonely.

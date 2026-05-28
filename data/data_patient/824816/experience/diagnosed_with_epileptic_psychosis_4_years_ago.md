@@ -1,0 +1,1 @@
+During that period, I was diagnosed with epileptic psychosis. This new diagnosis made me feel despair, as if my life had suddenly been overshadowed. I struggled to understand and accept this fact.

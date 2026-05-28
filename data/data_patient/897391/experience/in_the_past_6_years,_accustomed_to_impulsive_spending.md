@@ -1,0 +1,1 @@
+My spending habits over these 6 years have become somewhat impulsive, often resulting in unplanned expenditures. Although this habit can sometimes be troublesome, I still enjoy it, relishing the freedom of doing as I please.

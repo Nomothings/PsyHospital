@@ -1,0 +1,1 @@
+Later, after treatment with Olanzapine in the hospital, my symptoms began to improve. Although my mental state during the day was still not good, I found that I could sleep longer at night. The extended sleep made me feel somewhat recovered physically, even though I still lacked energy during the day.

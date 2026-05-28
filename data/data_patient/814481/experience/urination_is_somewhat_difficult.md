@@ -1,0 +1,1 @@
+As the illness progressed, I found myself having difficulty urinating. Every trip to the bathroom took a long time and felt unusually strenuous. This situation has left me feeling embarrassed and inconvenienced, but there seems to be little I can do to improve it.

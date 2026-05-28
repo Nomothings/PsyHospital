@@ -1,0 +1,1 @@
+Looking back to 2011, I was hospitalized multiple times due to symptom attacks after drug use. Each time, it was because I could no longer bear the torment of hallucinations and emotional fluctuations that I had to seek help from the hospital, hoping for some relief.

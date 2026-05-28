@@ -1,0 +1,1 @@
+At that time, my speech was abnormal. I even picked up a blanket and kept shaking it, repeatedly muttering, "Where is my baby." This strange behavior puzzled even myself, as if there was an insurmountable obstacle in my mind that trapped my thoughts and emotions.

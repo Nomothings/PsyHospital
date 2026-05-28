@@ -1,0 +1,1 @@
+To get better treatment, I decided to come to the hospital for further diagnosis and treatment. Although I felt a bit apprehensive, I knew it was the right choice, hoping to regain inner peace and control over my life with professional help.

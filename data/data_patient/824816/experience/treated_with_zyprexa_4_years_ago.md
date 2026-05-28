@@ -1,0 +1,1 @@
+I began taking Zyprexa to treat this psychotic disorder. In the early stages of taking the medication, I was full of hope, expecting it to help me return to a normal state of life.

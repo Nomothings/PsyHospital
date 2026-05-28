@@ -1,0 +1,1 @@
+In those days after using drugs, I often heard commanding voices. These voices would echo in my ears repeatedly, as if someone was urging me to do something, but I felt powerless to resist. I knew it was just auditory hallucinations, but every time I heard them, I felt an inexplicable sense of pressure.

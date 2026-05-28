@@ -1,0 +1,1 @@
+After treatment, my symptoms improved. The chaotic thoughts began to slowly clear, and my emotions were no longer as out of control as before. Although the problem was not completely resolved, it at least gave me a chance to catch my breath.

@@ -1,0 +1,1 @@
+Work has become exceptionally difficult. I cannot handle tasks in an orderly manner as I used to. Tasks pile up like a mountain, but I cannot muster the concentration to finish them. Even if someone reminds or urges me, I cannot keep up with the pace, often feeling overwhelmed, filled with a sense of failure and self-doubt.

@@ -1,0 +1,1 @@
+After reducing the medication, my condition quickly relapsed, and the symptoms reappeared, making me realize my mistake. I felt helpless and regretful because the impact of this relapse was much more severe than I had anticipated.

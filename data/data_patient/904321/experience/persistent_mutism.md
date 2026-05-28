@@ -1,0 +1,1 @@
+I no longer speak, not because I have nothing to say, but because speaking has become extremely difficult. Silence has become my protective shield, allowing me to temporarily avoid the conversations I cannot handle.

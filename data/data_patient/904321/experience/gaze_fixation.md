@@ -1,0 +1,1 @@
+My eyes often fall into a staring state, as if attracted by something, unable to look away. This stare is not out of curiosity but due to some inner confusion, leaving me frozen, gazing blankly ahead.

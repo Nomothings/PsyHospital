@@ -1,0 +1,1 @@
+My mood swings are very obvious. I often feel extremely happy or unusually sad over small things. This emotional fluctuation makes me feel like a pendulum, constantly swinging between two extremes, making it difficult to maintain balance.

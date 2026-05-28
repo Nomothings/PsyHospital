@@ -1,0 +1,1 @@
+The doctor suggested that I go to the cardiology department for further evaluation. Although I feel somewhat anxious, I know it is to ensure my heart health and find the most suitable treatment plan.

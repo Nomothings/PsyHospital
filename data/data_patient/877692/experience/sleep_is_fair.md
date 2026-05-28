@@ -1,0 +1,1 @@
+My sleep is still okay. When I lie in bed at night, I can fall asleep relatively quickly. Although I occasionally have strange dreams, overall the quality of my sleep is not a major issue.

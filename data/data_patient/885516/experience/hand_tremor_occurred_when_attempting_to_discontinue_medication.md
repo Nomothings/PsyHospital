@@ -1,0 +1,1 @@
+The attempts to quit not only caused insomnia but also brought physical reactions, such as my hands starting to tremble uncontrollably. That shaking frightened me, as if my body was warning me that I had lost something important. This made me afraid to try quitting again.

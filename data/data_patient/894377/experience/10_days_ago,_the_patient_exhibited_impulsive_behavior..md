@@ -1,0 +1,1 @@
+Recently, I found myself becoming very impulsive, often erupting without warning. Those emotions came so quickly that I couldn't even control them before reacting. Sometimes, I would suddenly feel a burst of anger or anxiety, as if some force was driving me to do things I didn't understand myself. This impulsiveness left me exhausted but helpless.

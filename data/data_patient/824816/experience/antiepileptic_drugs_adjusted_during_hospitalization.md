@@ -1,0 +1,1 @@
+During my hospitalization, the doctor adjusted the dosage of my antiepileptic medication. I felt a glimmer of hope, as this adjustment might mean finding a more effective treatment plan.

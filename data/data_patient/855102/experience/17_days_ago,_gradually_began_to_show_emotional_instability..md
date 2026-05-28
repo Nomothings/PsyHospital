@@ -1,0 +1,1 @@
+I remember about 17 days ago, I began to feel emotionally unstable. Sometimes I would feel inexplicably happy, and then suddenly sad. My emotions felt like a roller coaster, and I could never predict how I would feel next. This change left me confused, and I often found it hard to control my mood.

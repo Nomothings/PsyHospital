@@ -1,0 +1,1 @@
+I remember they asked me to have a brain MRI, but I couldn't complete it. The noise of the machine and the narrow space made me very uncomfortable, so the doctor decided to discharge me. I felt a bit disappointed at that time, wondering whether not having this test would affect my recovery.

@@ -1,0 +1,1 @@
+Recently I've found that I have lost interest in daily activities. Things I used to enjoy now feel like a chore. Whether reading, listening to music, or meeting up with friends, everything feels dull and boring, and I just want to stay in a quiet place.

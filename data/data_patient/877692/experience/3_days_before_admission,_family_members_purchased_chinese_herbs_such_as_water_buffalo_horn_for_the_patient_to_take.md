@@ -1,0 +1,1 @@
+In the days before admission, my family gave me some traditional Chinese medicine, such as water buffalo horn. I remember the medicine tasted somewhat bitter; they said it would be good for my condition, but I felt there wasn't much change.

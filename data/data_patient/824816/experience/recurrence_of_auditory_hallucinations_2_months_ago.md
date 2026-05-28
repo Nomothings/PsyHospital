@@ -1,0 +1,1 @@
+Two months ago, I started hearing those inexplicable voices again, which made me irritable and anxious. I tried hard to discern whether they were real, but it was always in vain.

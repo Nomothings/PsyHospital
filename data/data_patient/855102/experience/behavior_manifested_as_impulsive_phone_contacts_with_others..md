@@ -1,0 +1,1 @@
+During this period, I sometimes impulsively called others, especially those I felt I needed to contact. After dialing, I would realize I might have acted too hastily—sometimes even calling in the middle of the night, which often surprised the person on the other end.

@@ -1,0 +1,1 @@
+These psychological and physical issues have affected my ability to perform daily activities. I find myself unable to complete routine tasks as easily as before; even simple things have become difficult. This impact makes me feel frustrated and yearn to return to the normal life I once had.

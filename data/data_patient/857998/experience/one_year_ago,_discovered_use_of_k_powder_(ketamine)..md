@@ -1,0 +1,1 @@
+One year ago, I started using a substance called "K powder." At first, it was just occasional use, thinking it could help me temporarily escape the pressures of reality, but I soon realized I had become trapped in it and couldn't easily break free. After each use, I experienced a brief sense of relief, but it was also accompanied by deep fear and unease inside.

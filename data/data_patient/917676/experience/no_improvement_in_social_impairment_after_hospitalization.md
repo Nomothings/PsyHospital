@@ -1,0 +1,1 @@
+After being discharged, I found that I hadn't changed much in terms of social interaction. Although doctors and family hoped I would improve, I still felt the same as before—I always get stuck when communicating with others and don't know how to continue.

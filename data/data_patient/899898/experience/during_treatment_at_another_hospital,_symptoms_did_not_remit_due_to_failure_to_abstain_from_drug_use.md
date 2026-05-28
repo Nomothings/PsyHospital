@@ -1,0 +1,1 @@
+Even when receiving treatment at an external hospital, my symptoms did not effectively subside. At that time, I had not truly resolved to quit drugs and still used them intermittently, so those hallucinations and anxieties never fully dissipated.

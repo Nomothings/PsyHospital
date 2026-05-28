@@ -1,0 +1,1 @@
+To control my injuries, I received hemostatic treatment. Although I couldn't see the specific process, I could feel my wounds being treated, and the pain gradually lessened, which gave me some peace of mind.

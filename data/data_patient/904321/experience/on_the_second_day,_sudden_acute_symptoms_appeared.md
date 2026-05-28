@@ -1,0 +1,1 @@
+The day after the medication was added, my body suddenly felt off. The change came so quickly that I was caught off guard. I don't know if it was the effect of the medication, but those sudden sensations made me uneasy.

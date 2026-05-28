@@ -1,5 +1,5 @@
 """
-病例业务服务 - 处理病例相关的业务逻辑
+Case business service - handles case-related business logic
 """
 import logging
 from typing import Dict, List, Optional, Any
@@ -11,19 +11,19 @@ logger = logging.getLogger(__name__)
 
 
 class CaseService:
-    """病例业务服务"""
+    """Case business service"""
 
     def __init__(self, data_dir: Path):
         self.repository = CaseRepository(data_dir)
 
     def list_cases(self, keyword: str = "") -> List[Dict[str, str]]:
-        """获取病例列表（支持搜索）
+        """Get case list (supports search)
 
         Args:
-            keyword: 搜索关键词
+            keyword: Search keyword
 
         Returns:
-            病例列表
+            Case list
         """
         all_cases = self.repository.get_all_cases()
 
@@ -47,21 +47,21 @@ class CaseService:
         ]
 
     def get_all_cases(self) -> List[Dict[str, Any]]:
-        """获取所有病例（加载所有病例用于兼容旧接口）"""
+        """Get all cases (loads all cases for legacy API compatibility)"""
         return self.repository.get_all_cases()
 
     def get_case(self, case_id: str) -> Optional[Dict[str, Any]]:
-        """获取单个病例详情"""
+        """Get single case details"""
         return self.repository.get_case_by_id(case_id)
 
     def get_random_case(self, mode: str) -> Optional[Dict[str, str]]:
-        """从指定模式随机抽取一个病例
+        """Randomly select a case from specified mode
 
         Args:
-            mode: "common" 或 "rare"
+            mode: "common" or "rare"
 
         Returns:
-            病例基本信息，无可用病例时返回 None
+            Case basic info, returns None if no available cases
         """
         case = self.repository.get_random_case(mode)
         if not case:
@@ -73,14 +73,14 @@ class CaseService:
         }
 
     def get_mode_counts(self) -> Dict[str, int]:
-        """获取各模式的病例数量"""
+        """Get case counts by mode"""
         return self.repository.get_mode_counts()
 
     def get_case_for_interview(self, case_id: str) -> Optional[Dict[str, Any]]:
-        """获取用于访谈的病例数据
+        """Get case data for interview
 
         Returns:
-            包含访谈所需字段的病例数据
+            Case data containing fields needed for interview
         """
         case = self.repository.get_case_by_id(case_id)
         if not case:

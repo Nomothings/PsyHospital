@@ -1,8 +1,8 @@
 """
-ICD-11 疾病分类关键词配置
+ICD-11 disease category keyword configuration
 
-用于 /api/check/category 端点的关键词匹配。
-每个分类映射一组中文关键词，用于在病例数据和对话中搜索证据。
+Used for keyword matching in the /api/check/category endpoint.
+Each category maps to a set of Chinese keywords for searching evidence in case data and conversations.
 """
 
 CATEGORY_KEYWORDS = {

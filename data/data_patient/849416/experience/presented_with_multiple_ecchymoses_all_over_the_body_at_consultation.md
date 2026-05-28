@@ -1,0 +1,1 @@
+When I was admitted, the multiple bruises on my body were strikingly noticeable. Those bruises were evidence of the violence I had suffered, each one a reminder of the pain I had endured. The doctor’s concern made me feel that someone cared about my injuries, and this attention gave me a slight sense of security.

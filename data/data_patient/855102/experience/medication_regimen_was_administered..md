@@ -1,0 +1,1 @@
+During my hospitalization, the doctor prescribed a medication regimen for me. Although I’m not familiar with these medications, I hope they can stabilize my mood and improve my state, allowing me to better face life.

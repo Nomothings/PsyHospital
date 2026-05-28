@@ -1,0 +1,1 @@
+During seizures, I often involuntarily drool. After each episode, this detail always left me feeling embarrassed and ashamed, especially in public places or when others were around.

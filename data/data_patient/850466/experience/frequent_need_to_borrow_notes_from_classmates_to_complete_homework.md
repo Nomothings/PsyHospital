@@ -1,0 +1,1 @@
+In order to complete homework smoothly, I often need to borrow notes from classmates. Sometimes I don’t understand what was taught in class, so I borrow notes afterward to fill in the missing information. This makes me feel like I’m always one step behind. Although my classmates are willing to help, I still hope I can keep up better.

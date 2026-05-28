@@ -1,0 +1,58 @@
+\definecolor{headergray}{HTML}{CFCFCF}
+\definecolor{rowgray}{HTML}{EFEFEF}
+
+\begin{wraptable}[10]{r}{0.55\linewidth}
+  \centering
+  \vspace{-1.2em}
+  \caption{Coverage by clinical component.}
+  \label{tab:interview_note}
+  \scriptsize
+  \setlength{\tabcolsep}{2.8pt}
+  \renewcommand{\arraystretch}{1.12}
+  \setlength{\cmidrulewidth}{0.75pt}
+
+  \resizebox{\linewidth}{!}{
+  \begin{tabular}{lrrrrrr}
+  \toprule
+  % \rowcolor{headergray}
+  \textbf{Model}
+  & \multicolumn{3}{l}{\textbf{Interview Phase}}
+  & \multicolumn{3}{l}{\textbf{Note Phase}} \\
+  \cmidrule(lr){2-4}
+  \cmidrule(lr){5-7}
+  % \rowcolor{headergray}
+  & \textbf{Avg.}
+  & \textbf{CC}
+  & \textbf{MS}
+  & \textbf{Avg.}
+  & \textbf{CC}
+  & \textbf{MS} \\
+  \midrule
+
+  Qwen3-14B
+  & 23.19 & 44.36 & 12.57
+  & 12.12 & 16.38 & 17.25 \\
+
+  \rowcolor{rowgray}
+  MedGemma-4B-it
+  & 25.65 & 40.69 & 10.45
+  & 10.67 & 9.68 & 6.66 \\
+
+  QWQ-32B
+  & 30.40 & 50.90 & 17.84
+  & 32.30 & 42.91 & 34.22 \\
+
+  \rowcolor{rowgray}
+  Deepseek-v4-Pro
+  & 30.95 & 41.67 & 23.13
+  & 56.46 & 59.94 & 43.91 \\
+
+  GPT-5.5
+  & 69.06 & 85.38 & 55.72
+  & 45.44 & 55.34 & 65.89 \\
+
+  \bottomrule
+  \end{tabular}
+  }
+  \vspace{-0.8em}
+\end{wraptable}

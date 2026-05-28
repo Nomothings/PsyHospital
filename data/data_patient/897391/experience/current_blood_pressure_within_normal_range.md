@@ -1,0 +1,1 @@
+Currently, my blood pressure is within the normal range, which gives me peace of mind. Physical health is what I most wish to maintain; at least in this regard, I feel safe.

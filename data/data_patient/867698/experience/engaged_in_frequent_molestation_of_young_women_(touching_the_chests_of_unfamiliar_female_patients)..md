@@ -1,0 +1,1 @@
+Recently, I did some things I shouldn't have, frequently engaging in indecent acts towards unfamiliar women in the ward. I know it's wrong, but there is always an uncontrollable impulse driving me to do it, which makes me feel troubled and ashamed.

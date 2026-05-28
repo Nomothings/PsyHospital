@@ -1,0 +1,1 @@
+Although I have been through so much, at least my appetite has always been normal. Every time I eat, I can eat well and don't feel a loss of appetite, which gives me some peace of mind.

@@ -1,0 +1,1 @@
+For a period of time, I always felt that my body was no longer under my control, as if dominated by some force. This persecutory delusion made me feel extremely panicked, as if I might fall into danger at any moment. Even staying at home, I could not feel at ease.

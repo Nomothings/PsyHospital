@@ -1,0 +1,1 @@
+Through these experiences, my fear of interacting with others has grown stronger. Every time I face a crowd or communicate with others, I feel extremely nervous and uneasy, as if everyone is scrutinizing me. This has led me to choose to avoid social activities as much as possible.

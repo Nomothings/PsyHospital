@@ -1,0 +1,1 @@
+Also six months ago, I noticed that my priority for gaming had significantly increased. Whether it was work or interpersonal relationships, everything seemed to be placed behind gaming. This change caught me off guard.

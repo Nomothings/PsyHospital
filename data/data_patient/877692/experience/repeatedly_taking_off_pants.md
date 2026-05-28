@@ -1,0 +1,1 @@
+I found myself constantly pulling down my pants, especially at home. Even right after putting them on, I couldn't help but want to take them off again. This behavior also seemed strange to me, but I just couldn't control it.

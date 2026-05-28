@@ -1,0 +1,1 @@
+While undergoing observation and treatment at a local hospital, I experienced similar psychiatric symptoms. During that period, I felt trapped in an intangible predicament, with significant mood swings and unstable mental states. Despite the help provided by the medical staff, I still found it difficult to escape this distress.

@@ -1,0 +1,1 @@
+Gradually, I found that I began to recognize people. Those once blurry faces became clear again; I recognized my family and friends once more. This recovery brought me some comfort, as if I had regained a long-lost connection.

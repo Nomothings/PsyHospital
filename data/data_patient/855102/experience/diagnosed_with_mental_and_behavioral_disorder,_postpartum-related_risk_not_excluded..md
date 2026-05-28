@@ -1,0 +1,1 @@
+The doctor told me that I was diagnosed with a mental and behavioral disorder, possibly related to the postpartum period. Although hearing this made me somewhat uneasy, I know it is to better understand my condition and find an appropriate treatment plan.

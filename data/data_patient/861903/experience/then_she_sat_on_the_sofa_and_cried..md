@@ -1,0 +1,1 @@
+After smashing the perfume bottle against my head, I sat limply on the sofa, tears streaming uncontrollably. At that moment, I felt utterly hopeless. This indescribable sadness and loneliness made me want to cry, as if crying was the only way to express my inner pain.

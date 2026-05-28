@@ -1,30 +1,23 @@
 /**
- * Phase2Check 组件
- * Phase 2 — 辅助检查（选择 + 提交）
- *
- * 居中单面板：选择检查项目 → tag 展示 → 提交检查
- * 不展示任何检查结果，结果延迟到最终评价阶段
+ * Phase2Check Component
+ * Phase 2 - Auxiliary Examination (Selection + Submission)
  */
 const Phase2Check = {
     template: `
         <div class="phase2-page">
-            <!-- 背景图 -->
             <div class="phase2-page__bg"></div>
 
-            <!-- 顶部栏 -->
             <header class="phase2-header">
                 <div class="phase2-header__left">
                     <el-button text @click="goBack" class="phase2-header__back-btn">
                         <el-icon><ArrowLeft /></el-icon>
-                        返回
+                        Back
                     </el-button>
-                    <h3 class="phase2-header__title">辅助检查</h3>
-                    <span class="phase2-header__subtitle">第二阶段</span>
+                    <h3 class="phase2-header__title">Auxiliary Examination</h3>
+                    <span class="phase2-header__subtitle">Phase 2</span>
                 </div>
                 <div class="phase2-header__right">
-                    <span class="phase2-header__patient">
-                        患者 {{ caseId }}
-                    </span>
+                    <span class="phase2-header__patient">Patient {{ caseId }}</span>
                     <el-button
                         v-if="step === 'results'"
                         type="primary"
@@ -33,29 +26,24 @@ const Phase2Check = {
                         @click="goToNextPhase"
                         class="phase2-header__next-btn"
                     >
-                        进行病历书写
+                        Proceed to Case Writing
                     </el-button>
                 </div>
             </header>
 
-            <!-- 主内容区（居中单面板） -->
             <div class="phase2-content">
-                <!-- 步骤1: 选择检查项目 -->
                 <div v-if="step === 'selecting'" class="phase2-form-card">
                     <div class="phase2-form-card__header">
-                        <h2 class="phase2-form-card__title">选择辅助检查项目</h2>
+                        <h2 class="phase2-form-card__title">Select Auxiliary Examinations</h2>
                         <p class="phase2-form-card__subtitle">
-                            请根据问诊情况，选择需要进行的辅助检查
+                            Select the auxiliary examinations based on the interview findings
                         </p>
                     </div>
 
-                    <!-- 检查选择器 -->
                     <div class="phase2-selector" ref="selectorRef">
-                        <label class="phase2-selector__label">检查项目</label>
+                        <label class="phase2-selector__label">Examinations</label>
 
-                        <!-- 标签容器 -->
                         <div class="phase2-selector__input" @click.self="openDropdown">
-                            <!-- 已选标签 -->
                             <transition-group name="phase2-tag" tag="div" class="phase2-selector__tags">
                                 <div
                                     v-for="exam in selectedExams"
@@ -63,29 +51,25 @@ const Phase2Check = {
                                     class="phase2-tag"
                                 >
                                     <span class="phase2-tag__text">{{ exam }}</span>
-                                    <span class="phase2-tag__delete" @click.stop="removeExam(exam)" title="删除">
+                                    <span class="phase2-tag__delete" @click.stop="removeExam(exam)" title="Remove">
                                         <el-icon :size="12"><Close /></el-icon>
                                     </span>
                                 </div>
                             </transition-group>
 
-                            <!-- 添加按钮 -->
                             <div class="phase2-tag phase2-tag--add" @click.stop="openDropdown">
                                 <el-icon :size="14" class="phase2-tag__add-icon"><Plus /></el-icon>
-                                <span>添加检查</span>
+                                <span>Add Exam</span>
                             </div>
 
-                            <!-- 空状态提示 -->
                             <div v-if="selectedExams.length === 0" class="phase2-selector__placeholder">
-                                点击「添加检查」选择辅助检查项目
+                                Click "Add Exam" to select auxiliary examinations
                             </div>
 
-                            <!-- 下拉面板 -->
                             <div v-show="dropdownVisible" class="phase2-dropdown" @click.stop>
                                 <div class="phase2-dropdown__body">
-                                    <!-- 左侧：分类列表 -->
                                     <div class="phase2-dropdown__categories">
-                                        <div class="phase2-dropdown__section-title">检查分类</div>
+                                        <div class="phase2-dropdown__section-title">Exam Categories</div>
                                         <div
                                             v-for="cat in examCategories"
                                             :key="cat"
@@ -98,18 +82,18 @@ const Phase2Check = {
                                             <span class="phase2-dropdown__cat-item__text">{{ cat }}</span>
                                         </div>
                                     </div>
-                                    <!-- 右侧：具体项目 -->
+
                                     <div class="phase2-dropdown__exams">
                                         <div v-if="!activeCategory" class="phase2-dropdown__empty">
-                                            请先在左侧选择一个检查分类
+                                            Please select an exam category on the left first
                                         </div>
+
                                         <template v-else>
-                                            <!-- "其他"分类：手动输入 -->
-                                            <template v-if="activeCategory === '其他'">
+                                            <template v-if="activeCategory === 'Other'">
                                                 <div class="phase2-dropdown__custom-input">
                                                     <el-input
                                                         v-model="customExamInput"
-                                                        placeholder="请输入自定义检查项目名称"
+                                                        placeholder="Enter custom examination name"
                                                         size="small"
                                                         clearable
                                                         @keyup.enter="addCustomExam"
@@ -122,26 +106,32 @@ const Phase2Check = {
                                                         :disabled="!customExamInput.trim()"
                                                         style="margin-top: 8px;"
                                                     >
-                                                        添加
+                                                        Add
                                                     </el-button>
                                                 </div>
                                             </template>
-                                            <!-- 其他分类：具体项目列表 -->
+
                                             <template v-else>
                                                 <div class="phase2-dropdown__section-title">
-                                                    {{ activeCategory }} — 检查项目
+                                                    {{ activeCategory }} - Examinations
                                                 </div>
                                                 <div
                                                     v-for="exam in getExamsForCategory(activeCategory)"
                                                     :key="exam"
                                                     class="phase2-dropdown__exam-item"
                                                     :class="{
-                                                        'phase2-dropdown__exam-item--selected': selectedExams.includes(exam),
+                                                        'phase2-dropdown__exam-item--selected': selectedExams.includes(normalizeExamName(exam)),
                                                     }"
                                                     @click="toggleExam(exam)"
                                                 >
                                                     <span class="phase2-dropdown__exam-item__text">{{ exam }}</span>
-                                                    <el-icon v-if="selectedExams.includes(exam)" :size="14" color="#5ed6c8"><Check /></el-icon>
+                                                    <el-icon
+                                                        v-if="selectedExams.includes(normalizeExamName(exam))"
+                                                        :size="14"
+                                                        color="#5ed6c8"
+                                                    >
+                                                        <Check />
+                                                    </el-icon>
                                                 </div>
                                             </template>
                                         </template>
@@ -151,7 +141,6 @@ const Phase2Check = {
                         </div>
                     </div>
 
-                    <!-- 提交按钮 -->
                     <div class="phase2-form__actions">
                         <el-button
                             type="primary"
@@ -159,19 +148,17 @@ const Phase2Check = {
                             round
                             @click="handleSubmit"
                             :loading="submitting"
-                            :disabled="selectedExams.length === 0"
                             class="phase2-form__submit-btn"
                         >
-                            提交检查
+                            Submit Examinations
                         </el-button>
                     </div>
                 </div>
 
-                <!-- 步骤2: 过场动画 -->
                 <div v-if="step === 'loading'" class="phase2-form-card phase2-form-card--center-text">
                     <div class="phase2-loading-animation">
-                        <img src="/static/bg/mentaleval.png" alt="" class="phase2-loading-animation__icon" />
-                        <div class="phase2-loading-animation__title">正在返回结果</div>
+                            <img src="/static/bg/eval.png" alt="" class="phase2-loading-animation__icon" />
+                        <div class="phase2-loading-animation__title">Loading results...</div>
                         <div class="phase2-loading-animation__dots">
                             <span class="phase2-loading-animation__dot" :style="{ animationDelay: '0s' }"></span>
                             <span class="phase2-loading-animation__dot" :style="{ animationDelay: '0.2s' }"></span>
@@ -180,39 +167,45 @@ const Phase2Check = {
                     </div>
                 </div>
 
-                <!-- 步骤3: 展示结果 -->
                 <div v-if="step === 'results'" class="phase2-form-card phase2-form-card--results">
                     <div class="phase2-form-card__header">
-                        <h2 class="phase2-form-card__title">辅助检查结果</h2>
+                        <h2 class="phase2-form-card__title">Examination Results</h2>
                         <p class="phase2-form-card__subtitle">
-                            以下是您选择的辅助检查返回结果
+                            Below are the results of your selected auxiliary examinations
                         </p>
                     </div>
 
-                    <!-- 检查结果列表 -->
                     <div class="phase2-results-list">
+                        <div v-if="Object.keys(checkedResults).length === 0" class="phase2-result-item phase2-result-item--none">
+                            <div class="phase2-result-item__header">
+                                <span class="phase2-result-item__name">No auxiliary examinations selected</span>
+                            </div>
+                            <div class="phase2-result-item__content">
+                                No auxiliary examinations were selected in this phase. You can proceed to the next phase directly.
+                            </div>
+                        </div>
                         <div
                             v-for="(result, exam) in checkedResults"
                             :key="exam"
                             class="phase2-result-item"
-                            :class="result === '无' ? 'phase2-result-item--none' : 'phase2-result-item--has'">
+                            :class="(result === '无' || result === 'None') ? 'phase2-result-item--none' : 'phase2-result-item--has'"
+                        >
                             <div class="phase2-result-item__header">
                                 <span class="phase2-result-item__name">{{ exam }}</span>
                             </div>
                             <div class="phase2-result-item__content">
-                                {{ result === '无' ? '未见器质性病变' : result }}
+                                {{ (result === '无' || result === 'None') ? 'No organic lesions found' : result }}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 保存状态提示 -->
             <transition name="eval-fade">
                 <div v-if="saving" class="eval-overlay">
                     <div class="eval-overlay__content">
                         <img src="/static/bg/loading2.png" alt="" class="eval-overlay__icon" />
-                        <div class="eval-overlay__text">正在提交检查请求...</div>
+                        <div class="eval-overlay__text">Submitting examination requests...</div>
                     </div>
                 </div>
             </transition>
@@ -222,7 +215,7 @@ const Phase2Check = {
     data() {
         return {
             caseId: '',
-            step: 'selecting',          // 'selecting' | 'loading' | 'results'
+            step: 'selecting',
             selectedExams: [],
             checkedResults: {},
             dropdownVisible: false,
@@ -230,52 +223,83 @@ const Phase2Check = {
             submitting: false,
             saving: false,
             examCategories: [
-                "实验室检查",
-                "影像学检查",
-                "内镜检查",
-                "病理与细胞学检查",
-                "功能检查/生理检查",
-                "遗传与分子检测",
-                "其他",
+                'Laboratory Tests',
+                'Imaging',
+                'Endoscopy',
+                'Pathology & Cytology',
+                'Functional / Physiological Tests',
+                'Genetic & Molecular Tests',
+                'Other',
             ],
             customExamInput: '',
+            examAliasMap: {
+                'Electrolytes': ['Blood Electrolytes', 'Serum Electrolytes'],
+                'Urine Test': ['Urinalysis', 'Urine Laboratory Test'],
+                'Stool Routine': ['Stool Routine Test', 'Fecal Routine'],
+                'Cardiac Enzyme Panel': ['Cardiac Enzymes'],
+                'Ambulatory Blood Pressure Monitoring': ['Ambulatory BP'],
+                'Exercise Stress ECG': ['Exercise Treadmill Test'],
+                'Thyroid Ultrasound': ['Thyroid Sonography'],
+                'Echocardiography': ['Cardiac Ultrasound'],
+                'CSF Routine': ['Cerebrospinal Fluid Test'],
+                'Brain ET': ['Brain ET', 'ET Test'],
+                'SCL-90 Symptom Checklist': ['SCL-90', 'SCL-90 Assessment', 'scl-90', 'SL-90', 'SCR-90', '90-Symptom Checklist'],
+                'MMSE Assessment': ['MMSE Score', 'Neuropsychological Assessment (MMSE)'],
+                'Hepatic and Renal Function with Electrolytes': ['Liver and Renal Function', 'Hepatic and Renal Function', 'Liver Renal Function Electrolytes'],
+                'Head CT': ['Head CT', 'Brain CT'],
+                'Head MRI': ['Brain MRI', 'Head MRI', 'Cranial MRI'],
+                'Chest X-Ray': ['Chest PA View', 'X-Ray'],
+                'Abdominal Ultrasound': ['Abdominal B-Ultrasound'],
+                'Video EEG': ['Ambulatory EEG', 'Brain Electrical Monitoring'],
+                'Biochemistry Tests': ['Biochemistry'],
+            },
             examMapping: {
-                "实验室检查": [
-                    "血常规", "凝血功能", "血糖", "肝功能", "肾功能", "血脂", "电解质",
-                    "心肌酶", "炎症指标", "激素水平", "尿常规", "尿蛋白定量", "尿沉渣",
-                    "尿培养", "粪常规", "隐血试验", "寄生虫检查", "病原学检测",
-                    "脑脊液检查", "胸水检查", "腹水检查", "关节液检查", "细菌培养",
-                    "真菌培养", "药敏试验", "病毒抗体检测", "核酸检测", "自身抗体",
-                    "免疫球蛋白", "补体", "过敏原检测", "肿瘤标志物",
+                'Laboratory Tests': [
+                    'Complete Blood Count (CBC)', 'Electrolytes', 'Urinalysis', 'Liver Function Tests', 'Renal Function Tests', 'Blood Glucose',
+                    'Thyroid Function Tests', 'Cardiac Enzyme Panel', 'Coagulation Time', 'Stool and Urine Routine', 'Urine Test', 'Urine Screening',
+                    'Urine Cannabis Metabolite Test', 'Toxicology Screen - Ketamine', 'Stool Routine', 'CSF Routine', 'Drug Level Monitoring',
+                    'Pre-transfusion Tests', 'Hepatitis B Panel', 'Hepatic and Renal Function with Electrolytes', 'Infection Screening', 'Tuberculosis Test',
+                    'Rheumatoid Factor', 'Anti-Streptolysin O', 'Tumor Markers', 'Carbamazepine Blood Level',
+                    'Valproate Blood Level', 'Biochemistry Tests', 'Urine Methamphetamine Test', 'Serum Amylase',
+                    'Secretion Specimen Test', 'CSF Biochemistry',
+                    'Urine Protein Quantitation', 'Urine Sediment', 'Urine Culture', 'Pleural Fluid Analysis', 'Ascitic Fluid Analysis', 'Joint Fluid Analysis',
+                    'Bacterial Culture', 'Fungal Culture', 'Antimicrobial Susceptibility Test', 'Viral Antibody Test', 'Nucleic Acid Test',
+                    'Autoantibodies', 'Immunoglobulins', 'Complement', 'Allergy Testing', 'Parasite Examination', 'Pathogen Detection',
                 ],
-                "影像学检查": [
-                    "胸片", "骨关节X线", "消化道造影", "腹部超声", "泌尿系超声",
-                    "甲状腺超声", "乳腺超声", "超声心动图", "血管超声", "头颅CT",
-                    "胸部CT", "腹部CT", "增强CT", "CTA", "头颅MRI", "脊柱MRI",
-                    "关节MRI", "增强MRI", "MRA", "PET-CT", "骨扫描", "甲状腺核素显像",
-                    "心肌灌注显像", "冠脉CTA", "DSA", "其他造影检查",
+                'Imaging': [
+                    'Head MRI', 'Head CT', 'Chest CT Plain', 'Echocardiography', 'Chest X-Ray', 'Thyroid Ultrasound',
+                    'Abdominal Ultrasound', 'Transcranial Doppler', 'Brain ET', 'Lumbar CT', 'Head MRI Plain', 'Head MRI Enhanced',
+                    'Head Imaging', 'Head-Chest-Abdomen CT', 'Mandible X-Ray', 'Brain Imaging', 'Lung Imaging', 'Abdominal Ultrasound',
+                    'Bone and Joint X-Ray', 'GI Contrast Study', 'Urinary Ultrasound', 'Breast Ultrasound', 'Vascular Ultrasound',
+                    'Chest CT', 'Abdominal CT', 'Contrast-Enhanced CT', 'CTA', 'Spine MRI', 'Joint MRI',
+                    'Contrast-Enhanced MRI', 'MRA', 'PET-CT', 'Bone Scan', 'Thyroid Scintigraphy',
+                    'Myocardial Perfusion Imaging', 'Coronary CTA', 'DSA', 'Other Contrast Studies',
                 ],
-                "内镜检查": [
-                    "胃镜", "肠镜", "十二指肠镜", "胶囊内镜", "支气管镜", "膀胱镜",
-                    "输尿管镜", "宫腔镜", "膝关节镜", "肩关节镜", "腹腔镜", "胸腔镜",
+                'Endoscopy': [
+                    'Gastroscopy', 'Colonoscopy', 'Duodenoscopy', 'Capsule Endoscopy', 'Bronchoscopy', 'Cystoscopy',
+                    'Ureteroscopy', 'Hysteroscopy', 'Knee Arthroscopy', 'Shoulder Arthroscopy', 'Laparoscopy', 'Thoracoscopy',
                 ],
-                "病理与细胞学检查": [
-                    "胃黏膜活检", "肝穿刺活检", "肺穿刺活检", "淋巴结活检",
-                    "术中冰冻病理", "宫颈涂片", "痰细胞学", "胸腹水细胞学",
-                    "细针穿刺细胞学", "肿瘤相关基因突变", "融合基因", "免疫组化相关检测",
+                'Pathology & Cytology': [
+                    'Gastric Mucosal Biopsy', 'Liver Biopsy', 'Lung Biopsy', 'Lymph Node Biopsy',
+                    'Intraoperative Frozen Section', 'Cervical Smear', 'Sputum Cytology', 'Pleural/Ascitic Fluid Cytology',
+                    'Fine Needle Aspiration Cytology', 'Tumor Gene Mutation', 'Fusion Gene', 'Immunohistochemistry',
                 ],
-                "功能检查/生理检查": [
-                    "心电图", "动态心电图", "运动平板试验", "动态血压", "肺功能",
-                    "支气管舒张试验", "弥散功能检查", "脑电图", "诱发电位", "肌电图",
-                    "神经传导速度检查", "胃动力检查", "24小时pH监测", "听力测试",
-                    "前庭功能检查",
+                'Functional / Physiological Tests': [
+                    'EEG', 'ECG', 'Holter Monitoring', 'Ambulatory Blood Pressure Monitoring', 'Exercise Stress ECG',
+                    'Video EEG', 'Eye Movement Test', 'Language Development Assessment', 'Brief Intelligence Test', 'Standardized Motor Function Assessment',
+                    'Brain Electrical Activity Mapping', 'Brain Mapping', 'Fetal Heart Monitoring (NST)',
+                    'Pulmonary Function Test', 'Bronchial Provocation Test', 'Diffusion Capacity Test', 'Evoked Potentials', 'EMG',
+                    'Nerve Conduction Study', 'Gastric Motility Test', '24h pH Monitoring', 'Hearing Test', 'Vestibular Function Test',
                 ],
-                "遗传与分子检测": [
-                    "染色体核型分析", "染色体微阵列", "遗传病基因检测", "肿瘤驱动基因检测",
-                    "药物基因组学检测", "DNA检测", "RNA检测", "病原体核酸检测",
-                    "液体活检", "无创产前筛查", "胚胎遗传学检测",
+                'Genetic & Molecular Tests': [
+                    'Karyotype Analysis', 'Chromosomal Microarray', 'Genetic Disease Gene Testing', 'Tumor Driver Gene Testing',
+                    'Pharmacogenomic Testing', 'DNA Testing', 'RNA Testing', 'Pathogen Nucleic Acid Testing',
+                    'Liquid Biopsy', 'Non-invasive Prenatal Screening', 'Preimplantation Genetic Testing',
                 ],
-                "其他": [],
+                'Other': [
+                    'SCL-90 Symptom Checklist', 'MMPI', 'Self-Rating Anxiety Scale', 'Self-Rating Depression Scale',
+                    'MMSE Assessment', 'ADL Scale', 'EPDS Scale', 'MoCA Assessment',
+                ],
             },
         };
     },
@@ -288,6 +312,19 @@ const Phase2Check = {
     },
 
     methods: {
+        normalizeExamName(exam) {
+            const raw = (exam || '').trim();
+            if (!raw) return raw;
+
+            for (const [canonical, aliases] of Object.entries(this.examAliasMap)) {
+                if (raw === canonical || aliases.includes(raw)) {
+                    return canonical;
+                }
+            }
+
+            return raw;
+        },
+
         openDropdown() {
             this.dropdownVisible = true;
             if (!this.activeCategory && this.examCategories.length > 0) {
@@ -305,10 +342,10 @@ const Phase2Check = {
         },
 
         addCustomExam() {
-            const exam = this.customExamInput.trim();
+            const exam = this.normalizeExamName(this.customExamInput);
             if (!exam) return;
             if (this.selectedExams.includes(exam)) {
-                this.$message.warning('该检查项目已添加');
+                this.$message.warning('This examination has already been added');
                 return;
             }
             this.selectedExams.push(exam);
@@ -320,10 +357,11 @@ const Phase2Check = {
         },
 
         toggleExam(exam) {
-            if (this.selectedExams.includes(exam)) {
-                this.selectedExams = this.selectedExams.filter(e => e !== exam);
+            const normalizedExam = this.normalizeExamName(exam);
+            if (this.selectedExams.includes(normalizedExam)) {
+                this.selectedExams = this.selectedExams.filter(e => e !== normalizedExam);
             } else {
-                this.selectedExams.push(exam);
+                this.selectedExams.push(normalizedExam);
             }
         },
 
@@ -339,30 +377,22 @@ const Phase2Check = {
         },
 
         async handleSubmit() {
-            if (this.selectedExams.length === 0) {
-                this.$message.warning('请至少选择一项辅助检查');
-                return;
-            }
-
             this.submitting = true;
             this.saving = true;
-
-            // 进入过场动画
             this.step = 'loading';
 
-            // 构建检查结果对象（key=检查名, value=从后端查询的真实结果）
             const checkedResults = {};
             for (const exam of this.selectedExams) {
                 try {
-                    const result = await API.checkExam(this.caseId, exam);
+                    const normalizedExam = this.normalizeExamName(exam);
+                    const result = await API.checkExam(this.caseId, normalizedExam);
                     checkedResults[exam] = result;
                 } catch (err) {
-                    console.error('[Phase2Check] 检查查询失败:', exam, err);
-                    checkedResults[exam] = '无';
+                    console.error('[Phase2Check] Examination query failed:', exam, err);
+                    checkedResults[exam] = 'None';
                 }
             }
 
-            // 保存检查数据到 sessionStorage（供后续阶段和评价使用）
             sessionStorage.setItem('phase2_checkedResults', JSON.stringify(checkedResults));
             const recordId = sessionStorage.getItem('record_id') || this.caseId;
             const examRecords = Object.entries(checkedResults).map(([name, result]) => ({
@@ -375,10 +405,9 @@ const Phase2Check = {
                     exams: examRecords,
                 });
             } catch (err) {
-                console.error('[Phase2Check] 保存记录失败:', err);
+                console.error('[Phase2Check] Failed to save record:', err);
             }
 
-            // 过场动画 2 秒后展示结果
             setTimeout(() => {
                 this.checkedResults = checkedResults;
                 this.saving = false;

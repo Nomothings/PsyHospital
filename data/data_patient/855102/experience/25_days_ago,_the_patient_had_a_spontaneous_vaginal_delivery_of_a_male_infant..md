@@ -1,0 +1,1 @@
+About 25 days ago, I had a vaginal delivery and welcomed my baby boy. I felt incredibly happy and excited at that moment. Although the process was somewhat difficult, seeing my baby made all the hard work worthwhile. I still remember his first cry—the power of that life moved me deeply.

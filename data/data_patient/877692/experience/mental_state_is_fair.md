@@ -1,0 +1,1 @@
+Although my condition is not good, mentally I am still okay. I can understand what is happening around me, but sometimes I seem listless and not very willing to actively participate in activities.

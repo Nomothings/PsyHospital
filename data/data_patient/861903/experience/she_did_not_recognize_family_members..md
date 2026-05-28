@@ -1,0 +1,1 @@
+I began to not recognize my family members; their faces became unfamiliar. Even the closest relatives seemed to have changed appearance. I tried to recall, but my mind was a blank. This feeling of disconnection made me panicked and anxious.

@@ -1,0 +1,1 @@
+Whenever someone talks to me, I instinctively avoid eye contact. It's not that I don't want to look, but direct eye contact makes me feel nervous and uneasy, as if I should do something but I don't know what to do.

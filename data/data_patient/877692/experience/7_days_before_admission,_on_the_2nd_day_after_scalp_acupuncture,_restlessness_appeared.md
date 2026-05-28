@@ -1,0 +1,1 @@
+I remember that on the second day after the acupuncture on my head, I began to feel restless and agitated. It felt as if a swarm of ants were crawling around inside my head, making it very hard for me to calm down. Whether sitting or lying down, I felt uncomfortable all over, as if something was wrong, but I couldn't put my finger on what it was.

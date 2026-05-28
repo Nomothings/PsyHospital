@@ -1,0 +1,1 @@
+The incident of being cheated out of money has been lingering in my mind, causing me to have recurring nightmares. In every dream, I relive the scene of being deceived, waking up full of terror and loss. Those dreams make it hard for me to sleep, and I feel I can never truly escape the shadows of the past.

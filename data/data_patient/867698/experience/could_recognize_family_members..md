@@ -1,0 +1,1 @@
+After regaining consciousness, I was finally able to recognize my family who were by my side. Seeing their worried and caring expressions, I felt a warm surge in my heart, sensing the warmth and safety of home.

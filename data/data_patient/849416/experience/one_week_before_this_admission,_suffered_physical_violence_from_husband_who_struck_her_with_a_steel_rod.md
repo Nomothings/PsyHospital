@@ -1,0 +1,1 @@
+This week was particularly painful for me. On that day, I suffered physical violence from my husband, who even injured me with a steel rod. At that moment, I felt despair and fear, unsure how to face such a situation. Though physical wounds may heal, the psychological trauma lingers, and I cannot let it go.

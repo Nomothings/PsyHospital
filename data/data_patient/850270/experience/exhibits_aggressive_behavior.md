@@ -1,0 +1,1 @@
+Sometimes, I feel an uncontrollable urge to vent my inner anger and unease in an aggressive manner. Even if it is against a wall or furniture, I will punch or kick. Such behavior frightens both me and the people around me. I do not want to be like this, but I cannot stop myself from losing control in those moments.

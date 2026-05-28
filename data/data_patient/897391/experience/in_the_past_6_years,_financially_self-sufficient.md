@@ -1,0 +1,1 @@
+During these 6 years, my income has been sufficient to support myself, and I have not needed to rely on others financially. This has given me a sense of independent satisfaction; financial self-sufficiency has always been a goal I pursued.

@@ -1,0 +1,1 @@
+Eating has become extremely difficult; I can barely sustain myself with milk. The taste and texture of food are unbearable to me; only milk provides a slight sense of comfort.

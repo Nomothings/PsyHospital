@@ -1,0 +1,1 @@
+Over seven months ago, I started taking benzodiazepines on my own to help me fall asleep. At the time, I just wanted a chance to sleep well through the night. In the beginning, one pill would quickly send me into dreamland. I felt I had found a good solution to my insomnia, but I never expected it was only the beginning.

@@ -1,0 +1,1 @@
+Twenty days ago, I decided to stop the medication on my own, wanting to see if I could recover by my own strength. However, I soon found that life after stopping the medication was not easy, and many symptoms gradually reappeared, making them difficult to manage.

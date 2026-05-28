@@ -1,0 +1,1 @@
+Recently, I often choose to lock myself in my room, the door tightly shut, as if this small space is the only refuge. I am unwilling to face the outside world or communicate with anyone. The room has become a barrier, isolating me from external disturbances and my own unease. Even when the sun shines brightly outside, I do not want to walk out that door.

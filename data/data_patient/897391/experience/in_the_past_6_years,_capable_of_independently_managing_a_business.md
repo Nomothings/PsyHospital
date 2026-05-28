@@ -1,0 +1,1 @@
+Over the past 6 years, I have gradually found my direction and become capable of managing my own business independently. This period has made me feel fulfilled, and the independence in my career has helped me regain some confidence.

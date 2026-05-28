@@ -1,0 +1,1 @@
+I clearly remember being confined at home, unable to leave freely. That feeling of being controlled left me helpless and lonely. I longed to breathe fresh air and step outside, but I was forced to stay in a space I could not escape. This experience was extremely oppressive.

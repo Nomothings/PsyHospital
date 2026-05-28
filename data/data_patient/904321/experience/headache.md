@@ -1,0 +1,1 @@
+The headache feels like a hammer constantly pounding my head, and the pain is unbearable. It always strikes unexpectedly, making it difficult to focus on anything; I can only sit and wait for it to pass.

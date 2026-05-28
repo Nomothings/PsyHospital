@@ -1,0 +1,1 @@
+While walking, I unconsciously repeat a sequence of steps forward and then steps backward. Doing this makes me feel secure, as if I am following some rule, even though I know it looks strange.

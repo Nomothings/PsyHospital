@@ -1,0 +1,1 @@
+I have come to realize that each occurrence of these symptoms is closely related to the timing of my methamphetamine use. Shortly after using the drug, these hallucinations and anxieties follow. And when I try to abstain, these symptoms seem to ease somewhat.

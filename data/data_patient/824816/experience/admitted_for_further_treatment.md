@@ -1,0 +1,1 @@
+To receive better treatment, I was readmitted to the hospital. This decision felt somewhat heavy for me, but I know it is for my health and future—I need more professional help.

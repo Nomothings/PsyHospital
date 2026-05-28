@@ -1,0 +1,1 @@
+Unconsciously, I have begun to exhibit some repetitive behaviors, such as constantly fiddling with a lighter or gently pinching myself. Each time I perform these actions, I seem to temporarily distract myself, but soon fall back into the cycle.

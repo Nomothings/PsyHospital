@@ -1,18 +1,18 @@
 /**
- * PatientList 组件
- * 医学生训练系统 — 模式选择页面
+ * PatientList Component
+ * Medical student training system - Mode selection page
  *
- * 双模式入口：常规模式 vs 罕见病模式
- * 选择后随机抽取对应库中的患者，直接进入问诊
+ * Dual-mode entry: Standard mode vs Rare disease mode
+ * After selection, randomly draw a patient from the corresponding pool and enter the interview directly
  */
 const PatientList = {
     template: `
         <div class="patient-list-page">
-            <!-- 背景 -->
+            <!-- Background -->
             <div class="patient-list-page__bg"></div>
             <div class="patient-list-page__overlay"></div>
 
-            <!-- 顶部导航 -->
+            <!-- Top Navigation -->
             <header class="patient-list-header">
                 <div class="patient-list-header__left">
                     <div class="patient-list-header__logo-mark">
@@ -23,36 +23,35 @@ const PatientList = {
                 <div class="patient-list-header__right">
                     <el-button text @click="handleLogout" class="patient-list-header__logout">
                         <el-icon><SwitchButton /></el-icon>
-                        退出
+                        Logout
                     </el-button>
                 </div>
             </header>
 
-            <!-- 主内容 -->
+            <!-- Main Content -->
             <div class="patient-list-content">
-                <!-- 标题区 -->
+                <!-- Title Area -->
                 <div class="patient-list-hero">
-                    <h1 class="patient-list-hero__title">选择问诊模式</h1>
+                    <h1 class="patient-list-hero__title">Choose Interview Mode</h1>
                     <p class="patient-list-hero__subtitle">Choose Your Training Mode</p>
                 </div>
 
-                <!-- 模式选择卡片 -->
+                <!-- Mode Selection Cards -->
                 <div class="mode-cards" v-loading="loading">
-                    <!-- 常规模式 -->
+                    <!-- Standard Mode -->
                     <div class="mode-card mode-card--common" @click="selectMode('common')">
                         <div class="mode-card__icon">
                             <el-icon :size="40"><User /></el-icon>
                         </div>
-                        <h3 class="mode-card__title">常规模式</h3>
-                        <p class="mode-card__subtitle">常见精神科病例</p>
+                        <h3 class="mode-card__title">Standard Mode</h3>
+                        <p class="mode-card__subtitle">Common Psychiatric Cases</p>
                         <div class="mode-card__desc">
-                            涵盖抑郁症、焦虑症、精神分裂症等精神科高频病例，
-                            适合夯实基础问诊技能。
+                            Covers high-frequency psychiatric cases including depression, anxiety, schizophrenia, etc. Suitable for building foundational interview skills.
                         </div>
                         <div class="mode-card__meta">
                             <span class="mode-card__count">
                                 <el-icon :size="14"><Files /></el-icon>
-                                {{ commonCount }} 例
+                                {{ commonCount }} cases
                             </span>
                         </div>
                         <el-button
@@ -62,29 +61,28 @@ const PatientList = {
                             class="mode-card__btn"
                         >
                             <el-icon :size="18"><ChatDotRound /></el-icon>
-                            开始问诊
+                            Start Interview
                         </el-button>
                         <div class="mode-card__history-link" @click.stop="viewHistory('common')">
                             <el-icon :size="14"><Document /></el-icon>
-                            查看历史记录
+                            View History
                         </div>
                     </div>
 
-                    <!-- 罕见病模式 -->
+                    <!-- Rare Disease Mode -->
                     <div class="mode-card mode-card--rare" @click="selectMode('rare')">
                         <div class="mode-card__icon">
                             <el-icon :size="40"><WarningFilled /></el-icon>
                         </div>
-                        <h3 class="mode-card__title">罕见病模式</h3>
-                        <p class="mode-card__subtitle">复杂 / 低概率 / 训练难度高</p>
+                        <h3 class="mode-card__title">Rare Disease Mode</h3>
+                        <p class="mode-card__subtitle">Complex / Low Probability / High Difficulty</p>
                         <div class="mode-card__desc">
-                            收录罕见及复杂精神科病例，挑战性高，
-                            适合进阶训练与鉴别诊断能力培养。
+                            Contains rare and complex psychiatric cases with high challenge. Suitable for advanced training and differential diagnosis skill development.
                         </div>
                         <div class="mode-card__meta">
                             <span class="mode-card__count">
                                 <el-icon :size="14"><Files /></el-icon>
-                                {{ rareCount }} 例
+                                {{ rareCount }} cases
                             </span>
                         </div>
                         <el-button
@@ -94,11 +92,11 @@ const PatientList = {
                             class="mode-card__btn mode-card__btn--rare"
                         >
                             <el-icon :size="18"><ChatDotRound /></el-icon>
-                            开始问诊
+                            Start Interview
                         </el-button>
                         <div class="mode-card__history-link" @click.stop="viewHistory('rare')">
                             <el-icon :size="14"><Document /></el-icon>
-                            查看历史记录
+                            View History
                         </div>
                     </div>
                 </div>
@@ -135,7 +133,7 @@ const PatientList = {
                     query: { id: caseId },
                 });
             } catch (e) {
-                this.$message.error('随机抽取患者失败，请重试');
+                this.$message.error('Failed to select random patient, please try again');
                 console.error(e);
             } finally {
                 this.loading = false;
@@ -149,7 +147,7 @@ const PatientList = {
                 this.commonCount = counts.common || 0;
                 this.rareCount = counts.rare || 0;
             } catch (e) {
-                console.error('加载病例数量失败:', e);
+                console.error('Failed to load case counts:', e);
             }
         },
 

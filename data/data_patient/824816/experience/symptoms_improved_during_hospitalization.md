@@ -1,0 +1,1 @@
+During that period of hospitalization, my condition improved somewhat, and I felt I was slowly recovering. Although I dared not fully relax, I at least had some hope, feeling that life was gradually returning to normal.

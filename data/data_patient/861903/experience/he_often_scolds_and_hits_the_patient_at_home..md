@@ -1,0 +1,1 @@
+Recalling those days, I still feel a lingering fear. My husband's anger was everywhere in the house; he often hit and yelled at me, as if every corner was filled with his rage and dissatisfaction. I tried to explain and attempted to make amends, but his fury and accusations always left me feeling helpless and terrified.

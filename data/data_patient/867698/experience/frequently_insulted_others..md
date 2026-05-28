@@ -1,0 +1,1 @@
+I began to lose control of my emotions and often cursed at others. Even though I realized it was wrong, anger would unconsciously surge, making it hard for me to restrain myself.

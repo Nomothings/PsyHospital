@@ -1,0 +1,1 @@
+Whenever the environment became noisy, I became even more unsettled. Those sounds seemed to echo repeatedly in my mind, making it even harder for me to focus on anything, and the behavior of repeatedly pulling down my pants became especially noticeable in such an environment.

@@ -1,0 +1,122 @@
+% ===== Table symbols and colors =====
+\definecolor{background}{RGB}{235,235,235}
+
+\newcommand{\symScale}{1}
+\newcommand{\Yes}{\raisebox{0.15ex}{\scalebox{\symScale}{\textcolor{green!70!black}{\ding{51}}}}}
+\newcommand{\No}{\raisebox{0.10ex}{\scalebox{\symScale}{\textcolor{red!70!black}{\ding{55}}}}}
+
+% ===== Table =====
+\begin{table*}[t]
+\caption{Comparison of psychiatric benchmarks. \textit{Inter.}, \textit{Exam.}, \textit{Diag.}, and \textit{Treat.} denote Interview, Examination, Diagnosis, and Treatment Planning, respectively. MentalHospital provides EHR-grounded full-process simulation, multi-perspective evaluation, and specialized evaluators.}
+\label{tab:benchmark_comparison}
+\centering
+{\scriptsize
+\resizebox{\textwidth}{!}{
+\begin{tabular}{llclclcc}
+\toprule
+\multirow{2}{*}{\textbf{Benchmark}} &
+\multicolumn{2}{c}{\textbf{Data}} &
+\multicolumn{2}{c}{\textbf{Simulation}} &
+\multicolumn{3}{c}{\textbf{Evaluation}} \\
+\cmidrule(lr){2-3}
+\cmidrule(lr){4-5}
+\cmidrule(lr){6-8}
+& \textbf{Data Source}
+& \textbf{Psychiatry}
+& \textbf{Scope}
+& \textbf{Interaction}
+& \textbf{Method}
+& \textbf{Reference}
+& \textbf{Evaluator} \\
+\midrule
+
+HealthBench~\citep{arora2025healthbench}
+& Physician-authored
+& \No
+& General Healthcare
+& \No
+& Rubric
+& Physician
+& \No \\
+
+MedDialogRubrics~\citep{gong2026meddialogrubrics}
+& Synthetic
+& \No
+& Consultation / Diagnosis
+& \No
+& Rubric
+& \No
+& \No \\
+
+CPsyCoun~\citep{zhang2024cpsycoun}
+& Web
+& \Yes
+& Consultation
+& \No
+& Rubric / Metrics
+& \No
+& \No \\
+
+LingxiDiagBench~\citep{xu2026lingxidiagbench}
+& Synthetic
+& \Yes
+& Consultation / Diagnosis
+& \No
+& Labels
+& \No
+& \No \\
+
+PSYCHE~\citep{lee2025psyche}
+& Synthetic
+& \Yes
+& Consultation / Diagnosis
+& \Yes
+& Metrics
+& \No
+& \No \\
+
+
+AI Hospital~\citep{fan2025ai}
+& Web
+& \No
+& Consultation / Diagnosis
+& \Yes
+& Metrics
+& \No
+& \No \\
+
+OpenHospital~\citep{liu2026openhospital}
+& Synthetic
+& \No
+& Interview / Diagnosis
+& \Yes
+& Metrics
+& \No
+& \No \\
+
+AgentClinic~\citep{schmidgall2024agentclinic} 
+& Single Hospital
+& \No
+& Inter. / Exam. / Diag.
+& \Yes
+& Metrics / Scale
+& EHR
+& \No \\
+
+\midrule
+\rowcolor{background}
+\textbf{MentalHospital (Ours)}
+& \textbf{Clinical Centers}
+& \Yes
+& \textbf{Inter. / Exam. / Diag. / Treat.}
+& \Yes
+& \textbf{Rub. / Metr. / Lab. / Scale}
+& \textbf{EHR / Psychiatrist}
+& \textbf{MentalEval} \\
+
+\bottomrule
+\end{tabular}
+}
+}
+\vspace{-1.3em}
+\end{table*}

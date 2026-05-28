@@ -1,0 +1,1 @@
+To get restful sleep again, I had to keep increasing the dosage. In the end, I had to take nine pills just to feel slightly drowsy. Even then, the sedative effect was not as good as before, and I felt nothing but helplessness and disappointment in myself.

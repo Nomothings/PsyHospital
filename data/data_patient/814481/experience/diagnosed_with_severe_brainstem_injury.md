@@ -1,0 +1,1 @@
+The doctor told me I was diagnosed with 'severe brainstem injury.' At the time, I didn't fully understand what that meant, only that my body was no longer as flexible and agile as before. My mind was always foggy, and sometimes even simple tasks took a long time to figure out.

@@ -1,0 +1,1 @@
+After discharge, I started coughing, and my throat felt uncomfortable. This physical discomfort worried me even more, making me suspect that other health issues might have found me again.

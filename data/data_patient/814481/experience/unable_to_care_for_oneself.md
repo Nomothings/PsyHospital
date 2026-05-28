@@ -1,0 +1,1 @@
+Even after waking up, I still couldn't take care of myself. I needed others to help me with many things, such as eating, dressing, and washing. Every time I saw others busy for me, I felt helpless and frustrated, longing for the day I could regain control of my own life.

@@ -1,0 +1,1 @@
+When communicating with others, I notice that my topics shift quickly and seem mixed. Just as I’m talking about one thing, I suddenly jump to a completely different topic, making it hard for the other person to follow my thoughts.

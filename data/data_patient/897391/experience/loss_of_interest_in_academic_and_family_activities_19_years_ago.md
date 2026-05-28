@@ -1,0 +1,1 @@
+19 years ago, I noticed a significant decline in my interest in studying and family activities. I used to actively participate in family gatherings and enjoy time with my family, but at that time, I preferred to be alone rather than engage in any activities, and studying became increasingly uninteresting.

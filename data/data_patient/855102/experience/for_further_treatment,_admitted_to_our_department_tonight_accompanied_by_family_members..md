@@ -1,0 +1,1 @@
+Tonight, accompanied by my family, I came to the hospital again for further treatment. Although I feel a bit uneasy, I know this is for my health and future, and I hope to find a solution to my problems with the doctor’s help.

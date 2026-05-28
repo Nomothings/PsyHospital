@@ -1,0 +1,1 @@
+At one point, I visited a psychiatric outpatient clinic, hoping to find some help. It was the first time I realized that I might need professional intervention. Although I felt a bit nervous then, I knew it was a necessary step.

@@ -1,0 +1,1 @@
+After a period of treatment, I finally began to recognize the people around me. Although I still couldn't quite remember some names, their faces gradually became familiar. Seeing familiar faces gave me a sense of security, and I felt myself slowly returning to the real world.

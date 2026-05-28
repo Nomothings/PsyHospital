@@ -1,0 +1,1 @@
+In the few hours before admission that day, the atmosphere at home was exceptionally tense. My husband again flew into a rage because of his suspicions, with shouting and hitting filling the room, piercing my nerves. I felt extremely wronged and helpless, yet powerless to resist, so I could only silently endure everything.

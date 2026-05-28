@@ -1,0 +1,1 @@
+Those seizure episodes usually lasted two to three minutes. Although not long, every second felt like prolonged torment. During the seizure, my consciousness was blurred, and I could only wait for my body to slowly return to normal.

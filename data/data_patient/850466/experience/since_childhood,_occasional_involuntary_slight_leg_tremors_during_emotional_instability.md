@@ -1,0 +1,1 @@
+From a very young age, whenever I feel upset or particularly nervous, my legs begin to tremble slightly unconsciously. This trembling isn’t intentional; sometimes I don’t even notice it myself, only realizing my legs are moving after someone points it out.

@@ -1,0 +1,1 @@
+Despite some chaos in my life, I’ve been searching for new job opportunities online. I spend time every day browsing job listings and submitting resumes, which makes me feel purposeful and fulfilled. The job hunting process helps me feel that I can still control part of my life.

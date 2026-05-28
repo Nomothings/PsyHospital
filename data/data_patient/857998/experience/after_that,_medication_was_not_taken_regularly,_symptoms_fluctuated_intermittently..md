@@ -1,0 +1,1 @@
+Afterward, I did not take the medication on time and in the prescribed dosage, and as a result, my symptoms fluctuated. Sometimes I felt my condition was not bad, but soon I would fall into a low again. My overall mood and mental state were like a roller coaster, with no predictable pattern.

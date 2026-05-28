@@ -1,21 +1,53 @@
 """
-检查匹配路由 — 辅助检查结果查询 + ICD-11 分类关键词匹配
+Routes for auxiliary examinations and category evidence matching.
 """
 import logging
-from flask import Blueprint, request, jsonify
+
+from flask import Blueprint, jsonify, request
 
 from service_layer.category_keywords import CATEGORY_KEYWORDS
 
 logger = logging.getLogger(__name__)
 
+EXAM_ALIAS_GROUPS = {
+    "Complete Blood Count (CBC)": ["CBC", "全血细胞计数", "血常规"],
+    "Urinalysis": ["尿检", "尿液检查", "尿常规"],
+    "Stool Routine": ["大便常规", "便常规", "粪便常规"],
+    "Liver Function": ["肝功", "肝功能检查", "肝功能"],
+    "Renal Function": ["肾功", "肾功能检查", "肾功能"],
+    "Electrolytes": ["血电解质", "电解质检查", "电解质"],
+    "Thyroid Function": ["甲功", "甲状腺功能检查", "甲状腺功能"],
+    "ECG": ["EKG", "心电图"],
+    "EEG": ["脑电图"],
+    "Head CT": ["头颅CT", "颅脑CT", "CT", "脑CT"],
+    "Head MRI": ["头颅MRI", "颅脑MRI", "MRI", "脑MRI"],
+    "Chest X-ray": ["胸部X线", "X线胸片", "X光", "胸片"],
+    "Abdominal Ultrasound": ["B超", "腹部超声", "腹部B超"],
+    "SCL-90": ["症状自评量表", "SCL90", "scl-90"],
+    "MMSE": ["简易精神状态检查", "mmse"],
+}
+
+
+def _normalize_exam_text(text: str) -> str:
+    return (text or "").replace(" ", "").replace("\uFF08", "(").replace("\uFF09", ")").strip().lower()
+
+
+def _canonical_exam_name(exam_name: str) -> str:
+    normalized_exam = _normalize_exam_text(exam_name)
+    for canonical, aliases in EXAM_ALIAS_GROUPS.items():
+        if normalized_exam == _normalize_exam_text(canonical):
+            return canonical
+        for alias in aliases:
+            if normalized_exam == _normalize_exam_text(alias):
+                return canonical
+    return (exam_name or "").strip()
+
 
 def register_check_routes(case_service):
-    """注册检查路由"""
     check_bp = Blueprint("check", __name__, url_prefix="/api/check")
 
     @check_bp.route("/exam", methods=["POST"])
     def api_check_exam():
-        """查询患者病例中的辅助检查结果"""
         data = request.get_json() or {}
         case_id = data.get("case_id")
         exam_name = data.get("exam_name")
@@ -28,19 +60,30 @@ def register_check_routes(case_service):
             return jsonify({"error": "Case not found"}), 404
 
         aux_exam = case_data.get("auxiliaryExamination", {})
+        canonical_exam_name = _canonical_exam_name(exam_name)
+        normalized_exam_name = _normalize_exam_text(exam_name)
+        normalized_canonical_exam_name = _normalize_exam_text(canonical_exam_name)
 
+        result = None
         if exam_name in aux_exam:
-            return jsonify({"exam_name": exam_name, "result": aux_exam[exam_name]})
+            result = aux_exam[exam_name]
+        elif canonical_exam_name in aux_exam:
+            result = aux_exam[canonical_exam_name]
+        else:
+            for key, value in aux_exam.items():
+                normalized_key = _normalize_exam_text(key)
+                if normalized_key in {normalized_exam_name, normalized_canonical_exam_name}:
+                    result = value
+                    break
+                if _canonical_exam_name(key) == canonical_exam_name:
+                    result = value
+                    break
 
-        for key, value in aux_exam.items():
-            if key.replace(" ", "").lower() == exam_name.replace(" ", "").lower():
-                return jsonify({"exam_name": exam_name, "result": value})
-
-        return jsonify({"exam_name": exam_name, "result": "无"})
+        payload = {"exam_name": exam_name, "result": result if result is not None else "None"}
+        return jsonify(payload)
 
     @check_bp.route("/category", methods=["POST"])
     def api_check_category():
-        """检查某个 ICD-11 疾病分类是否在患者病例中有相关证据"""
         data = request.get_json() or {}
         case_id = data.get("case_id")
         category = data.get("category")
@@ -54,12 +97,12 @@ def register_check_routes(case_service):
             return jsonify({"error": "Case not found"}), 404
 
         keywords = CATEGORY_KEYWORDS.get(category, [])
-
         search_texts = []
-        for cc in case_data.get("chiefComplaint", []):
-            search_texts.append({"source": "chiefComplaint", "role": "patient", "content": cc.strip()})
-        for ms in case_data.get("mentalStatus", []):
-            search_texts.append({"source": "mentalStatus", "role": "patient", "content": ms.strip()})
+
+        for complaint in case_data.get("chiefComplaint", []):
+            search_texts.append({"source": "chiefComplaint", "role": "patient", "content": complaint.strip()})
+        for mental_status in case_data.get("mentalStatus", []):
+            search_texts.append({"source": "mentalStatus", "role": "patient", "content": mental_status.strip()})
         for msg in messages:
             search_texts.append({"source": "conversation", "role": msg.get("role", "unknown"), "content": msg.get("content", "")})
 
@@ -68,18 +111,19 @@ def register_check_routes(case_service):
         for item in search_texts:
             content = item["content"]
             content_lower = content.lower()
-            for kw in keywords:
-                if kw.lower() in content_lower and content not in seen_contents:
+            for keyword in keywords:
+                if keyword.lower() in content_lower and content not in seen_contents:
                     evidence.append({"role": item["role"], "content": content})
                     seen_contents.add(content)
                     break
 
         if evidence:
-            return jsonify({
+            payload = {
                 "category": category,
                 "result": {"status": "positive", "evidence": evidence},
-            })
-        else:
-            return jsonify({"category": category, "result": "无"})
+            }
+            return jsonify(payload)
+
+        return jsonify({"category": category, "result": "None"})
 
     return check_bp

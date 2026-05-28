@@ -1,0 +1,1 @@
+In addition to mood swings, various physical discomforts have also emerged. The most noticeable is constipation—I always feel something accumulated in my abdomen but cannot expel it. This physical discomfort makes me feel very distressed.

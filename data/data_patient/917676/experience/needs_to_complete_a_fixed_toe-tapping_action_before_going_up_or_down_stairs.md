@@ -1,0 +1,1 @@
+Every time I go up or down stairs, there is a fixed action that must be completed, which is to tap the ground with my toes. This habit makes me feel at ease, as if only by doing so can I successfully go up or down the stairs.

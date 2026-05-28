@@ -224,6 +224,38 @@ The system uses multiple LLM agents, each configurable via environment variables
 
 All agents use OpenAI-compatible APIs and can point to different backends.
 
+### Testing Your Models
+
+**You must configure the `.env` file before running any evaluation.** Copy `.env.example` to `.env` and fill in your API credentials. The system cannot start without valid API endpoints and keys.
+
+**To evaluate mainstream LLMs** (GPT-4, DeepSeek, Qwen, Claude, etc.), simply replace the `DOCTOR_*` entries in `.env` with the target model's API credentials:
+
+```bash
+# Example: evaluate GPT-5.5
+DOCTOR_API_BASE=https://api.openai.com/v1
+DOCTOR_API_KEY=sk-your-key
+DOCTOR_MODEL=gpt-5.5
+```
+
+Then run the benchmark:
+
+```bash
+python scripts/run_interview.py --mode test
+```
+
+**To evaluate your own model**, deploy it as an OpenAI-compatible API via FastAPI or vLLM, then point `DOCTOR_API_BASE` to your local endpoint:
+
+```bash
+# Example: custom model served at localhost:8000
+DOCTOR_API_BASE=http://localhost:8000/v1
+DOCTOR_API_KEY=not-needed
+DOCTOR_MODEL=your-model-name
+```
+
+> The only requirement is an OpenAI-compatible chat completions endpoint (`/v1/chat/completions`). We recommend using [vLLM](https://github.com/vllm-project/vllm) or [FastChat](https://github.com/lm-sys/FastChat) for deployment.
+
+**MentalEval weights** will be publicly released upon paper acceptance.
+
 ---
 
 ## Usage

@@ -1,0 +1,1 @@
+Recently, I have been speaking very little. Even when I want to say something, I always feel like there is nothing to say, or I don't know how to start. When my family asks me about my condition, I often just nod or shake my head; the words are on the tip of my tongue but won't come out, as if something is blocking them.

@@ -1,0 +1,1 @@
+When solving math problems, I often make careless mistakes with decimal calculations. I know the answer isn’t difficult, but I always slip up on details, such as the decimal point position or simple addition and subtraction. I only discover the errors when I check my work, which makes me doubt my calculation skills.

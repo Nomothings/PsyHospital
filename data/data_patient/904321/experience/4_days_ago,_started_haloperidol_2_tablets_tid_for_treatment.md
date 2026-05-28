@@ -1,0 +1,1 @@
+I remember four days ago, the doctor decided to add a medication called Huperzine A (Huperzine A), taking two capsules each time, three times a day. I don't really understand these medications, but I know they are meant to help me get better. Taking medication has become a part of my life, just this time with some new pills added.

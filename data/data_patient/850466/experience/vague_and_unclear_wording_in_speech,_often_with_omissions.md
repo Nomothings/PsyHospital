@@ -1,0 +1,1 @@
+When expressing my thoughts, I often find that I don’t speak clearly enough, frequently missing words or phrases, which makes it hard for others to understand what I mean. Sometimes I think I’ve said it clearly, but I still have to explain it several times before others get my point.

@@ -1,0 +1,1 @@
+Sometimes, others become very angry or very happy, but I find it hard to understand why they have such emotional changes. Even when they express it clearly in front of me, I still feel like I'm watching a movie that I don't fully understand.

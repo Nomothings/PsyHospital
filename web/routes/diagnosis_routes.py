@@ -1,5 +1,5 @@
 """
-诊断相关路由
+Diagnosis-related routes
 """
 from flask import Blueprint, request, jsonify
 import logging
@@ -8,12 +8,12 @@ logger = logging.getLogger(__name__)
 
 
 def register_diagnosis_routes(diagnosis_service):
-    """注册诊断路由"""
+    """Register diagnosis routes"""
     diagnosis_bp = Blueprint("diagnosis", __name__, url_prefix="/api/diagnosis")
 
     @diagnosis_bp.route("/submit", methods=["POST"])
     def submit_diagnosis():
-        """提交诊断结果"""
+        """Submit diagnosis result"""
         try:
             data = request.get_json() or {}
             case_id = data.get("case_id")
@@ -29,19 +29,19 @@ def register_diagnosis_routes(diagnosis_service):
             result = diagnosis_service.submit_diagnosis(case_id, diagnosis)
             return jsonify(result)
         except Exception as e:
-            logger.error(f"提交诊断失败: {e}")
+            logger.error(f"Failed to submit diagnosis: {e}")
             return jsonify({"error": str(e)}), 500
 
     @diagnosis_bp.route("/<case_id>")
     def get_diagnosis(case_id):
-        """获取诊断结果"""
+        """Get diagnosis result"""
         try:
             diagnosis = diagnosis_service.get_diagnosis(case_id)
             if not diagnosis:
                 return jsonify({"error": "Diagnosis not found"}), 404
             return jsonify(diagnosis)
         except Exception as e:
-            logger.error(f"获取诊断 {case_id} 失败: {e}")
+            logger.error(f"Failed to get diagnosis for {case_id}: {e}")
             return jsonify({"error": str(e)}), 500
 
     return diagnosis_bp

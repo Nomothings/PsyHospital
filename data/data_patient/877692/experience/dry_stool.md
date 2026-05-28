@@ -1,0 +1,1 @@
+When I finally had a bowel movement, the stool was very dry and very difficult to pass. This was quite uncomfortable for me, and I hope next time it will be smoother.

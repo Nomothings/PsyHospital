@@ -1,0 +1,1 @@
+My seizures had no fixed schedule and always appeared without warning. This unpredictability kept me in a constant state of tension because I never knew when the next seizure would come.

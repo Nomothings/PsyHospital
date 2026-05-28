@@ -1,0 +1,1 @@
+Today, just after being discharged, I again feel fluctuations in my condition. That familiar sensation of symptoms returning makes me feel somewhat helpless and disappointed, as if the hope I just saw was shattered by reality.

@@ -1,0 +1,1 @@
+Every time I wake from a nightmare, I feel overwhelmingly sad. That sudden sadness makes me realize that the content of the nightmare is not unreal, but part of my actual experience. The sadness after waking makes it difficult for me to move past the trauma, and I cannot let go for a long time.

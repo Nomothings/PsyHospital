@@ -1,0 +1,1 @@
+During that period, I even chose to stop attending school. Getting up every morning became extremely difficult, and I couldn't concentrate on listening to classes. Eventually, I decided to take a break from school, hoping to find a way to pull myself together.

@@ -1,27 +1,27 @@
 /**
- * HistoryList 组件
- * 问诊历史记录列表页面
+ * HistoryList Component
+ * Interview history records list page
  */
 const HistoryList = {
     template: `
         <div class="history-list-page">
-            <!-- 背景 -->
+            <!-- Background -->
             <div class="history-list-page__bg"></div>
 
-            <!-- 顶部导航 -->
+            <!-- Top Navigation -->
             <header class="history-list-header">
                 <div class="history-list-header__left">
                     <el-button text @click="goBack" class="history-list-header__back-btn">
                         <el-icon><ArrowLeft /></el-icon>
-                        返回
+                        Back
                     </el-button>
-                    <h3 class="history-list-header__title">问诊历史记录</h3>
+                    <h3 class="history-list-header__title">Interview History</h3>
                 </div>
             </header>
 
-            <!-- 主内容 -->
+            <!-- Main Content -->
             <div class="history-list-content" v-loading="loading">
-                <!-- 记录列表 -->
+                <!-- Record List -->
                 <div class="history-list-card" v-if="filteredHistories.length">
                     <div
                         v-for="item in filteredHistories"
@@ -32,26 +32,26 @@ const HistoryList = {
                         <div class="history-item__left">
                             <div class="history-item__patient">
                                 <el-icon :size="18" color="#5ed6c8"><UserFilled /></el-icon>
-                                <span class="history-item__id">患者 {{ item.case_id }}</span>
+                                <span class="history-item__id">Patient {{ item.case_id }}</span>
                             </div>
                             <div class="history-item__info">
                                 <span class="history-item__time">{{ formatTime(item.saved_at) }}</span>
-                                <span class="history-item__turns">{{ item.turns }} 轮对话</span>
-                                <el-tag v-if="item.has_diagnosis" type="success" size="small" effect="plain">已完成诊断</el-tag>
+                                <span class="history-item__turns">{{ item.turns }} turns</span>
+                                <el-tag v-if="item.has_diagnosis" type="success" size="small" effect="plain">Diagnosed</el-tag>
                             </div>
                         </div>
                         <div class="history-item__right">
                             <el-button text type="primary" size="small">
-                                查看详情 <el-icon><ArrowRight /></el-icon>
+                                View Details <el-icon><ArrowRight /></el-icon>
                             </el-button>
                         </div>
                     </div>
                 </div>
 
-                <!-- 空状态 -->
+                <!-- Empty State -->
                 <div v-if="!loading && !filteredHistories.length" class="history-list-empty">
                     <el-icon :size="48" color="#c0c4cc"><DocumentDelete /></el-icon>
-                    <p>暂无问诊历史</p>
+                    <p>No interview history</p>
                 </div>
             </div>
         </div>
@@ -73,7 +73,7 @@ const HistoryList = {
 
         filteredHistories() {
             if (!this.mode) return this.histories;
-            // mode 参数暂不用于过滤，直接返回全部
+            // mode parameter is not used for filtering, return all
             return this.histories;
         },
     },
@@ -84,7 +84,7 @@ const HistoryList = {
         },
 
         formatTime(isoString) {
-            if (!isoString) return '未知';
+            if (!isoString) return 'Unknown';
             const d = new Date(isoString);
             const pad = n => String(n).padStart(2, '0');
             return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
@@ -96,8 +96,8 @@ const HistoryList = {
                 const data = await API.getHistoryList();
                 this.histories = data.histories || [];
             } catch (err) {
-                console.error('[HistoryList] 加载历史记录失败:', err);
-                this.$message.error('加载历史记录失败');
+                console.error('[HistoryList] Failed to load history records:', err);
+                this.$message.error('Failed to load history');
             } finally {
                 this.loading = false;
             }

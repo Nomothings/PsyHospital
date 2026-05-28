@@ -1,0 +1,1 @@
+I remember being hospitalized six months ago. Although the environment was very quiet, I still found it difficult to communicate with others. That period made me realize that even though I was receiving treatment, my social impairment had not improved.

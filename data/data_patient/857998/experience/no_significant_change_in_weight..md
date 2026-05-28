@@ -1,0 +1,1 @@
+Despite reduced food intake, my weight does not appear to have changed significantly. This surprises me somewhat, as I thought I would lose weight from eating less. My body seems to have its own way of responding to these changes.

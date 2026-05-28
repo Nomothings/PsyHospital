@@ -1,0 +1,1 @@
+My language ability began to recover, and I could carry out simple conversations. Although not very fluent, at least I could express my thoughts with words, making me feel I was slowly regaining my former life.

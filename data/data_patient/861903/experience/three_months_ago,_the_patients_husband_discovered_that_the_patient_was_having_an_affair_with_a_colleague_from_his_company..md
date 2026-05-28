@@ -1,0 +1,1 @@
+Three months ago, my life fell into chaos. My husband discovered that I had an improper relationship with a colleague at work, which infuriated him, and the entire family relationship became tense and unbearable. I knew I had made a mistake, but at that time, I seemed powerless to change anything and could only face the constant barrage of blame and questioning.

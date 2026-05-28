@@ -1,0 +1,1 @@
+I recall receiving medication treatment, but I gradually forgot the specific treatment plan and the names of the medications. Those medications seemed to help alleviate some of my symptoms, but the specific effects and process have become blurry.

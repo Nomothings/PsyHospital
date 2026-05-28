@@ -1,0 +1,1 @@
+Despite feeling down, I have never thought about death. I still hope to improve my condition and regain my passion and motivation for life. I believe I still have a chance to get out of this predicament.

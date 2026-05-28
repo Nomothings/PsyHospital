@@ -1,0 +1,1 @@
+At the hospital, the doctor did not give me any special treatment. They just did some routine tests and then let me go home. Although I wasn't sure why, I thought perhaps this was just part of the recovery process.

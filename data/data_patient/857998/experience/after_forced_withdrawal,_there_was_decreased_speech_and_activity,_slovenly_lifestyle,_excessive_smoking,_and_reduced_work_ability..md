@@ -1,0 +1,1 @@
+After being forced to stop using "K powder," I found myself becoming increasingly silent, even unwilling to speak. My life became sluggish, and only when smoking did I feel slightly more relaxed. At work, I clearly noticed a decline in my abilities; I lacked the motivation to do many things, as if I had completely lost my drive.

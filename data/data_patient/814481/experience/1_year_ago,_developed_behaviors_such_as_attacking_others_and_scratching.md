@@ -1,0 +1,1 @@
+A year ago, I began to uncontrollably attack those around me. For no apparent reason, whenever someone approached, I would feel inexplicable anxiety and anger, sometimes even impulsively grabbing them. Afterwards, I always felt regret, but the impulse always came suddenly, catching me off guard.

@@ -1,0 +1,1 @@
+My emotions are like a roller coaster—sometimes plummeting to the point of being unable to extricate myself, sometimes erupting uncontrollably with irritability. Every day when I wake up, I have no idea what mood I will face the day with. At times, a small trigger can make me lose emotional control, causing frustration and anger to intertwine, which is hard to explain to anyone.

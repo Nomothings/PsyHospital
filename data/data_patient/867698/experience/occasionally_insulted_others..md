@@ -1,0 +1,1 @@
+I occasionally cursed at people around me, though not intentionally. Whenever emotions rose, this impulse was hard to suppress, and I always regretted my behavior afterwards.

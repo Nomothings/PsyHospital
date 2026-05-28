@@ -1,0 +1,1 @@
+I underwent surgery after surgery, feeling my body being continuously repaired. Each time I woke up, I hoped my condition was gradually improving, hoping to eventually return to the state before the accident.

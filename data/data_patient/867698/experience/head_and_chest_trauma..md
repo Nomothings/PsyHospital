@@ -1,0 +1,1 @@
+I felt sharp pain in my head and chest, as if I had been struck heavily. Every time I tried to move, my body protested with pain signals, making me realize these injuries were marks left by the car accident.

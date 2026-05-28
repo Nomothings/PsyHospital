@@ -1,0 +1,1 @@
+These aggressive behaviors seemed beyond my control. Each episode, I watched myself do these things like a bystander, filled with helplessness and despair. I longed to stop, but my body wouldn't obey, as if driven by some force to do things I didn't want to do.

@@ -1,0 +1,1 @@
+I find myself constantly arguing with my family for no reason. Clearly, they are just concerned about me, but I lose my temper over trivial matters, only to regret and blame myself afterward. The atmosphere at home becomes tense due to my volatility. I know they care about me, but I simply cannot control myself.

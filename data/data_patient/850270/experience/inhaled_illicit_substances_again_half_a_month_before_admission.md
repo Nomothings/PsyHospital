@@ -1,0 +1,1 @@
+I recall about half a month ago, driven by an indescribable impulse, I used those substances again. Despite a trace of resistance and hesitation inside me, the momentary craving and desire to escape reality rendered reason insignificant. I clearly felt the brief relief after use, but what followed was an even deeper emptiness and self-blame.

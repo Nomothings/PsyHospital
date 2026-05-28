@@ -1,0 +1,1 @@
+Recently, I’ve been making more phone calls than usual. I always feel that some things need to be resolved over the phone, so I keep calling—sometimes making several calls in a row. I’m aware that the frequency is too high.

@@ -1,0 +1,1 @@
+When others ask me questions, I can only respond by nodding or shaking my head. This limited form of expression creates a wall between me and the world. I know they wish I could say more, but I cannot.

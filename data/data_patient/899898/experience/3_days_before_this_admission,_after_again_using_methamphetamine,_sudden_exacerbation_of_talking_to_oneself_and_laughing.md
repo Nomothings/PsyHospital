@@ -1,0 +1,1 @@
+Three days before this hospitalization, I failed to resist temptation and used methamphetamine again. As a result, the previously mild self-talk and occasional laughter suddenly became frequent and pronounced. I realized my condition had worsened, so I decided to seek help again.

@@ -1,0 +1,1 @@
+I noticed my behavior becoming unusually chaotic; I often did things without focus, sometimes even forgetting what I was doing. Whether at work or in daily life, I felt unable to control myself.

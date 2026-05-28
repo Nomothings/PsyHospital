@@ -1,0 +1,1 @@
+About 13 days ago, I noticed that these symptoms became more pronounced. The emotional instability, repetitive speech, and impulsive behaviors became more frequent, and I began to realize that these changes were affecting my daily life.

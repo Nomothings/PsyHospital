@@ -1,23 +1,23 @@
 /**
- * 阶段评价混入
- * 为所有需要评价的阶段提供统一的状态机和方法
+ * Phase Evaluation Mixin
+ * Provides a unified state machine and methods for all phases that require evaluation
  *
- * 状态流转:
- *   idle -> loading -> showing -> done -> (外部跳转下一阶段)
+ * State transitions:
+ *   idle -> loading -> showing -> done -> (external navigation to next phase)
  *
- * 使用方式:
+ * Usage:
  *   mixins: [EvalMixin]
  *
- * 组件必须实现:
- *   - getEvalPayload(): 返回该阶段的评价请求参数
- *   - getPhaseNumber(): 返回阶段编号
- *   - getCaseId(): 返回当前病例 ID
- *   - onEvalConfirmed(): 用户确认后执行的下一阶段跳转
+ * Components must implement:
+ *   - getEvalPayload(): returns the evaluation request parameters for the phase
+ *   - getPhaseNumber(): returns the phase number
+ *   - getCaseId(): returns the current case ID
+ *   - onEvalConfirmed(): executes navigation to the next phase after user confirmation
  */
 const EvalMixin = {
     data() {
         return {
-            // 评价状态: 'idle' | 'loading' | 'showing' | 'done'
+            // Evaluation state: 'idle' | 'loading' | 'showing' | 'done'
             evalState: 'idle',
             evalData: {},
             evalError: null,
@@ -26,8 +26,8 @@ const EvalMixin = {
 
     methods: {
         /**
-         * 启动评价流程
-         * 由组件的"结束阶段"按钮调用
+         * Start the evaluation process
+         * Called by the component's "End Phase" button
          */
         async startEvaluation() {
             if (this.evalState !== 'idle') return;
@@ -41,24 +41,24 @@ const EvalMixin = {
                 const caseId = this.getCaseId();
                 const payload = this.getEvalPayload();
 
-                console.log(`[EvalMixin] 开始评价 Phase ${phase}, caseId=${caseId}`, payload);
+                console.log(`[EvalMixin] Starting evaluation for Phase ${phase}, caseId=${caseId}`, payload);
 
                 this.evalData = await API.evaluatePhase(phase, caseId, payload);
-                console.log(`[EvalMixin] 评价结果:`, this.evalData);
+                console.log(`[EvalMixin] Evaluation result:`, this.evalData);
 
                 this.evalState = 'showing';
             } catch (err) {
-                console.error(`[EvalMixin] 评价失败:`, err);
-                this.evalError = err.message || '未知错误';
+                console.error(`[EvalMixin] Evaluation failed:`, err);
+                this.evalError = err.message || 'Unknown error';
 
-                // 即使失败也展示面板，附带基础统计
+                // Show panel even on failure, with basic statistics
                 this.evalData = this.getFallbackEvalData();
                 this.evalState = 'showing';
             }
         },
 
         /**
-         * 用户点击"进入下一阶段"
+         * User clicks "Proceed to Next Phase"
          */
         confirmAndProceed() {
             if (this.evalState !== 'showing' && this.evalState !== 'done') return;
@@ -67,7 +67,7 @@ const EvalMixin = {
         },
 
         /**
-         * 重置评价状态
+         * Reset evaluation state
          */
         resetEvaluation() {
             this.evalState = 'idle';
@@ -75,18 +75,18 @@ const EvalMixin = {
             this.evalError = null;
         },
 
-        // ---- 以下方法由组件实现 ----
+        // ---- The following methods must be implemented by the component ----
 
         getPhaseNumber() {
-            throw new Error('组件必须实现 getPhaseNumber()');
+            throw new Error('Component must implement getPhaseNumber()');
         },
 
         getCaseId() {
-            throw new Error('组件必须实现 getCaseId()');
+            throw new Error('Component must implement getCaseId()');
         },
 
         getEvalPayload() {
-            throw new Error('组件必须实现 getEvalPayload()');
+            throw new Error('Component must implement getEvalPayload()');
         },
 
         getFallbackEvalData() {
@@ -98,7 +98,7 @@ const EvalMixin = {
         },
 
         onEvalConfirmed() {
-            throw new Error('组件必须实现 onEvalConfirmed()');
+            throw new Error('Component must implement onEvalConfirmed()');
         },
     },
 };

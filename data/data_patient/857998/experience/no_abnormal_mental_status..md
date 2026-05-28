@@ -1,0 +1,1 @@
+Despite many behavioral changes, my overall mental condition has not been particularly abnormal. There have been no hallucinations or delusions, nor any distortion of reality. I can still rationally judge and understand everything around me.

@@ -1,0 +1,1 @@
+Six months ago, the frequency of my gaming increased significantly. I would spend almost every spare moment playing games, sometimes even neglecting other important matters. Games seemed to occupy most of my life.

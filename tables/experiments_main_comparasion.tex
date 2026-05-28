@@ -1,0 +1,120 @@
+\begin{table*}[t]
+\caption{Representative objective and subjective evaluation results across S.O.A.P. stages. Objective metrics are reported as percentages (\%), while subjective scores are reported on a 1--5 scale.}
+\vspace{-0.5em}
+\centering
+\label{tab:main_results}
+
+\small
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.15}
+\setlength{\cmidrulewidth}{0.75pt}
+\definecolor{HeaderGray}{RGB}{205,205,205}
+\definecolor{GroupGray}{RGB}{222,222,222}
+\definecolor{RowGray}{RGB}{235,235,235}
+
+\newcommand{\grouprow}[1]{%
+\rowcolor{GroupGray}
+\multicolumn{11}{l}{\rule[-0.7ex]{0pt}{3.2ex}\textbf{#1}} \\
+}
+
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lrrrrrrrrrr}
+\toprule
+\textbf{Model}
+& \multicolumn{5}{l}{\textbf{Objective Comparison (\%)}}
+& \multicolumn{5}{l}{\textbf{Subjective Assessment (1--5)}} \\
+\cmidrule(lr){2-6}
+\cmidrule(lr){7-11}
+& \textbf{Inter.}
+& \textbf{Exam.}
+& \textbf{Note}
+& \textbf{Cate.}
+& \textbf{Diso.}
+& \textbf{Emp.}
+& \textbf{Prof.}
+& \textbf{Qual.}
+& \textbf{Rigor}
+& \textbf{App.} \\
+\midrule
+
+\rowcolor{RowGray}
+Medical Trainees
+& 78.23 & 71.05 & 82.91 & 81.42 & 72.58
+& 1.63 & 3.86 & 3.87 & 2.33 & 2.47 \\
+
+Human Experts
+& 82.35 & 91.90 & 88.67 & 90.59 & 83.24
+& 1.22 & 4.25 & 4.01 & 2.54 & 2.96 \\
+
+\midrule
+\midrule
+
+\grouprow{Small\hspace{0.5em}Language\hspace{0.5em}Models}
+
+Llama-3-8B
+& 19.06 & 7.94 & 9.96 & 18.11 & 6.08
+& 2.05 & 2.88 & 1.93 & 1.86 & 2.67 \\
+
+\rowcolor{RowGray}
+Qwen3-14B
+& 23.19 & 8.33 & 12.12 & 23.55 & 15.19
+& 1.96 & 2.90 & 2.17 & 2.20 & 2.83 \\
+
+GPT-OSS-20B
+& 27.43 & 8.60 & \underline{33.12} & 37.21 & 25.81
+& 1.60 & 3.15 & \underline{3.14} & 2.06 & 3.23 \\
+
+\rowcolor{RowGray}
+QWQ-32B
+& \underline{30.40} & \underline{10.87} & 32.30 & \underline{44.53} & \underline{26.39}
+& 2.13 & \underline{3.72} & 2.85 & \underline{3.14} & \underline{3.40} \\
+
+\midrule
+
+\grouprow{Large\hspace{0.5em}Language\hspace{0.5em}Models}
+
+
+GPT-OSS-120B
+& 36.72 & 9.92 & 39.94 & 49.54 & 34.19
+& 1.50 & 3.45 & \underline{3.89} & \underline{2.42} & 3.35 \\
+
+\rowcolor{RowGray}
+Claude-Sonnet-4.6
+& 30.44 & 21.28 & 34.81 & 50.28 & 34.57
+& 1.72 & 3.39 & 2.70 & 2.22 & 3.17 \\
+
+Deepseek-v4-Pro
+& 30.95 & 21.93 & \underline{56.46} & 26.20 & 20.85
+& \underline{2.09} & 3.48 & 2.91 & 2.39 & 3.29 \\
+
+\rowcolor{RowGray}
+GPT-5.5
+& \underline{69.06} & \underline{22.99} & 45.44 & \underline{70.23} & \underline{49.85}
+& 1.50 & \underline{3.63} & 3.66 & 2.21 & \underline{3.48} \\
+
+\midrule
+
+\grouprow{Medical-specific\hspace{0.5em}Models}
+
+MedGemma-4B-it
+& 25.65 & 9.42 & 10.67 & 21.48 & 3.05
+& \underline{2.16} & 2.57 & 1.99 & 2.15 & 2.91 \\
+\rowcolor{RowGray}
+MedGemma-27B-it
+& 43.12 & 16.05 & 35.91 & 32.27 & 10.10
+& 2.05 & 2.83 & 2.67 & 2.33 & 3.17 \\
+
+% PsyLLM-8B
+% & 43.12 & 31.05 & 35.91 & 61.27 & 23.05
+% & 2.16 & 2.57 & 2.02 & 2.15 & 2.91 \\
+
+% \rowcolor{RowGray}
+Baichuan-M2
+& \underline{51.29} & \underline{24.76} & \underline{50.54} & \underline{80.56} & \underline{43.19}
+& 1.29 & \underline{2.85} & \underline{2.91} & \underline{2.44} & \underline{3.33} \\
+
+\bottomrule
+\end{tabular}
+}
+\vspace{-1.5em}
+\end{table*}

@@ -1,0 +1,1 @@
+Every time I read an article, I often find myself skipping lines, sometimes even missing important information. After finishing, I realize the content isn’t coherent, so I have to go back and find the missed parts. This bothers me, especially when I need to quickly understand an article—the problem becomes more obvious.

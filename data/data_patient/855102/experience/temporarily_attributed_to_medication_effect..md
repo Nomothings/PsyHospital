@@ -1,0 +1,1 @@
+The doctor mentioned that the ECG changes might be caused by the medication. Although I have some doubts, I hope adjusting the medication can improve this condition and bring my body back to normal.

@@ -1,0 +1,1 @@
+For some reason, whenever I saw anyone, I couldn't help but say "I'm sorry to you." This apology seemed like a burden deep in my heart, making me feel I owed something to others, and I couldn't let it go without saying it.

@@ -1,0 +1,1 @@
+About two years ago, I became addicted to video games. Every time I entered a game, I could temporarily forget the worries of life and immerse myself in a virtual world. This addiction gradually made gaming the center of my life.

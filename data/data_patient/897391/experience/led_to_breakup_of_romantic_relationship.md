@@ -1,0 +1,1 @@
+Gaming addiction also affected my relationship with my girlfriend, ultimately leading to our breakup. Games took up too much of my time, making me overlook her presence and our relationship, causing irreparable damage.

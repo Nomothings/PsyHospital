@@ -1,0 +1,1 @@
+I have been feeling continuous discomfort for several weeks now, and the feeling never seems to subside. Whether physically or mentally, I find it hard to achieve a state of comfort. This persistent discomfort leaves me tired and helpless, unsure when it will end.

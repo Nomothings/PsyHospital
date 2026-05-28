@@ -1,0 +1,1 @@
+I often felt a strong impulse to attack people around me. Although I knew this behavior was wrong, every time anger flared, my rationality was instantly cast aside, and I only felt regret afterwards.

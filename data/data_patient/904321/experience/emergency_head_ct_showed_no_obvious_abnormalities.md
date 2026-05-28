@@ -1,0 +1,1 @@
+The doctor performed a head CT scan, and the results showed no abnormalities. Although this should be good news, I still feel confused inside because the symptoms tormenting me persist.

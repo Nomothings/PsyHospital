@@ -1,0 +1,1 @@
+I became particularly irritable, and the slightest thing could trigger an outburst. My emotions seemed to hang in the air with no buffer, ready to be vented at anyone at any time.

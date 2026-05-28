@@ -1,0 +1,1 @@
+During the admission, I almost lost control of my emotions, and tears streamed down uncontrollably. I kept crying, filled with despair and fear, hoping only that someone could help me out of this predicament. That intense emotional reaction made me realize I needed external support and help.

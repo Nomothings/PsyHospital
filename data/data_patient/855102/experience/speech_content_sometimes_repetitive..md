@@ -1,0 +1,1 @@
+I noticed that I often repeat certain things when speaking. Sometimes during conversations, I unconsciously repeat what I’ve already said, and I realize it but seem unable to stop. This situation makes me feel embarrassed, especially when talking to people I know well.

@@ -1,0 +1,1 @@
+Recently, I often feel dizzy and heavy-headed, as if surrounded by a thick fog, unable to think clearly. That feeling makes my consciousness blurry, as if I might lose my balance at any moment.

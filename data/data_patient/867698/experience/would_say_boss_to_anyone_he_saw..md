@@ -1,0 +1,1 @@
+Whenever I encountered anyone, the first words out of my mouth were always "Boss." This phrase seemed to become my catchphrase, and although I didn't know why, it felt so natural every time I said it.

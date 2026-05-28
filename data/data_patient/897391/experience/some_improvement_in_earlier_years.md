@@ -1,0 +1,1 @@
+After the early treatment, my condition did improve to some extent. Life became somewhat more normal, and I could feel my mood gradually warming up. Although it wasn't a complete recovery, at least it wasn't as oppressive anymore.

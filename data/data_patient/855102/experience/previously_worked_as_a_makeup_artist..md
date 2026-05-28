@@ -1,0 +1,1 @@
+Looking back, I used to be a makeup artist. At that time, my days revolved around colors and beauty. Creating beauty for others made me feel energetic and satisfied. That job taught me a lot and helped me make many friends.

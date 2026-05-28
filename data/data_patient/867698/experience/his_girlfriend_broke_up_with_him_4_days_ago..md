@@ -1,0 +1,1 @@
+Four days ago, my girlfriend broke up with me. This news made me feel heartache and loss, my thoughts filled with memories of our time together and the emptiness after her departure.

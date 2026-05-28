@@ -1,0 +1,1 @@
+Once, I clearly remember seeing the phantom of my ex-girlfriend after using the drug. Her image appeared before me so vividly, as if we had never separated. This visual hallucination filled me with both nostalgia and loss, because I knew it was not the real her—just a trick played by my own mind.
