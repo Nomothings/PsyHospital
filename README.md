@@ -21,7 +21,7 @@ Experiments with LLMs, clinicians, medical trainees, and crowdworkers reveal tha
 ## Overview
 
 <p align="center">
-  <img src="./figures/overview.pdf" alt="MentalHospital Overview" width="95%">
+  <img src="./figures/overview.png" alt="MentalHospital Overview" width="95%">
 </p>
 
 MentalHospital provides a complete virtual psychiatric environment where an LLM-based doctor agent interacts with an EHR-grounded standardized patient across the S.O.A.P. clinical workflow. The environment enables dual-track evaluation: **objective comparison** against EHR-derived clinical references and **subjective assessment** of process quality using MentalEval.
@@ -87,7 +87,7 @@ We develop **MentalEval**, a suite of five Qwen3-8B-based domain-specific evalua
 | MentalEval-Treat | Treatment Appropriateness | 1–5 Likert |
 
 <p align="center">
-  <img src="./figures/Mentaleval.pdf" alt="MentalEval Construction Pipeline" width="95%">
+  <img src="./figures/Mentaleval.png" alt="MentalEval Construction Pipeline" width="95%">
 </p>
 
 ### Training Pipeline
@@ -176,7 +176,7 @@ We develop **MentalEval**, a suite of five Qwen3-8B-based domain-specific evalua
 ### Expert Agreement
 
 <p align="center">
-  <img src="./figures/agreement_heatmaps.pdf" alt="Agreement Heatmaps" width="80%">
+  <img src="./figures/agreement_heatmaps.png" alt="Agreement Heatmaps" width="80%">
 </p>
 
 MentalEval achieves the strongest expert alignment (QWK = 0.926, Acc. = 0.725, MAE = 0.275), outperforming LLM-as-a-Judge, Multi-LLM Jury, and individual crowdworker baselines.
@@ -184,7 +184,7 @@ MentalEval achieves the strongest expert alignment (QWK = 0.926, Acc. = 0.725, M
 ### Clinical Faithfulness Survey
 
 <p align="center">
-  <img src="./figures/experiments_faithful_scale.pdf" alt="Clinical Faithfulness Ratings" width="50%">
+  <img src="./figures/experiments_faithful_scale.png" alt="Clinical Faithfulness Ratings" width="50%">
 </p>
 
 Clinician survey (5 psychiatrists, 3 psychologists, 14 medical trainees) across five dimensions — Clinical Realism (CR), Patient Fidelity (PF), Patient Distinctiveness (PD), Evaluation Credibility (EC), and Training Suitability (TS) — yields an **overall mean of 3.88/5** (95% CI: [3.78, 3.98]), with positive response rate of 69.9%.
