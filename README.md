@@ -76,6 +76,11 @@ The standardized patient features a **hybrid skill design**:
 
 ## MentalEval
 
+<p align="center">
+  <img src="./figures/Mentaleval.png" alt="MentalEval Construction Pipeline" width="95%">
+</p>
+
+
 We develop **MentalEval**, a suite of five Qwen3-8B-based domain-specific evaluators covering:
 
 | Evaluator | Dimension | Scale |
@@ -85,10 +90,6 @@ We develop **MentalEval**, a suite of five Qwen3-8B-based domain-specific evalua
 | MentalEval-Note | Clinical-Note Quality | 1–5 Likert |
 | MentalEval-Diag | Diagnostic Rigor | 1–5 Likert |
 | MentalEval-Treat | Treatment Appropriateness | 1–5 Likert |
-
-<p align="center">
-  <img src="./figures/Mentaleval.png" alt="MentalEval Construction Pipeline" width="95%">
-</p>
 
 ### Training Pipeline
 
@@ -364,7 +365,7 @@ If you use MentalHospital or MentalEval in your research, please cite:
              for LLM-based Medical AI},
   author  = {Your Name and Collaborators},
   journal = {arXiv preprint},
-  year    = {2025}
+  year    = {2026}
 }
 ```
 
