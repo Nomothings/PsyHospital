@@ -5,7 +5,6 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Data: EHR-grounded](https://img.shields.io/badge/data-EHR--grounded-orange.svg)](#data-processing)
-
 [![Patients](https://img.shields.io/badge/patients-1,193-purple.svg)](#data-processing)
 [![ICD--11](https://img.shields.io/badge/ICD--11-76%20disorders-lightgrey.svg)](#data-processing)
 
@@ -234,9 +233,9 @@ Clinician survey (5 psychiatrists, 3 psychologists, 14 medical trainees) across 
 - OpenAI-compatible LLM API endpoints (GPT-4, DeepSeek, Qwen, Claude, etc.)
 
 ### 📥 Installation
+Begin by downloading the existing code repository.
 
 ```bash
-git clone https://github.com/your-org/MentalHospital.git
 cd MentalHospital
 
 # Install the package
