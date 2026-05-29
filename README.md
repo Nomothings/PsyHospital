@@ -393,7 +393,7 @@ The study protocol and annotation procedures were approved by the institutional 
 If you use MentalHospital or MentalEval in your research, please cite:
 
 ```bibtex
-@article{mentalhospital2025,
+@article{mentalhospital2026,
   title   = {MentalHospital: A Virtual Psychiatric Evaluation Environment
              for LLM-based Medical AI},
   author  = {ACL Anonymous},
