@@ -1,4 +1,4 @@
-# MentalHospital: A Virtual Psychiatric Evaluation Environment for LLM-based Medical AI
+# PsyHospital: A Virtual Psychiatric Evaluation Environment for LLM-based Medical AI
 
 <div align="center">
 
@@ -14,9 +14,9 @@
 
 Large language models (LLMs) have made substantial progress in psychiatry, yet success on isolated clinical components remains insufficient to reflect the integrated capability required in real-world clinical encounters. Existing virtual medical environments still exhibit three limitations: *(1) Encounter Incompleteness* — centering on doctor--patient communication rather than complete clinical encounters; *(2) Data Inauthenticity* — relying on synthetic or web-based data with limited clinical fidelity; and *(3) Patient Simplification* — modeling virtual patients as reactive symptom carriers rather than faithful psychiatric individuals.
 
-To address these limitations, we introduce **MentalHospital**, the first virtual evaluation environment designed for psychiatric clinical encounters. MentalHospital instantiates the full **S.O.A.P. workflow** (Subjective interviewing → Objective examination → Diagnostic Assessment → Treatment Planning), grounded in **1,193 de-identified psychiatric EHR cases** covering all major ICD-11 psychiatric categories and 76 disorder-level diagnoses. It constructs skill-augmented standardized patients with individualized symptom presentation and dynamic memory recall. We also develop **MentalEval**, a suite of five domain-specific evaluators trained through rubric-grounded SFT and expert-guided DPO, achieving an average QWK of 0.944 with expert judgment.
+To address these limitations, we introduce **PsyHospital**, the first virtual evaluation environment designed for psychiatric clinical encounters. PsyHospital instantiates the full **S.O.A.P. workflow** (Subjective interviewing → Objective examination → Diagnostic Assessment → Treatment Planning), grounded in **1,193 de-identified psychiatric EHR cases** covering all major ICD-11 psychiatric categories and 76 disorder-level diagnoses. It constructs skill-augmented standardized patients with individualized symptom presentation and dynamic memory recall. We also develop **MentalEval**, a suite of five domain-specific evaluators trained through rubric-grounded SFT and expert-guided DPO, achieving an average QWK of 0.944 with expert judgment.
 
-Experiments with LLMs, clinicians, medical trainees, and crowdworkers reveal that current LLMs still lag behind clinicians by 27–37 percentage points on average across objective metrics, with mental status assessment identified as a key weakness. Clinician surveys indicate positive acceptance of MentalHospital and its perceived value for psychiatric training.
+Experiments with LLMs, clinicians, medical trainees, and crowdworkers reveal that current LLMs still lag behind clinicians by 27–37 percentage points on average across objective metrics, with mental status assessment identified as a key weakness. Clinician surveys indicate positive acceptance of PsyHospital and its perceived value for psychiatric training.
 
 ---
 
@@ -57,28 +57,28 @@ Experiments with LLMs, clinicians, medical trainees, and crowdworkers reveal tha
 
 ## 🔍 Overview
 
-<img src="./figures/overview.png" alt="MentalHospital Overview" width="800">
+<img src="./figures/overview.png" alt="PsyHospital Overview" width="800">
 
 
-MentalHospital provides a complete virtual psychiatric environment where an LLM-based doctor agent interacts with an EHR-grounded standardized patient across the S.O.A.P. clinical workflow. The environment enables dual-track evaluation: **objective comparison** against EHR-derived clinical references and **subjective assessment** of process quality using MentalEval.
+PsyHospital provides a complete virtual psychiatric environment where an LLM-based doctor agent interacts with an EHR-grounded standardized patient across the S.O.A.P. clinical workflow. The environment enables dual-track evaluation: **objective comparison** against EHR-derived clinical references and **subjective assessment** of process quality using MentalEval.
 
 ---
 
 ## 🌟 Key Contributions
 
-- **MentalHospital** — An EHR-grounded benchmark environment for full S.O.A.P. psychiatric encounters, using skill-augmented standardized patients constructed from 1,193 de-identified psychiatric EHR cases spanning all major ICD-11 categories and 76 disorders.
+- **PsyHospital** — An EHR-grounded benchmark environment for full S.O.A.P. psychiatric encounters, using skill-augmented standardized patients constructed from 1,193 de-identified psychiatric EHR cases spanning all major ICD-11 categories and 76 disorders.
 
 - **Dual-track evaluation** — A protocol combining objective comparison against EHR-derived references with subjective assessment of clinical process quality, operationalized through **MentalEval**, a suite of specialist-aligned evaluators for scalable subjective assessment.
 
-- **Comprehensive empirical study** — Experiments with 12 LLMs, 8 human experts, 14 medical trainees, and 8 crowdworkers, validating MentalHospital's clinical fidelity (overall score 3.88/5) and MentalEval's expert alignment (QWK 0.944), while revealing persistent gaps in mental status assessment.
+- **Comprehensive empirical study** — Experiments with 12 LLMs, 8 human experts, 14 medical trainees, and 8 crowdworkers, validating PsyHospital's clinical fidelity (overall score 3.88/5) and MentalEval's expert alignment (QWK 0.944), while revealing persistent gaps in mental status assessment.
 
 ---
 
-## 🏥 MentalHospital
+## 🏥 PsyHospital
 
 ### 📋 Data Processing
 
-MentalHospital is constructed from **1,193 de-identified psychiatric EHR cases** obtained through an approved collaborative data-use partnership with a coordinating medical center. The dataset comprises multi-center records from six medical centers across three regions, including 885 single-diagnosis cases and 308 comorbid cases.
+PsyHospital is constructed from **1,193 de-identified psychiatric EHR cases** obtained through an approved collaborative data-use partnership with a coordinating medical center. The dataset comprises multi-center records from six medical centers across three regions, including 885 single-diagnosis cases and 308 comorbid cases.
 
 Each case was independently reviewed by two licensed psychiatrists (Cohen's $\kappa > 0.8$) and converted into a structured format with:
 - **Patient-side evidence** $\mathcal{K}^{\mathrm{pat}}$ — chief complaint, illness history, past/family history, mental status
@@ -148,7 +148,7 @@ We develop **MentalEval**, a suite of five Qwen3-8B-based domain-specific evalua
 | AI Hospital | Web | ✗ | Consultation/Diagnosis | ✓ | Metrics | ✗ | ✗ |
 | OpenHospital | Synthetic | ✗ | Interview/Diagnosis | ✓ | Metrics | ✗ | ✗ |
 | AgentClinic | Single Hospital | ✗ | Inter./Exam./Diag. | ✓ | Metrics/Scale | EHR | ✗ |
-| **MentalHospital (Ours)** | **Clinical Centers** | ✓ | **Inter./Exam./Diag./Treat.** | ✓ | **Rub./Metr./Lab./Scale** | **EHR/Psychiatrist** | **MentalEval** |
+| **PsyHospital (Ours)** | **Clinical Centers** | ✓ | **Inter./Exam./Diag./Treat.** | ✓ | **Rub./Metr./Lab./Scale** | **EHR/Psychiatrist** | **MentalEval** |
 
 ### 🏆 Main Results
 
@@ -236,7 +236,7 @@ Clinician survey (5 psychiatrists, 3 psychologists, 14 medical trainees) across 
 Begin by downloading the existing code repository.
 
 ```bash
-cd MentalHospital
+cd PsyHospital
 
 # Install the package
 pip install -e .
@@ -345,7 +345,7 @@ python scripts/compute_metrics.py
 ## 📁 Project Structure
 
 ```
-MentalHospital/
+PsyHospital/
 ├── data/
 │   ├── cases.jsonl              # 1,193 de-identified psychiatric EHR cases
 │   └── mapping.json             # Diagnosis category mapping
@@ -390,11 +390,11 @@ The study protocol and annotation procedures were approved by the institutional 
 
 ## 📖 Citation
 
-If you use MentalHospital or MentalEval in your research, please cite:
+If you use PsyHospital or MentalEval in your research, please cite:
 
 ```bibtex
-@article{mentalhospital2026,
-  title   = {MentalHospital: A Virtual Psychiatric Evaluation Environment
+@article{PsyHospital2026,
+  title   = {PsyHospital: A Virtual Psychiatric Evaluation Environment
              for LLM-based Medical AI},
   author  = {ACL Anonymous},
   journal = {arXiv preprint},
